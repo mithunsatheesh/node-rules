@@ -1,0 +1,24 @@
+{
+  "name": "node-rules",
+  "version": "0.1.0",
+  "description": "Business Rules Engine for JavaScript",
+  "keywords": [
+    "bre",
+    "rules",
+    "engine"
+  ],
+  "author": {
+    "name": "Mithun Satheesh",
+    "email": "mithunsatish@gmail.com"
+  },
+  "contributors": [],
+  "dependencies": {
+    "underscore": ">= 1.1.6",
+    "async":">=0.2.5"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">= 0.4.x"
+  },
+  "readmeFilename": "README.md"
+}
