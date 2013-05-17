@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Node-rules by mithunsatheesh</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Node-rules</h1>
+        <p>Node-rules is a forward chaining Rules Engine, written on node.js.</p>
+
+        <p class="view"><a href="https://github.com/mithunsatheesh/node-rules">View the Project on GitHub <small>mithunsatheesh/node-rules</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/mithunsatheesh/node-rules/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mithunsatheesh/node-rules/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/mithunsatheesh/node-rules">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Node-rules</h1>
+
+<h2>About</h2>
+
+<p>Node-rules is a forward chaining Rules Engine, written on node.js.</p>
+
+<h2>Rules</h2>
+
+<p>Node-rules takes rules written in JSON format as input. These rules get applied on the specified iputs(facts) to the rule engine.</p>
+
+<p>A Rules consist of </p>
+
+<ol>
+<li><p>name - the name for the rule</p></li>
+<li><p>conditions - a function which takes inputs and upon returning its results the rule engine executes the corresponding consequence.</p></li>
+<li><p>consequence - a function which gets executed accoring to the return value from a condititon after executed. </p></li>
+<li><p>description - the description for the rule</p></li>
+<li><p>priority - number which decides the order at which the rule gets applied on the supplied facts.</p></li>
+<li><p>on - boolean telling whether or not the rule should be considered by the rule engine.</p></li>
+</ol><h2>Example rule</h2>
+
+<pre><code>{
+    "name": "transaction minimum",
+    "description": "blocks transactions below value x",
+    "priority": 3,
+    "on":1,
+    "condition":
+        function(fact) {
+            return fact &amp;&amp; (fact.transactionTotal &lt; 500);
+        },
+    "consequence":
+        function() {
+            console.log("Rule 1 matched for "+this.name+": blocks transactions below value 500. Rejecting payment.");
+            this.result = false;
+            this.process = true;
+        }
+}
+</code></pre>
+
+<h2>Facts</h2>
+
+<p>Facts are those input json values on which the rule engine applies its rule to obtain results. A fact can have multiple attributes.</p>
+
+<h2>Example Fact</h2>
+
+<pre><code>{
+  "userIP": "27.3.4.5",
+  "name":"user4",
+  "eventRiskFactor":8,
+  "userCredibility":2,
+  "application":"MOB2",
+  "userLoggedIn":true,
+  "transactionTotal":400,
+  "cardType":"Credit Card",
+  "cardIssuer":"VISA",
+
+}
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>The example below shows how to use the rule engine to apply a sample rule on a specific fact.</p>
+
+<div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">RuleEngine</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'node-rules'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">rules</span> <span class="o">=</span> <span class="p">[{</span>
+        <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"transaction minimum"</span><span class="p">,</span>
+        <span class="s2">"description"</span><span class="o">:</span> <span class="s2">"blocks transactions below value x"</span><span class="p">,</span>
+        <span class="s2">"priority"</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"on"</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"condition"</span><span class="o">:</span>
+            <span class="kd">function</span><span class="p">(</span><span class="nx">fact</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">fact</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">fact</span><span class="p">.</span><span class="nx">transactionTotal</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">);</span>
+            <span class="p">},</span>
+        <span class="s2">"consequence"</span><span class="o">:</span>
+            <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Rule 1 matched for "</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s2">": blocks transactions below value 500. Rejecting payment."</span><span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">result</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">process</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="p">}</span>
+    <span class="p">}];</span>
+
+<span class="kd">var</span> <span class="nx">fact</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">"userIP"</span><span class="o">:</span> <span class="s2">"27.3.4.5"</span><span class="p">,</span>
+      <span class="s2">"name"</span><span class="o">:</span><span class="s2">"user4"</span><span class="p">,</span>
+      <span class="s2">"eventRiskFactor"</span><span class="o">:</span><span class="mi">8</span><span class="p">,</span>
+      <span class="s2">"userCredibility"</span><span class="o">:</span><span class="mi">2</span><span class="p">,</span>
+      <span class="s2">"application"</span><span class="o">:</span><span class="s2">"MOB2"</span><span class="p">,</span>
+      <span class="s2">"userLoggedIn"</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"transactionTotal"</span><span class="o">:</span><span class="mi">400</span><span class="p">,</span>
+      <span class="s2">"cardType"</span><span class="o">:</span><span class="s2">"Credit Card"</span><span class="p">,</span>
+      <span class="s2">"cardIssuer"</span><span class="o">:</span><span class="s2">"VISA"</span><span class="p">,</span>
+
+    <span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">R</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RuleEngine</span><span class="p">(</span><span class="nx">rules</span><span class="p">);</span>
+
+<span class="nx">R</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="nx">user7</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">){</span> 
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> 
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-----Payment Accepted for----\n"</span><span class="p">);</span> 
+    <span class="k">else</span> 
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-----Payment Rejected for----\n"</span><span class="p">);</span>
+
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span> 
+
+<span class="p">});</span>
+</pre></div>
+
+<h2>Credits</h2>
+
+<p>Both the rules and the facts used in this module are based on the node module <a href="https://github.com/tdegrunt/jools">jools</a>. 
+Its a modified version of jools with a non blocking version of applying the rule engine on the facts.
+The rule engine logic was been modified sothat the rule executions on separate facts donot block each other.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/mithunsatheesh">mithunsatheesh</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
