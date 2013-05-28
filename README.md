@@ -33,14 +33,15 @@ A Rules consist of
 		"priority": 3,
 		"on":1,
 		"condition":
-			function(fact) {
-				return fact && (fact.transactionTotal < 500);
+			function(fact,cb) {
+				cb(fact && (fact.transactionTotal < 500));
 			},
 		"consequence":
-			function() {
+			function(cb) {
 				console.log("Rule 1 matched for "+this.name+": blocks transactions below value 500. Rejecting payment.");
 				this.result = false;
 				this.process = true;
+                cb();
 			}
 	}
 
@@ -78,14 +79,15 @@ var rules = [{
 		"priority": 3,
 		"on":1,
 		"condition":
-			function(fact) {
-				return fact && (fact.transactionTotal < 500);
+			function(fact,cb) {
+				cb(fact && (fact.transactionTotal < 500));
 			},
 		"consequence":
-			function() {
+			function(cb) {
 				console.log("Rule 1 matched for "+this.name+": blocks transactions below value 500. Rejecting payment.");
 				this.result = false;
 				this.process = true;
+                cb();
 			}
 	}];
 	
