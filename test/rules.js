@@ -10,14 +10,15 @@ var rules = [
 	"priority": 3,
 	"on":1,
 	"condition":
-		function(fact) {
-			return fact && (fact.transactionTotal < 500);
+		function(fact,cb) {
+			return cb(fact && (fact.transactionTotal < 500));
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 1 matched for "+this.name+": blocks transactions below value 500. Rejecting payment.");
 			this.result = false;
 			this.process = true;
+            cb();
 		}
   },
   /**** Rule 2 ****/
@@ -27,14 +28,15 @@ var rules = [
 	"priority":2,
 	"on":1, 
 	"condition":
-		function(fact) {
-			return fact && fact.userCredibility && (fact.userCredibility > 5);
+		function(fact,cb) {
+			return cb(fact && fact.userCredibility && (fact.userCredibility > 5));
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 2 matched for "+this.name+": if the users credibility value is more, then avoid checking further. Accepting payment. ");
 			this.result = true; 
 			this.process = true;
+            cb();
 		}
   },
   /**** Rule 3 ****/
@@ -44,14 +46,15 @@ var rules = [
 	"priority": 4,
 	"on":1,
 	"condition":
-		function(fact) {
-			return fact && (fact.cardType == "Credit Card") && (fact.cardIssuer == "American Express") && (fact.transactionTotal > 1000);
+		function(fact,cb) {
+			return cb(fact && (fact.cardType == "Credit Card") && (fact.cardIssuer == "American Express") && (fact.transactionTotal > 1000));
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 3 matched for "+this.name+": filter American Express credit cards for payment above 10000. Rejecting payment.");
 			this.result = false;
 			this.process = true;
+            cb();
 		}
   },
   /**** Rule 4 ****/
@@ -61,14 +64,15 @@ var rules = [
 	"priority":8,
 	"on":1,
 	"condition":
-		function(fact) {
-			return fact && (fact.cardType == "Cash Card");
+		function(fact,cb) {
+			return cb(fact && (fact.cardType == "Cash Card"));
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 4 matched for "+this.name+": reject the payment if the payment type belong to cash card. Rejecting payment.");
 			this.result = false; 
 			this.process = true;
+            cb();
 		}
   },
   /**** Rule 5 ****/
@@ -78,14 +82,15 @@ var rules = [
 	"priority":6,
 	"on":1,
 	"condition":
-		function(fact) {
-			return fact && fact.customerType && (fact.transactionTotal > 10000) && (fact.customerType == "guest");
+		function(fact,cb) {
+			return cb(fact && fact.customerType && (fact.transactionTotal > 10000) && (fact.customerType == "guest"));
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 5 matched for "+this.name+": reject the payment if the payment above 10000 and customer type is guest. Rejecting payment.");
 			this.result = false; 
 			this.process = true;
+            cb();
 		}
   },
   /**** Rule 6 ****/
@@ -95,13 +100,14 @@ var rules = [
 	"priority":7,
 	"on":1,
 	"condition":
-		function(fact) {
-			return fact && !fact.userLoggedIn;
+		function(fact,cb) {
+			return cb(fact && !fact.userLoggedIn);
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 6 matched for "+this.name+": support rule written for blocking payment above 10000 from guests. Process left to chain with rule 6.");
 			this.customerType = "guest"; 
+            cb();
 		}  
   },
   /**** Rule 7 ****/
@@ -111,14 +117,15 @@ var rules = [
 	"priority":5,
 	"on":1, 
 	"condition":
-		function(fact) {
-			return fact && fact.appCode && (fact.appCode == "MOBI4");
+		function(fact,cb) {
+			return cb(fact && fact.appCode && (fact.appCode == "MOBI4"));
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 7 matched for "+this.name+": turn on this rule to block the payment from a specific app. Reject Paymant.");
 			this.result = false; 
 			this.process = true;
+            cb();
 		}
   },
   /**** Rule 8 ****/
@@ -128,14 +135,15 @@ var rules = [
 	"priority":2,
 	"on":1, 
 	"condition":
-		function(fact) {
-			return fact && fact.eventRiskFactor && (fact.eventRiskFactor < 5);
+		function(fact,cb) {
+			return cb(fact && fact.eventRiskFactor && (fact.eventRiskFactor < 5));
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 8 matched for "+this.name+": if the event is top priority event, then do further checks else leave. Accept payment as low priority event.");
 			this.result = true; 
 			this.process = true;
+            cb();
 		}
   },
   /**** Rule 9 ****/
@@ -145,7 +153,7 @@ var rules = [
 	"priority":3,
 	"on":1, 
 	"condition":
-		function(fact) {
+		function(fact,cb) {
 			 var allowedRegexp = new RegExp('^(?:' + 
 			  [ 
 			  "10.X.X.X", 
@@ -156,13 +164,14 @@ var rules = [
 			  "74.23.211.92"
 			].join('|').replace(/\./g, '\\.').replace(/X/g, '[^.]+') + 
 			')$');
-			return fact && fact.userIP && fact.userIP.match(allowedRegexp);
+			return cb(fact && fact.userIP && fact.userIP.match(allowedRegexp));
 		},
 	"consequence":
-		function() {
+		function(cb) {
 			console.log("Rule 9 matched for "+this.name+": if the ip fall in the given list of formats, then block the transaction. Rejecting payment.");
 			this.result = false; 
 			this.process = true;
+            cb();
 		}
   }
 ];
