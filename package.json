@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -11,7 +11,13 @@
     "name": "Mithun Satheesh",
     "email": "mithunsatish@gmail.com"
   },
-  "contributors": [],
+  "contributors": [
+    {
+        "name": "Abdul Munim Kazia",
+        "email" : "munim2020@gmail.com",
+        "url" : "http://munimkazia.com"
+    }
+  ],
   "dependencies": {
     "underscore": ">= 1.1.6",
     "async":">=0.2.5"
