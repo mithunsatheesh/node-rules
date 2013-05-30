@@ -1,40 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Node-rules by mithunsatheesh</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <title>Node-rules by mithunsatheesh</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Node-rules</h1>
-        <p>Node-rules is a forward chaining Rules Engine, written on node.js.</p>
+    <div id="container">
+      <div class="inner">
 
-        <p class="view"><a href="https://github.com/mithunsatheesh/node-rules">View the Project on GitHub <small>mithunsatheesh/node-rules</small></a></p>
+        <header>
+          <h1>Node-rules</h1>
+          <h2>Node-rules is a forward chaining Rules Engine, written on node.js.</h2>
+        </header>
 
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/mithunsatheesh/node-rules/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/mithunsatheesh/node-rules/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/mithunsatheesh/node-rules" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
 
-        <ul>
-          <li><a href="https://github.com/mithunsatheesh/node-rules/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/mithunsatheesh/node-rules/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/mithunsatheesh/node-rules">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>Node-rules</h1>
+        <hr>
 
-<h2>About</h2>
+        <section id="main_content">
+          <h1>
+<a name="node-rules" class="anchor" href="#node-rules"><span class="octicon octicon-link"></span></a><a href="http://mithunsatheesh.github.io/node-rules">Node-rules</a>
+</h1>
+
+<h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
 
 <p>Node-rules is a forward chaining Rules Engine, written on node.js.</p>
 
-<h2>Rules</h2>
+<h2>
+<a name="rules" class="anchor" href="#rules"><span class="octicon octicon-link"></span></a>Rules</h2>
 
 <p>Node-rules takes rules written in JSON format as input. These rules get applied on the specified iputs(facts) to the rule engine.</p>
 
@@ -47,7 +54,8 @@
 <li><p>description - the description for the rule</p></li>
 <li><p>priority - number which decides the order at which the rule gets applied on the supplied facts.</p></li>
 <li><p>on - boolean telling whether or not the rule should be considered by the rule engine.</p></li>
-</ol><h2>Example rule</h2>
+</ol><h2>
+<a name="example-rule" class="anchor" href="#example-rule"><span class="octicon octicon-link"></span></a>Example rule</h2>
 
 <pre><code>{
     "name": "transaction minimum",
@@ -55,23 +63,26 @@
     "priority": 3,
     "on":1,
     "condition":
-        function(fact) {
-            return fact &amp;&amp; (fact.transactionTotal &lt; 500);
+        function(fact,cb) {
+            cb(fact &amp;&amp; (fact.transactionTotal &lt; 500));
         },
     "consequence":
-        function() {
+        function(cb) {
             console.log("Rule 1 matched for "+this.name+": blocks transactions below value 500. Rejecting payment.");
             this.result = false;
             this.process = true;
+            cb();
         }
 }
 </code></pre>
 
-<h2>Facts</h2>
+<h2>
+<a name="facts" class="anchor" href="#facts"><span class="octicon octicon-link"></span></a>Facts</h2>
 
 <p>Facts are those input json values on which the rule engine applies its rule to obtain results. A fact can have multiple attributes.</p>
 
-<h2>Example Fact</h2>
+<h2>
+<a name="example-fact" class="anchor" href="#example-fact"><span class="octicon octicon-link"></span></a>Example Fact</h2>
 
 <pre><code>{
   "userIP": "27.3.4.5",
@@ -87,7 +98,8 @@
 }
 </code></pre>
 
-<h2>Usage</h2>
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>The example below shows how to use the rule engine to apply a sample rule on a specific fact.</p>
 
@@ -100,14 +112,15 @@
         <span class="s2">"priority"</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
         <span class="s2">"on"</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
         <span class="s2">"condition"</span><span class="o">:</span>
-            <span class="kd">function</span><span class="p">(</span><span class="nx">fact</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">return</span> <span class="nx">fact</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">fact</span><span class="p">.</span><span class="nx">transactionTotal</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">);</span>
+            <span class="kd">function</span><span class="p">(</span><span class="nx">fact</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">cb</span><span class="p">(</span><span class="nx">fact</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">fact</span><span class="p">.</span><span class="nx">transactionTotal</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">));</span>
             <span class="p">},</span>
         <span class="s2">"consequence"</span><span class="o">:</span>
-            <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">function</span><span class="p">(</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Rule 1 matched for "</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s2">": blocks transactions below value 500. Rejecting payment."</span><span class="p">);</span>
                 <span class="k">this</span><span class="p">.</span><span class="nx">result</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
                 <span class="k">this</span><span class="p">.</span><span class="nx">process</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="nx">cb</span><span class="p">();</span>
             <span class="p">}</span>
     <span class="p">}];</span>
 
@@ -138,18 +151,21 @@
 <span class="p">});</span>
 </pre></div>
 
-<h2>Credits</h2>
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
 
 <p>Both the rules and the facts used in this module are based on the node module <a href="https://github.com/tdegrunt/jools">jools</a>. 
 Its a modified version of jools with a non blocking version of applying the rule engine on the facts.
 The rule engine logic was been modified sothat the rule executions on separate facts donot block each other.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/mithunsatheesh">mithunsatheesh</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+        </section>
+
+        <footer>
+          Node-rules is maintained by <a href="https://github.com/mithunsatheesh">mithunsatheesh</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
   </body>
 </html>
