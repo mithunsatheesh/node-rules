@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "1.1.1",
+  "version": "2.1.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",

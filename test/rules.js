@@ -1,6 +1,31 @@
 var RuleEngine = require('../index');
 
 
+/**** Support function written for mocking db calls for rule 10 ****/
+function dbQuery(query,name,cb) {
+	
+	var start = new Date().getTime();
+	var now;
+	
+	while(now = new Date().getTime()) {
+		
+		if((now-start) > 600) {
+		
+			//value user4 is assumed fetched from db or file with delay. used the while sleeper to demo it.
+			if(name == "user4")
+				return cb(1);
+			else
+				return cb(0);
+		
+		}
+		
+	}	
+	
+}
+
+
+
+
 var rules = [
   
   /**** Rule 1 ****/
@@ -11,7 +36,7 @@ var rules = [
 	"on":1,
 	"condition":
 		function(fact,cb) {
-			return cb(fact && (fact.transactionTotal < 500));
+			cb(fact && (fact.transactionTotal < 500));
 		},
 	"consequence":
 		function(cb) {
@@ -29,7 +54,7 @@ var rules = [
 	"on":1, 
 	"condition":
 		function(fact,cb) {
-			return cb(fact && fact.userCredibility && (fact.userCredibility > 5));
+			cb(fact && fact.userCredibility && (fact.userCredibility > 5));
 		},
 	"consequence":
 		function(cb) {
@@ -47,7 +72,7 @@ var rules = [
 	"on":1,
 	"condition":
 		function(fact,cb) {
-			return cb(fact && (fact.cardType == "Credit Card") && (fact.cardIssuer == "American Express") && (fact.transactionTotal > 1000));
+			cb(fact && (fact.cardType == "Credit Card") && (fact.cardIssuer == "American Express") && (fact.transactionTotal > 1000));
 		},
 	"consequence":
 		function(cb) {
@@ -65,14 +90,18 @@ var rules = [
 	"on":1,
 	"condition":
 		function(fact,cb) {
-			return cb(fact && (fact.cardType == "Cash Card"));
+			
+			cb(fact && (fact.cardType == "Cash Card"));
+			
 		},
 	"consequence":
 		function(cb) {
+			
 			console.log("Rule 4 matched for "+this.name+": reject the payment if the payment type belong to cash card. Rejecting payment.");
 			this.result = false; 
 			this.process = true;
             cb();
+            
 		}
   },
   /**** Rule 5 ****/
@@ -83,7 +112,7 @@ var rules = [
 	"on":1,
 	"condition":
 		function(fact,cb) {
-			return cb(fact && fact.customerType && (fact.transactionTotal > 10000) && (fact.customerType == "guest"));
+			cb(fact && fact.customerType && (fact.transactionTotal > 10000) && (fact.customerType == "guest"));
 		},
 	"consequence":
 		function(cb) {
@@ -101,7 +130,7 @@ var rules = [
 	"on":1,
 	"condition":
 		function(fact,cb) {
-			return cb(fact && !fact.userLoggedIn);
+			cb(fact && !fact.userLoggedIn);
 		},
 	"consequence":
 		function(cb) {
@@ -118,7 +147,7 @@ var rules = [
 	"on":1, 
 	"condition":
 		function(fact,cb) {
-			return cb(fact && fact.appCode && (fact.appCode == "MOBI4"));
+			cb(fact && fact.appCode && (fact.appCode == "MOBI4"));
 		},
 	"consequence":
 		function(cb) {
@@ -136,7 +165,7 @@ var rules = [
 	"on":1, 
 	"condition":
 		function(fact,cb) {
-			return cb(fact && fact.eventRiskFactor && (fact.eventRiskFactor < 5));
+			cb(fact && fact.eventRiskFactor && (fact.eventRiskFactor < 5));
 		},
 	"consequence":
 		function(cb) {
@@ -164,7 +193,7 @@ var rules = [
 			  "74.23.211.92"
 			].join('|').replace(/\./g, '\\.').replace(/X/g, '[^.]+') + 
 			')$');
-			return cb(fact && fact.userIP && fact.userIP.match(allowedRegexp));
+			cb(fact && fact.userIP && fact.userIP.match(allowedRegexp));
 		},
 	"consequence":
 		function(cb) {
@@ -172,6 +201,28 @@ var rules = [
 			this.result = false; 
 			this.process = true;
             cb();
+		}
+  },
+  /**** Rule 10 ****/
+  {
+	"name" : "check if user's name is blacklisted in db",
+	"description" : "if the user's name is found then block transaction.",
+	"priority":1,
+	"on":1, 
+	"condition":
+		function(fact,cb) {
+			
+			 dbQuery("query",fact.name,function(x){ cb(fact && x); });
+		
+		},
+	"consequence":
+		function(cb) {
+			
+			console.log("Rule 10 matched for "+this.name+": if the user is malicious, then block the transaction. Rejecting payment.");
+			this.result = false; 
+			this.process = true;
+            cb();
+		
 		}
   }
 ];
@@ -219,7 +270,7 @@ var user3 =  {
   
 };
 
-/** none of rule matches and fires exit clearance. ****/
+/** malicious list of users in rule 10 matches and exists. ****/
 var user4 =  {
   "userIP": "27.3.4.5",
   "name":"user4",
@@ -275,6 +326,20 @@ var user7 =  {
   
 };
 
+/** none of rule matches and fires exit clearance with accepted payment. ****/
+var user8 =  {
+  "userIP": "27.3.4.5",
+  "name":"user8",
+  "eventRiskFactor":8,
+  "userCredibility":2,
+  "appCode":"WEB1",
+  "userLoggedIn":true,
+  "transactionTotal":500,
+  "cardType":"Credit Card",
+  "cardIssuer":"VISA",
+  
+};
+
 
 var R = new RuleEngine(rules);
 
@@ -294,3 +359,4 @@ R.execute(user5,function(result){ if(result.result) console.log("\n-----Payment 
 
 R.execute(user6,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
 
+R.execute(user8,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
