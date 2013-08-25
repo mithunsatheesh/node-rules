@@ -5,6 +5,12 @@
 
 Node-rules is a forward chaining Rules Engine, written on node.js.
 
+## How to install
+
+install this via 
+
+    npm install node-rules
+
 
 ## Rules 
 
@@ -117,6 +123,8 @@ R.execute(user7,function(result){
 	
 });
 ```
+
+
 
 ## Credits
 
