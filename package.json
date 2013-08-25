@@ -1,11 +1,12 @@
 {
   "name": "node-rules",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
     "rules",
-    "engine"
+    "engine",
+    "rule engine"
   ],
   "author": {
     "name": "Mithun Satheesh",
@@ -16,6 +17,10 @@
         "name": "Abdul Munim Kazia",
         "email" : "munim2020@gmail.com",
         "url" : "http://munimkazia.com"
+    },
+    {
+        "name": "ramanaveli2i",
+        "url" : "https://github.com/ramanaveli2i"
     }
   ],
   "repository" : { 
@@ -23,8 +28,7 @@
       "url" : "https://github.com/mithunsatheesh/node-rules"
   },
   "dependencies": {
-    "underscore": ">= 1.1.6",
-    "async":">=0.2.5"
+    "underscore": ">= 1.1.6"
   },
   "main": "index.js",
   "engines": {
