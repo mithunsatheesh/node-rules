@@ -112,7 +112,7 @@ var fact = {
 	
 var R = new RuleEngine(rules);
 
-R.execute(user7,function(result){ 
+R.execute(fact,function(result){ 
 
 	if(result.result) 
 		console.log("\n-----Payment Accepted for----\n"); 
