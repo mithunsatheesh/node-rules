@@ -35,8 +35,8 @@ var rules = [
 	"priority": 3,
 	"on":1,
 	"condition":
-		function(fact,cb) {
-			cb(fact && (fact.transactionTotal < 500));
+		function(cb) {
+			cb(this && (this.transactionTotal < 500));
 		},
 	"consequence":
 		function(cb) {
@@ -53,8 +53,8 @@ var rules = [
 	"priority":2,
 	"on":1, 
 	"condition":
-		function(fact,cb) {
-			cb(fact && fact.userCredibility && (fact.userCredibility > 5));
+		function(cb) {
+			cb(this && this.userCredibility && (this.userCredibility > 5));
 		},
 	"consequence":
 		function(cb) {
@@ -71,8 +71,8 @@ var rules = [
 	"priority": 4,
 	"on":1,
 	"condition":
-		function(fact,cb) {
-			cb(fact && (fact.cardType == "Credit Card") && (fact.cardIssuer == "American Express") && (fact.transactionTotal > 1000));
+		function(cb) {
+			cb(this && (this.cardType == "Credit Card") && (this.cardIssuer == "American Express") && (this.transactionTotal > 1000));
 		},
 	"consequence":
 		function(cb) {
@@ -89,9 +89,9 @@ var rules = [
 	"priority":8,
 	"on":1,
 	"condition":
-		function(fact,cb) {
+		function(cb) {
 			
-			cb(fact && (fact.cardType == "Cash Card"));
+			cb(this && (this.cardType == "Cash Card"));
 			
 		},
 	"consequence":
@@ -111,8 +111,8 @@ var rules = [
 	"priority":6,
 	"on":1,
 	"condition":
-		function(fact,cb) {
-			cb(fact && fact.customerType && (fact.transactionTotal > 10000) && (fact.customerType == "guest"));
+		function(cb) {
+			cb(this && this.customerType && (this.transactionTotal > 10000) && (this.customerType == "guest"));
 		},
 	"consequence":
 		function(cb) {
@@ -129,8 +129,8 @@ var rules = [
 	"priority":7,
 	"on":1,
 	"condition":
-		function(fact,cb) {
-			cb(fact && !fact.userLoggedIn);
+		function(cb) {
+			cb(this && !this.userLoggedIn);
 		},
 	"consequence":
 		function(cb) {
@@ -146,8 +146,8 @@ var rules = [
 	"priority":5,
 	"on":1, 
 	"condition":
-		function(fact,cb) {
-			cb(fact && fact.appCode && (fact.appCode == "MOBI4"));
+		function(cb) {
+			cb(this && this.appCode && (this.appCode == "MOBI4"));
 		},
 	"consequence":
 		function(cb) {
@@ -164,8 +164,8 @@ var rules = [
 	"priority":2,
 	"on":1, 
 	"condition":
-		function(fact,cb) {
-			cb(fact && fact.eventRiskFactor && (fact.eventRiskFactor < 5));
+		function(cb) {
+			cb(this && this.eventRiskFactor && (this.eventRiskFactor < 5));
 		},
 	"consequence":
 		function(cb) {
@@ -182,7 +182,7 @@ var rules = [
 	"priority":3,
 	"on":1, 
 	"condition":
-		function(fact,cb) {
+		function(cb) {
 			 var allowedRegexp = new RegExp('^(?:' + 
 			  [ 
 			  "10.X.X.X", 
@@ -193,7 +193,7 @@ var rules = [
 			  "74.23.211.92"
 			].join('|').replace(/\./g, '\\.').replace(/X/g, '[^.]+') + 
 			')$');
-			cb(fact && fact.userIP && fact.userIP.match(allowedRegexp));
+			cb(this && this.userIP && this.userIP.match(allowedRegexp));
 		},
 	"consequence":
 		function(cb) {
@@ -210,9 +210,9 @@ var rules = [
 	"priority":1,
 	"on":1, 
 	"condition":
-		function(fact,cb) {
+		function(cb) {
 			
-			 dbQuery("query",fact.name,function(x){ cb(fact && x); });
+			 dbQuery("query",this.name,function(x){ cb(this && x); });
 		
 		},
 	"consequence":
