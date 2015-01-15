@@ -42,7 +42,7 @@ var rules = [
 		function(cb) {
 			console.log("Rule 1 matched for "+this.name+": blocks transactions below value 500. Rejecting payment.");
 			this.result = false;
-			this.process = true;
+			this.complete = true;
             cb();
 		}
   },
@@ -60,7 +60,7 @@ var rules = [
 		function(cb) {
 			console.log("Rule 2 matched for "+this.name+": if the users credibility value is more, then avoid checking further. Accepting payment. ");
 			this.result = true; 
-			this.process = true;
+			this.complete = true;
             cb();
 		}
   },
@@ -78,7 +78,7 @@ var rules = [
 		function(cb) {
 			console.log("Rule 3 matched for "+this.name+": filter American Express credit cards for payment above 10000. Rejecting payment.");
 			this.result = false;
-			this.process = true;
+			this.complete = true;
             cb();
 		}
   },
@@ -99,7 +99,7 @@ var rules = [
 			
 			console.log("Rule 4 matched for "+this.name+": reject the payment if the payment type belong to cash card. Rejecting payment.");
 			this.result = false; 
-			this.process = true;
+			this.complete = true;
             cb();
             
 		}
@@ -118,7 +118,7 @@ var rules = [
 		function(cb) {
 			console.log("Rule 5 matched for "+this.name+": reject the payment if the payment above 10000 and customer type is guest. Rejecting payment.");
 			this.result = false; 
-			this.process = true;
+			this.complete = true;
             cb();
 		}
   },
@@ -134,7 +134,7 @@ var rules = [
 		},
 	"consequence":
 		function(cb) {
-			console.log("Rule 6 matched for "+this.name+": support rule written for blocking payment above 10000 from guests. Process left to chain with rule 6.");
+			console.log("Rule 6 matched for "+this.name+": support rule written for blocking payment above 10000 from guests. complete left to chain with rule 6.");
 			this.customerType = "guest"; 
             cb();
 		}  
@@ -153,7 +153,7 @@ var rules = [
 		function(cb) {
 			console.log("Rule 7 matched for "+this.name+": turn on this rule to block the payment from a specific app. Reject Paymant.");
 			this.result = false; 
-			this.process = true;
+			this.complete = true;
             cb();
 		}
   },
@@ -171,7 +171,7 @@ var rules = [
 		function(cb) {
 			console.log("Rule 8 matched for "+this.name+": if the event is top priority event, then do further checks else leave. Accept payment as low priority event.");
 			this.result = true; 
-			this.process = true;
+			this.complete = true;
             cb();
 		}
   },
@@ -199,11 +199,11 @@ var rules = [
 		function(cb) {
 			console.log("Rule 9 matched for "+this.name+": if the ip fall in the given list of formats, then block the transaction. Rejecting payment.");
 			this.result = false; 
-			this.process = true;
+			this.complete = true;
             cb();
 		}
   },
-  /**** Rule 10 ****/
+  /**** Rule 10 * fails 
   {
 	"name" : "check if user's name is blacklisted in db",
 	"description" : "if the user's name is found then block transaction.",
@@ -220,11 +220,11 @@ var rules = [
 			
 			console.log("Rule 10 matched for "+this.name+": if the user is malicious, then block the transaction. Rejecting payment.");
 			this.result = false; 
-			this.process = true;
+			this.complete = true;
             cb();
 		
 		}
-  }
+  }****/
 ];
 
 
