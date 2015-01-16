@@ -110,7 +110,8 @@ var rules = [{
 		R.stop();
 	}
 }];
-/*as you can see above we removed the priority and on properties for this example as they are optional.*/ 
+/*as you can see above we removed the priority 
+and on properties for this example as they are optional.*/ 
 
 //sample fact to run the rules on	
 var fact = {
