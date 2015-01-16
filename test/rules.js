@@ -33,7 +33,7 @@ var rules = [
 	"name": "transaction minimum",
 	"description": "blocks transactions below value x",
 	"priority": 3,
-	"on":1,
+	"on":true,
 	"condition":
 		function(R) {
 			R.when(this && (this.transactionTotal < 500));
@@ -50,7 +50,7 @@ var rules = [
 	"name" : "high credibility customer - avoid checks and bypass",
 	"description" : "if the users credibility value is more, then avoid checking further.",
 	"priority":2,
-	"on":1, 
+	"on":true, 
 	"condition":
 		function(R) {
 			R.when(this && this.userCredibility && (this.userCredibility > 5));
@@ -67,7 +67,7 @@ var rules = [
 	"name": "block AME > 10000",
 	"description": "filter American Express credit cards for payment above 10000",
 	"priority": 4,
-	"on":1,
+	"on":true,
 	"condition":
 		function(R) {
 			R.when(this && (this.cardType == "Credit Card") && (this.cardIssuer == "American Express") && (this.transactionTotal > 1000));
@@ -84,7 +84,7 @@ var rules = [
 	"name":"block Cashcard Payment",
 	"description": "reject the payment if the payment type belong to cash card",
 	"priority":8,
-	"on":1,
+	"on":true,
 	"condition":
 		function(R) {
 			
@@ -105,7 +105,7 @@ var rules = [
 	"name":"block guest payment above 10000",
 	"description": "reject the payment if the payment above 10000 and customer type is guest",
 	"priority":6,
-	"on":1,
+	"on":true,
 	"condition":
 		function(R) {
 			R.when(this && this.customerType && (this.transactionTotal > 10000) && (this.customerType == "guest"));
@@ -122,7 +122,7 @@ var rules = [
 	"name" : "is customer guest?",
 	"description" : "support rule written for blocking payment above 10000 from guests",
 	"priority":7,
-	"on":1,
+	"on":true,
 	"condition":
 		function(R) {
 			R.when(this && !this.userLoggedIn);
@@ -139,7 +139,7 @@ var rules = [
 	"name" : "block payment from specific app",
 	"description" : "turn on this rule to block the payment from a specific app",
 	"priority":5,
-	"on":1, 
+	"on":true, 
 	"condition":
 		function(R) {
 			R.when(this && this.appCode && (this.appCode == "MOBI4"));
@@ -156,7 +156,7 @@ var rules = [
 	"name" : "event risk score",
 	"description" : "if the event is top priority event, then do further checks else leave.",
 	"priority":2,
-	"on":1, 
+	"on":true, 
 	"condition":
 		function(R) {
 			R.when(this && this.eventRiskFactor && (this.eventRiskFactor < 5));
@@ -173,7 +173,7 @@ var rules = [
 	"name" : "block ip range set",
 	"description" : "if the ip fall in the given list of formats, then block the transaction.",
 	"priority":3,
-	"on":1, 
+	"on":true, 
 	"condition":
 		function(R) {
 			 var allowedRegexp = new RegExp('^(?:' + 
@@ -343,7 +343,7 @@ console.log("\n-------\nstart execution of rules\n------");
 
 R.execute(user7,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
 
-R.execute(user1,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n"); console.log(result); });
+/*R.execute(user1,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n"); console.log(result); });
 
 R.execute(user2,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
 
@@ -356,3 +356,4 @@ R.execute(user5,function(result){ if(result.result) console.log("\n-----Payment 
 R.execute(user6,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
 
 R.execute(user8,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
+*/
