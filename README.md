@@ -1,3 +1,8 @@
+[![Build Status](https://api.travis-ci.org/mithunsatheesh/node-rules.svg?branch=master)](https://travis-ci.org/mithunsatheesh/node-rules)
+[![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)]()
+[![npm version](https://badge.fury.io/js/node-rules.svg)](http://badge.fury.io/js/node-rules)
+
+
 [Node-rules](http://mithunsatheesh.github.io/node-rules)
 =====
 
