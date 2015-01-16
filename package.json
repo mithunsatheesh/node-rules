@@ -28,11 +28,18 @@
       "url" : "https://github.com/mithunsatheesh/node-rules"
   },
   "dependencies": {
-    "underscore": ">= 1.1.6"
+    "underscore": ">= 1.7"
+  },
+  "devDependencies": {
+      "mocha": "1.6.0",
+      "chai": "*"
   },
   "main": "index.js",
   "engines": {
     "node": ">= 0.4.x"
+  },
+  "scripts": {
+   "test": "./node_modules/mocha/bin/mocha"
   },
   "readmeFilename": "README.md"
 }
