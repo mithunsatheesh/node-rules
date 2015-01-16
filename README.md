@@ -38,7 +38,7 @@ Lets see how a sample rule will look like and then proceed to explain the differ
 
 Above is a sample rule which has mandatory as well as optional parameters. You can choose to use which all attributes you need to use while defining your rule. Now let look into the attributes one by one.
 
-##### A. condition
+##### 1.1. condition
 Condition is a function where the user can do the checks on the fact provided. The fact varaiable will be available in `this` context of the condition function. Lets see a sample condition below.
 
 	"condition": function(R) {
@@ -49,7 +49,7 @@ As you can see, the we have to pass an expression on to the `R.when` API. If the
 
 Its mandatory to have this field.
 
-##### B. consequnce
+##### 1.2. consequnce
 The consequence is the part where the we define what happens when the condition evaluates to true for a particular fact. Just like in condition, fact varaiable will be available in `this` context. You may utilize it to add extra result attributes if needed.
 
     "consequence": function(R) {
@@ -60,17 +60,17 @@ In the above example we use an additional parameter `result` to communicate to t
 
 Its mandatory to have this field.
 
-##### C. priority
+##### 1.3. priority
 This field is used to specify the priority of a rule. The rules with higher priority will be applied on the fact first and then followed by lower priority rules. You can have multiple rules with same priority and the engine will not ensure the order in that case.
 
 Its not mandatory to have this field.
 
-##### D. on
+##### 1.4. on
 This is field is used to store the state of a rule. This is used to activate and diactivate rules at run time. Rules with `on` set to `false` will not be applied on the facts.
 
 It is not mandatory to have this field.
 
-##### E. add a unique attribute
+##### 1.5. add a unique attribute
 It is suggested that you should add a property which can be used as a unique identifier for a rule. Why it is because when you need to dynamically turn on/off or change priority of a rule, you will need a filter to select a rule from the engine via the APIs. That time you may use the unique property as a key for the filter for selection process.
 
 Suppose that in the above example `name` is unique for each rule. Then for changing state or re prioritizing a rule at run time, you may use a filter like `{"name":"transaction minimum"}`. 
