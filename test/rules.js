@@ -343,7 +343,7 @@ console.log("\n-------\nstart execution of rules\n------");
 
 R.execute(user7,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
 
-/*R.execute(user1,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n"); console.log(result); });
+R.execute(user1,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n"); console.log(result); });
 
 R.execute(user2,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
 
@@ -356,4 +356,4 @@ R.execute(user5,function(result){ if(result.result) console.log("\n-----Payment 
 R.execute(user6,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
 
 R.execute(user8,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
-*/
+
