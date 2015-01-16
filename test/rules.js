@@ -33,17 +33,16 @@ var rules = [
 	"name": "transaction minimum",
 	"description": "blocks transactions below value x",
 	"priority": 3,
-	"on":1,
+	"on":true,
 	"condition":
-		function(fact,cb) {
-			cb(fact && (fact.transactionTotal < 500));
+		function(R) {
+			R.when(this && (this.transactionTotal < 500));
 		},
 	"consequence":
-		function(cb) {
+		function(R) {
 			console.log("Rule 1 matched for "+this.name+": blocks transactions below value 500. Rejecting payment.");
 			this.result = false;
-			this.process = true;
-            cb();
+			R.stop();
 		}
   },
   /**** Rule 2 ****/
@@ -51,17 +50,16 @@ var rules = [
 	"name" : "high credibility customer - avoid checks and bypass",
 	"description" : "if the users credibility value is more, then avoid checking further.",
 	"priority":2,
-	"on":1, 
+	"on":true, 
 	"condition":
-		function(fact,cb) {
-			cb(fact && fact.userCredibility && (fact.userCredibility > 5));
+		function(R) {
+			R.when(this && this.userCredibility && (this.userCredibility > 5));
 		},
 	"consequence":
-		function(cb) {
+		function(R) {
 			console.log("Rule 2 matched for "+this.name+": if the users credibility value is more, then avoid checking further. Accepting payment. ");
 			this.result = true; 
-			this.process = true;
-            cb();
+			R.stop();
 		}
   },
   /**** Rule 3 ****/
@@ -69,17 +67,16 @@ var rules = [
 	"name": "block AME > 10000",
 	"description": "filter American Express credit cards for payment above 10000",
 	"priority": 4,
-	"on":1,
+	"on":true,
 	"condition":
-		function(fact,cb) {
-			cb(fact && (fact.cardType == "Credit Card") && (fact.cardIssuer == "American Express") && (fact.transactionTotal > 1000));
+		function(R) {
+			R.when(this && (this.cardType == "Credit Card") && (this.cardIssuer == "American Express") && (this.transactionTotal > 1000));
 		},
 	"consequence":
-		function(cb) {
+		function(R) {
 			console.log("Rule 3 matched for "+this.name+": filter American Express credit cards for payment above 10000. Rejecting payment.");
 			this.result = false;
-			this.process = true;
-            cb();
+			R.stop();
 		}
   },
   /**** Rule 4 ****/
@@ -87,20 +84,19 @@ var rules = [
 	"name":"block Cashcard Payment",
 	"description": "reject the payment if the payment type belong to cash card",
 	"priority":8,
-	"on":1,
+	"on":true,
 	"condition":
-		function(fact,cb) {
+		function(R) {
 			
-			cb(fact && (fact.cardType == "Cash Card"));
+			R.when(this && (this.cardType == "Cash Card"));
 			
 		},
 	"consequence":
-		function(cb) {
+		function(R) {
 			
 			console.log("Rule 4 matched for "+this.name+": reject the payment if the payment type belong to cash card. Rejecting payment.");
 			this.result = false; 
-			this.process = true;
-            cb();
+			R.stop();
             
 		}
   },
@@ -109,17 +105,16 @@ var rules = [
 	"name":"block guest payment above 10000",
 	"description": "reject the payment if the payment above 10000 and customer type is guest",
 	"priority":6,
-	"on":1,
+	"on":true,
 	"condition":
-		function(fact,cb) {
-			cb(fact && fact.customerType && (fact.transactionTotal > 10000) && (fact.customerType == "guest"));
+		function(R) {
+			R.when(this && this.customerType && (this.transactionTotal > 10000) && (this.customerType == "guest"));
 		},
 	"consequence":
-		function(cb) {
+		function(R) {
 			console.log("Rule 5 matched for "+this.name+": reject the payment if the payment above 10000 and customer type is guest. Rejecting payment.");
 			this.result = false; 
-			this.process = true;
-            cb();
+			R.stop();
 		}
   },
   /**** Rule 6 ****/
@@ -127,16 +122,16 @@ var rules = [
 	"name" : "is customer guest?",
 	"description" : "support rule written for blocking payment above 10000 from guests",
 	"priority":7,
-	"on":1,
+	"on":true,
 	"condition":
-		function(fact,cb) {
-			cb(fact && !fact.userLoggedIn);
+		function(R) {
+			R.when(this && !this.userLoggedIn);
 		},
 	"consequence":
-		function(cb) {
-			console.log("Rule 6 matched for "+this.name+": support rule written for blocking payment above 10000 from guests. Process left to chain with rule 6.");
+		function(R) {
+			console.log("Rule 6 matched for "+this.name+": support rule written for blocking payment above 10000 from guests. complete left to chain with rule 6.");
 			this.customerType = "guest"; 
-            cb();
+            R.next();
 		}  
   },
   /**** Rule 7 ****/
@@ -144,17 +139,16 @@ var rules = [
 	"name" : "block payment from specific app",
 	"description" : "turn on this rule to block the payment from a specific app",
 	"priority":5,
-	"on":1, 
+	"on":true, 
 	"condition":
-		function(fact,cb) {
-			cb(fact && fact.appCode && (fact.appCode == "MOBI4"));
+		function(R) {
+			R.when(this && this.appCode && (this.appCode == "MOBI4"));
 		},
 	"consequence":
-		function(cb) {
+		function(R) {
 			console.log("Rule 7 matched for "+this.name+": turn on this rule to block the payment from a specific app. Reject Paymant.");
 			this.result = false; 
-			this.process = true;
-            cb();
+			R.stop();
 		}
   },
   /**** Rule 8 ****/
@@ -162,17 +156,16 @@ var rules = [
 	"name" : "event risk score",
 	"description" : "if the event is top priority event, then do further checks else leave.",
 	"priority":2,
-	"on":1, 
+	"on":true, 
 	"condition":
-		function(fact,cb) {
-			cb(fact && fact.eventRiskFactor && (fact.eventRiskFactor < 5));
+		function(R) {
+			R.when(this && this.eventRiskFactor && (this.eventRiskFactor < 5));
 		},
 	"consequence":
-		function(cb) {
+		function(R) {
 			console.log("Rule 8 matched for "+this.name+": if the event is top priority event, then do further checks else leave. Accept payment as low priority event.");
 			this.result = true; 
-			this.process = true;
-            cb();
+			R.stop();
 		}
   },
   /**** Rule 9 ****/
@@ -180,9 +173,9 @@ var rules = [
 	"name" : "block ip range set",
 	"description" : "if the ip fall in the given list of formats, then block the transaction.",
 	"priority":3,
-	"on":1, 
+	"on":true, 
 	"condition":
-		function(fact,cb) {
+		function(R) {
 			 var allowedRegexp = new RegExp('^(?:' + 
 			  [ 
 			  "10.X.X.X", 
@@ -193,26 +186,29 @@ var rules = [
 			  "74.23.211.92"
 			].join('|').replace(/\./g, '\\.').replace(/X/g, '[^.]+') + 
 			')$');
-			cb(fact && fact.userIP && fact.userIP.match(allowedRegexp));
+			R.when(this && this.userIP && this.userIP.match(allowedRegexp));
 		},
 	"consequence":
-		function(cb) {
+		function(R) {
 			console.log("Rule 9 matched for "+this.name+": if the ip fall in the given list of formats, then block the transaction. Rejecting payment.");
 			this.result = false; 
-			this.process = true;
-            cb();
+			R.stop();
 		}
   },
-  /**** Rule 10 ****/
+  /**** Rule 10 * fails 
+  
+  This rule has to be rewritten. Because the rules defined should not have closures which prevent its 
+  export-ability. Pass the details as fact.
+  
   {
 	"name" : "check if user's name is blacklisted in db",
 	"description" : "if the user's name is found then block transaction.",
 	"priority":1,
 	"on":1, 
 	"condition":
-		function(fact,cb) {
+		function(cb) {
 			
-			 dbQuery("query",fact.name,function(x){ cb(fact && x); });
+			 dbQuery("query",this.name,function(x){ cb(this && x); });
 		
 		},
 	"consequence":
@@ -220,11 +216,11 @@ var rules = [
 			
 			console.log("Rule 10 matched for "+this.name+": if the user is malicious, then block the transaction. Rejecting payment.");
 			this.result = false; 
-			this.process = true;
+			this.complete = true;
             cb();
 		
 		}
-  }
+  }****/
 ];
 
 
@@ -360,3 +356,4 @@ R.execute(user5,function(result){ if(result.result) console.log("\n-----Payment 
 R.execute(user6,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
 
 R.execute(user8,function(result){ if(result.result) console.log("\n-----Payment Accepted for----\n"); else console.log("\n-----Payment Rejected for----\n");console.log(result); });
+
