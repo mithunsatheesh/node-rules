@@ -14,6 +14,8 @@ Node-rules is a light weight forward chaining Rule Engine, written on node.js.
 install node-rules via npm
 
     npm install node-rules
+    
+>*We have improved the API in the 3.x.x version, if you were using the v2.x.x, please find the relevant docs and code base [here](https://github.com/mithunsatheesh/node-rules/tree/v2.2.3). To migrate to 3.0.0 please  read [the wiki here](https://github.com/mithunsatheesh/node-rules/wiki)!*
 
 
 ####Overview
