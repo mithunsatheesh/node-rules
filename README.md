@@ -92,7 +92,11 @@ R.execute(fact,function(result){
 ```
 
 
-####Licence
+#### Wiki
+To read more about the Rule engine functions, please read [the wiki here](https://github.com/mithunsatheesh/node-rules/wiki)!.
+
+
+#### Licence
 Node rules is distributed under the MIT License.
 
 
