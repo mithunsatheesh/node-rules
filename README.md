@@ -7,18 +7,21 @@ Node-rules
 =====
 Node-rules is a light weight forward chaining Rule Engine, written on node.js.
 
+<br/>
+
 ###Installation
 
 install node-rules via npm
 
     npm install node-rules
+--
 
-
+<br/>
 ###Overview
 
 Node-rules takes rules written in JSON friendly format as input. Once the rule engine is running with rules registered on it, you can feed it facts and the rules will be applied one by one to generate an utcome.
 
-
+<br/>
 ##### 1. Defining a Rule
 
 A rule will consist of a condition and its corresponding consequence. There can also be optional parameters to decide the flow which are discussed later below. 
@@ -37,6 +40,7 @@ Lets look at a sample rule.
 
 Here priority is an optinal paramter which will be used to specify priority of a rule over other rules when there are multiple rules running.
 
+<br/>
 ##### 2. Defining a Fact
 Facts are those input json values on which the rule engine applies its rule to obtain results. A fact can have multiple attributes as you decide.
 
@@ -48,7 +52,8 @@ A sample Fact may look like
 	  "transactionTotal":400,
 	  "cardType":"Credit Card",
     }
-	
+
+<br/>	
 ##### 3. Using the Rule Engine
 
 The example below shows how to use the rule engine to apply a sample rule on a specific fact. Rules fed into the rule engine as Array of rules or objects.
@@ -88,9 +93,14 @@ R.execute(fact,function(result){
 	
 });
 ```
+--
+<br/>
 
 ###Licence
 Node rules is distributed under the MIT License.
+
+--
+<br/>
 
 ### Credits
 
