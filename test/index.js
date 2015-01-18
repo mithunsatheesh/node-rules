@@ -198,6 +198,9 @@ describe("Rules", function() {
                 "id": "one"
             })[0].id).to.eql("one");
         });
+        it("find without condition works fine", function() {
+            expect(R.findRules().length).to.eql(2);
+        });
     });
     describe(".turn()", function() {
         var rules = [{

@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "2.2.0",
+  "version": "3.0.1",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -32,7 +32,8 @@
   },
   "devDependencies": {
       "mocha": "1.6.0",
-      "chai": "*"
+      "chai": "*",
+      "colors" : "1.0.3"
   },
   "main": "index.js",
   "engines": {
