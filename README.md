@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/node-rules.svg)](http://badge.fury.io/js/node-rules)
 
 
-Node-rules
+Node Rules
 =====
 Node-rules is a light weight forward chaining Rule Engine, written on node.js.
 
@@ -17,6 +17,7 @@ install node-rules via npm
     
 >*We have improved the API in the 3.x.x version, if you were using the v2.x.x, please find the relevant docs and code base [here](https://github.com/mithunsatheesh/node-rules/tree/v2.2.3). To migrate to 3.0.0 please  read [the wiki here](https://github.com/mithunsatheesh/node-rules/wiki)!*
 
+![Sample Screencast](https://raw.githubusercontent.com/mithunsatheesh/node-rules/gh-pages/images/screencast.gif "See it in action")
 
 ####Overview
 
@@ -113,3 +114,4 @@ Node rules is distributed under the MIT License.
 
 #### Credits
 The JSON friendly rule formats used in version 2.x.x of this module were initially based on the node module [jools](https://github.com/tdegrunt/jools).
+The screencast image shown in this page is taken from [nmotv.in](http://nmotw.in/node-rules/) which has a pretty nice article on how to use this module!
