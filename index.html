@@ -1,166 +1,178 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Node-rules by mithunsatheesh</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <title>Node Rules by mithunsatheesh</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Node-rules</h1>
-        <p>Node-rules is a forward chaining Rules Engine, written on node.js.</p>
+    <div id="container">
+      <div class="inner">
 
-        <p class="view"><a href="https://github.com/mithunsatheesh/node-rules">View the Project on GitHub <small>mithunsatheesh/node-rules</small></a></p>
+        <header>
+          <h1>Node Rules</h1>
+          <h2>Node-rules is a forward chaining Rules Engine, written on node.js.</h2>
+        </header>
 
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/mithunsatheesh/node-rules/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/mithunsatheesh/node-rules/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/mithunsatheesh/node-rules" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
 
-        <ul>
-          <li><a href="https://github.com/mithunsatheesh/node-rules/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/mithunsatheesh/node-rules/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/mithunsatheesh/node-rules">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a name="node-rules" class="anchor" href="#node-rules"><span class="octicon octicon-link"></span></a><a href="http://mithunsatheesh.github.io/node-rules">Node-rules</a>
-</h1>
+        <hr>
 
-<h2>
-<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+        <section id="main_content">
+          <p><a href="https://travis-ci.org/mithunsatheesh/node-rules"><img src="https://api.travis-ci.org/mithunsatheesh/node-rules.svg?branch=master" alt="Build Status"></a>
+<a href=""><img src="https://img.shields.io/npm/l/express.svg?style=flat-square" alt="npm"></a>
+<a href="http://badge.fury.io/js/node-rules"><img src="https://badge.fury.io/js/node-rules.svg" alt="npm version"></a></p>
 
-<p>Node-rules is a forward chaining Rules Engine, written on node.js.</p>
+<h1>
+<a id="node-rules" class="anchor" href="#node-rules" aria-hidden="true"><span class="octicon octicon-link"></span></a>Node Rules</h1>
 
-<h2>
-<a name="rules" class="anchor" href="#rules"><span class="octicon octicon-link"></span></a>Rules</h2>
+<p>Node-rules is a light weight forward chaining Rule Engine, written on node.js.</p>
 
-<p>Node-rules takes rules written in JSON format as input. These rules get applied on the specified iputs(facts) to the rule engine.</p>
+<h4>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h4>
 
-<p>A Rules consist of </p>
+<p>install node-rules via npm</p>
 
-<ol>
-<li><p>name - the name for the rule</p></li>
-<li><p>conditions - a function which takes inputs and upon returning its results the rule engine executes the corresponding consequence.</p></li>
-<li><p>consequence - a function which gets executed accoring to the return value from a condititon after executed. </p></li>
-<li><p>description - the description for the rule</p></li>
-<li><p>priority - number which decides the order at which the rule gets applied on the supplied facts.</p></li>
-<li><p>on - boolean telling whether or not the rule should be considered by the rule engine.</p></li>
-</ol><h2>
-<a name="example-rule" class="anchor" href="#example-rule"><span class="octicon octicon-link"></span></a>Example rule</h2>
+<pre><code>npm install node-rules
+</code></pre>
+
+<blockquote>
+<p><em>We have improved the API in the 3.x.x version, if you were using the v2.x.x, please find the relevant docs and code base <a href="https://github.com/mithunsatheesh/node-rules/tree/v2.2.3">here</a>. To migrate to 3.0.0 please  read <a href="https://github.com/mithunsatheesh/node-rules/wiki">the wiki here</a>!</em></p>
+</blockquote>
+
+<p><img src="https://raw.githubusercontent.com/mithunsatheesh/node-rules/gh-pages/images/screencast.gif" alt="Sample Screencast" title="See it in action"></p>
+
+<h4>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h4>
+
+<p>Node-rules takes rules written in JSON friendly format as input. Once the rule engine is running with rules registered on it, you can feed it facts and the rules will be applied one by one to generate an outcome.</p>
+
+<h6>
+<a id="1-defining-a-rule" class="anchor" href="#1-defining-a-rule" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Defining a Rule</h6>
+
+<p>A rule will consist of a condition and its corresponding consequence. You can find the explanation for various mandatory and optional parameters of a rule in <a href="https://github.com/mithunsatheesh/node-rules/wiki/Rules">this wiki</a>.</p>
 
 <pre><code>{
-    "name": "transaction minimum",
-    "description": "blocks transactions below value x",
-    "priority": 3,
-    "on":1,
-    "condition":
-        function(fact,cb) {
-            cb(fact &amp;&amp; (fact.transactionTotal &lt; 500));
-        },
-    "consequence":
-        function(cb) {
-            console.log("Rule 1 matched for "+this.name+": blocks transactions below value 500. Rejecting payment.");
-            this.result = false;
-            this.process = true;
-            cb();
-        }
+    "condition" : function(R) {
+        R.when(this.transactionTotal &lt; 500);
+    },
+    "consequence" : function(R) {
+        this.result = false;
+        R.stop();
+    },
+    "priority" : 4
 }
 </code></pre>
 
-<h2>
-<a name="facts" class="anchor" href="#facts"><span class="octicon octicon-link"></span></a>Facts</h2>
+<p>Here priority is an optional parameter which will be used to specify priority of a rule over other rules when there are multiple rules running. In the above rule <code>R.when</code> evaluates the condition expression and <code>R.stop</code> used to stop further processing of the fact as we have arrived at a result. </p>
 
-<p>Facts are those input json values on which the rule engine applies its rule to obtain results. A fact can have multiple attributes.</p>
+<p>The functions <code>R.stop</code>, <code>R.when</code>, <code>R.next</code>, <code>R.restart</code> are part of the Flow Control API which allows user to control the Engine Flow. Read more about  <a href="https://github.com/mithunsatheesh/node-rules/wiki/Flow-Control-API">Flow Controls</a> in <a href="https://github.com/mithunsatheesh/node-rules/wiki">wiki</a>.</p>
 
-<h2>
-<a name="example-fact" class="anchor" href="#example-fact"><span class="octicon octicon-link"></span></a>Example Fact</h2>
+<h6>
+<a id="2-defining-a-fact" class="anchor" href="#2-defining-a-fact" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Defining a Fact</h6>
+
+<p>Facts are those input json values on which the rule engine applies its rule to obtain results. A fact can have multiple attributes as you decide.</p>
+
+<p>A sample Fact may look like</p>
 
 <pre><code>{
-  "userIP": "27.3.4.5",
   "name":"user4",
-  "eventRiskFactor":8,
-  "userCredibility":2,
   "application":"MOB2",
-  "userLoggedIn":true,
   "transactionTotal":400,
   "cardType":"Credit Card",
-  "cardIssuer":"VISA",
-
 }
 </code></pre>
 
-<h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<h6>
+<a id="3-using-the-rule-engine" class="anchor" href="#3-using-the-rule-engine" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Using the Rule Engine</h6>
 
-<p>The example below shows how to use the rule engine to apply a sample rule on a specific fact.</p>
+<p>The example below shows how to use the rule engine to apply a sample rule on a specific fact. Rules can be fed into the rule engine as Array of rules or as an individual rule object.</p>
 
-<div class="highlight"><pre>
-<span class="kd">var</span> <span class="nx">RuleEngine</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'node-rules'</span><span class="p">);</span>
+<div class="highlight highlight-js"><pre><span class="pl-s">var</span> RuleEngine <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>node-rules<span class="pl-pds">'</span></span>);
 
-<span class="kd">var</span> <span class="nx">rules</span> <span class="o">=</span> <span class="p">[{</span>
-        <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"transaction minimum"</span><span class="p">,</span>
-        <span class="s2">"description"</span><span class="o">:</span> <span class="s2">"blocks transactions below value x"</span><span class="p">,</span>
-        <span class="s2">"priority"</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">"on"</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
-        <span class="s2">"condition"</span><span class="o">:</span>
-            <span class="kd">function</span><span class="p">(</span><span class="nx">fact</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">cb</span><span class="p">(</span><span class="nx">fact</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">fact</span><span class="p">.</span><span class="nx">transactionTotal</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">));</span>
-            <span class="p">},</span>
-        <span class="s2">"consequence"</span><span class="o">:</span>
-            <span class="kd">function</span><span class="p">(</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Rule 1 matched for "</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s2">": blocks transactions below value 500. Rejecting payment."</span><span class="p">);</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">result</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">process</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-                <span class="nx">cb</span><span class="p">();</span>
-            <span class="p">}</span>
-    <span class="p">}];</span>
+<span class="pl-c">//define the rules</span>
+<span class="pl-s">var</span> rules <span class="pl-k">=</span> [{
+    <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-en">condition</span><span class="pl-pds">"</span></span>: <span class="pl-st">function</span>(<span class="pl-vpf">R</span>) {
+        R.when(<span class="pl-v">this</span> <span class="pl-k">&amp;&amp;</span> (<span class="pl-v">this</span>.transactionTotal <span class="pl-k">&lt;</span> <span class="pl-c1">500</span>));
+    },
+    <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-en">consequence</span><span class="pl-pds">"</span></span>: <span class="pl-st">function</span>(<span class="pl-vpf">R</span>) {
+        <span class="pl-v">this</span>.result <span class="pl-k">=</span> <span class="pl-c1">false</span>;
+        R.<span class="pl-s3">stop</span>();
+    }
+}];
 
-<span class="kd">var</span> <span class="nx">fact</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="s2">"userIP"</span><span class="o">:</span> <span class="s2">"27.3.4.5"</span><span class="p">,</span>
-      <span class="s2">"name"</span><span class="o">:</span><span class="s2">"user4"</span><span class="p">,</span>
-      <span class="s2">"eventRiskFactor"</span><span class="o">:</span><span class="mi">8</span><span class="p">,</span>
-      <span class="s2">"userCredibility"</span><span class="o">:</span><span class="mi">2</span><span class="p">,</span>
-      <span class="s2">"application"</span><span class="o">:</span><span class="s2">"MOB2"</span><span class="p">,</span>
-      <span class="s2">"userLoggedIn"</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"transactionTotal"</span><span class="o">:</span><span class="mi">400</span><span class="p">,</span>
-      <span class="s2">"cardType"</span><span class="o">:</span><span class="s2">"Credit Card"</span><span class="p">,</span>
-      <span class="s2">"cardIssuer"</span><span class="o">:</span><span class="s2">"VISA"</span><span class="p">,</span>
+<span class="pl-c">//sample fact to run the rules on   </span>
+<span class="pl-s">var</span> fact <span class="pl-k">=</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">"</span>user4<span class="pl-pds">"</span></span>,
+    <span class="pl-s1"><span class="pl-pds">"</span>application<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">"</span>MOB2<span class="pl-pds">"</span></span>,
+    <span class="pl-s1"><span class="pl-pds">"</span>transactionTotal<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-c1">400</span>,
+    <span class="pl-s1"><span class="pl-pds">"</span>cardType<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">"</span>Credit Card<span class="pl-pds">"</span></span>,
+};
 
-    <span class="p">};</span>
+<span class="pl-c">//initialize the rule engine</span>
+<span class="pl-s">var</span> R <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">RuleEngine</span>(rules);
 
-<span class="kd">var</span> <span class="nx">R</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RuleEngine</span><span class="p">(</span><span class="nx">rules</span><span class="p">);</span>
+<span class="pl-c">//Now pass the fact on to the rule engine for results</span>
+R.execute(fact,<span class="pl-st">function</span>(<span class="pl-vpf">result</span>){ 
 
-<span class="nx">R</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="nx">user7</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">){</span> 
+    <span class="pl-k">if</span>(result.result) 
+        <span class="pl-en">console</span><span class="pl-s3">.log</span>(<span class="pl-s1"><span class="pl-pds">"</span>Payment Accepted<span class="pl-pds">"</span></span>); 
+    <span class="pl-k">else</span> 
+        <span class="pl-en">console</span><span class="pl-s3">.log</span>(<span class="pl-s1"><span class="pl-pds">"</span>Payment Rejected<span class="pl-pds">"</span></span>);
 
-    <span class="k">if</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> 
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-----Payment Accepted for----\n"</span><span class="p">);</span> 
-    <span class="k">else</span> 
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-----Payment Rejected for----\n"</span><span class="p">);</span>
+});</pre></div>
 
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span> 
+<h6>
+<a id="4-controlling-rules-running-on-the-rule-engine" class="anchor" href="#4-controlling-rules-running-on-the-rule-engine" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Controlling Rules running on the Rule Engine</h6>
 
-<span class="p">});</span>
-</pre></div>
+<p>If you are looking for ways to specify the order in which the rules get applied on a fact, it can be done via using the <code>priority</code> parameter. Read more about it in the <a href="https://github.com/mithunsatheesh/node-rules/wiki/Rules">Rule wiki</a>. If you need to know about how to change priority of rules or remove add new rules to a Running Rule Engine, you may read more about it in <a href="https://github.com/mithunsatheesh/node-rules/wiki/Dynamic-Control">Dynamic Control Wiki</a>.</p>
 
-<h2>
-<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+<h6>
+<a id="5-exporting-rules-to-an-external-storage" class="anchor" href="#5-exporting-rules-to-an-external-storage" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Exporting Rules to an external storage</h6>
 
-<p>Both the rules and the facts used in this module are based on the node module <a href="https://github.com/tdegrunt/jools">jools</a>. 
-Its a modified version of jools with a non blocking version of applying the rule engine on the facts.
-The rule engine logic was been modified sothat the rule executions on separate facts donot block each other.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/mithunsatheesh">mithunsatheesh</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+<p>To read more about storing rules running on the engine to an external DB, refer this <a href="https://github.com/mithunsatheesh/node-rules/wiki/Exporting-and-Importing-Rules">wiki article</a>. </p>
+
+<h4>
+<a id="wiki" class="anchor" href="#wiki" aria-hidden="true"><span class="octicon octicon-link"></span></a>Wiki</h4>
+
+<p>To read more about the Rule engine functions, please read <a href="https://github.com/mithunsatheesh/node-rules/wiki">the wiki here</a>!. To find more examples of implementation please look in the <a href="https://github.com/mithunsatheesh/node-rules/tree/master/examples">examples</a> folder.</p>
+
+<h4>
+<a id="issues" class="anchor" href="#issues" aria-hidden="true"><span class="octicon octicon-link"></span></a>Issues</h4>
+
+<p>Got issues with the implementation?. Feel free to open an issue <a href="https://github.com/mithunsatheesh/node-rules/issues/new">here</a>.</p>
+
+<h4>
+<a id="licence" class="anchor" href="#licence" aria-hidden="true"><span class="octicon octicon-link"></span></a>Licence</h4>
+
+<p>Node rules is distributed under the MIT License.</p>
+
+<h4>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credits</h4>
+
+<p>The JSON friendly rule formats used in version 2.x.x of this module were initially based on the node module <a href="https://github.com/tdegrunt/jools">jools</a>.
+The screencast image shown in this page is taken from <a href="http://nmotw.in/node-rules/">nmotv.in</a> which has a pretty nice article on how to use this module!</p>
+        </section>
+
+        <footer>
+          Node Rules is maintained by <a href="https://github.com/mithunsatheesh">mithunsatheesh</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
   </body>
 </html>
