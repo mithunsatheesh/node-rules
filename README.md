@@ -1,10 +1,9 @@
-Node Rules
-=====
-
-[![NPM](https://nodei.co/npm/node-rules.png?downloads=true&downloadRank=true)](https://nodei.co/npm/node-rules/) [![NPM](https://nodei.co/npm-dl/node-rules.png?months=6&height=3)](https://nodei.co/npm/node-rules/)
 [![Build Status](https://api.travis-ci.org/mithunsatheesh/node-rules.svg?branch=master)](https://travis-ci.org/mithunsatheesh/node-rules)
 [![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)]()
 [![npm version](https://badge.fury.io/js/node-rules.svg)](http://badge.fury.io/js/node-rules)
+
+Node Rules
+=====
 
 Node-rules is a light weight forward chaining Rule Engine, written on node.js.
 
