@@ -308,4 +308,31 @@ describe("Rules", function() {
             expect(rules).to.eql(R.rules);
         });
     });
+  describe("ignoreFactChanges", function() {
+    var rules = [{
+        "name": "rule1",
+        "condition": function(R) {
+            R.when(this.value1 > 5);
+        },
+        "consequence": function(R) {
+            this.result = false;
+            this.errors = this.errors || [];
+            this.errors.push('must be less than 5');
+            R.next();
+        }
+    }];
+
+    var fact = {
+        "value1": 6
+    };
+
+    it("doesn't rerun when a fact changes if ignoreFactChanges is true", function(done) {
+        var R = new RuleEngine(rules, { ignoreFactChanges: true });
+
+        R.execute(fact, function(result) {
+            expect(result.errors).to.have.length(1);
+            done();
+        });
+    });
+  });
 });
