@@ -168,6 +168,85 @@ describe("Rules", function() {
                 expect(result.result).to.eql("Custom Result");
             });
         });
+        it("should provide access to rule definition properties via rule()", function() {
+            var rule = {
+                "name": "sample rule name",
+                "id": "xyzzy",
+                "condition": function(R) {
+                    R.when(this && (this.input === true));
+                },
+                "consequence": function(R) {
+                    this.result = true;
+                    this.ruleName = R.rule().name;
+                    this.ruleID = R.rule().id;
+                    R.stop();
+                }
+            };
+            var R = new RuleEngine(rule);
+            R.execute({
+                "input": true
+            }, function(result) {
+                expect(result.ruleName).to.eql(rule.name);
+                expect(result.ruleID).to.eql(rule.id);
+            });
+        });
+        it("should include the matched rule path", function() {
+            var rules = [
+                {
+                    "name": "rule A",
+                    "condition": function(R) {
+                        R.when(this && (this.x === true));
+                    },
+                    "consequence": function(R) {
+                        R.next();
+                    }
+                },
+                {
+                    "name": "rule B",
+                    "condition": function(R) {
+                        R.when(this && (this.y === true));
+                    },
+                    "consequence": function(R) {
+                        R.next();
+                    }
+                },
+                {
+                    "id": "rule C",
+                    "condition": function(R) {
+                        R.when(this && (this.x === true && this.y === false));
+                    },
+                    "consequence": function(R) {
+                        R.next();
+                    }
+                },
+                {
+                    "id": "rule D",
+                    "condition": function(R) {
+                        R.when(this && (this.x === false && this.y === false));
+                    },
+                    "consequence": function(R) {
+                        R.next();
+                    }
+                },
+                {
+                    "condition": function(R) {
+                        R.when(this && (this.x === true && this.y === false));
+                    },
+                    "consequence": function(R) {
+                        R.next();
+                    }
+                }
+            ];
+            var lastMatch = 'index_' + ((rules.length)-1).toString();
+            var R = new RuleEngine(rules);
+            R.execute({
+                "x": true,
+                "y": false
+            }, function(result) {
+                expect(result.matchPath).to.eql([rules[0].name, rules[2].id, lastMatch]);
+            });
+        });
+        
     });
     describe(".findRules()", function() {
         var rules = [{
