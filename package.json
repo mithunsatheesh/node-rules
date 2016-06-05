@@ -44,7 +44,7 @@
     "node": ">= 0.4.x"
   },
   "scripts": {
-   "test": "mocha --recursive test"
+   "test": "mocha test/**/*.js"
   },
   "readmeFilename": "README.md"
 }
