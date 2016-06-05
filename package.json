@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -21,17 +21,21 @@
     {
         "name": "ramanaveli2i",
         "url" : "https://github.com/ramanaveli2i"
+    },
+    {
+        "name": "ffarzat",
+        "url" : "https://github.com/ffarzat"
     }
   ],
   "repository" : { 
       "type" : "git",
-      "url" : "https://github.com/mithunsatheesh/node-rules"
+      "url" : "https://github.com/ffarzat/node-rules"
   },
   "dependencies": {
     "underscore": ">= 1.7"
   },
   "devDependencies": {
-      "mocha": "1.6.0",
+      "mocha": "2.4.5",
       "chai": "*",
       "colors" : "1.0.3"
   },
@@ -40,7 +44,7 @@
     "node": ">= 0.4.x"
   },
   "scripts": {
-   "test": "./node_modules/mocha/bin/mocha"
+   "test": "mocha test/**/*.js"
   },
   "readmeFilename": "README.md"
 }

@@ -1,5 +1,127 @@
+### Note
 
-1.10.0 / 2014-11-10 
+As of 3.0.0, the History.md file has been deprecated. [Please refer to the full
+commit logs available on GitHub](https://github.com/chaijs/chai/commits/master).
+
+---
+
+2.3.0 / 2015-04-26
+==================
+
+  * Merge pull request #423 from ehntoo/patch-1
+  * Merge pull request #422 from ljharb/fix_descriptor_tests
+  * Fix a small bug in the .null assertion docs
+  * Use a regex to account for property ordering issues across engines.
+  * Add `make test-firefox`
+  * Merge pull request #417 from astorije/astorije/minimalist-typo
+  * Remove trailing whitespaces
+  * Fix super minor typo in an example
+  * Merge pull request #408 from ljharb/enumerableProperty
+  * Add `ownPropertyDescriptor` assertion.
+
+2.2.0 / 2015-03-26
+==================
+
+  * Merge pull request #405 from chaijs/deep-escape-doc-tweaks
+  * Tweak documentation on `.deep` flag.
+  * Merge pull request #402 from umireon/escaping-dot-should-be-taken
+  * Documentation of escaping in `.deep` flag.
+  * take regular expression apart
+  * Feature: backslash-escaping in `.deep.property`
+  * Escaping dot should be taken in deep property
+
+2.1.2 / 2015-03-15
+==================
+
+  * Merge pull request #396 from chaijs/add-keith-cirkel-contributing-md
+  * Add Keith Cirkel to CONTRIBUTING.md
+  * Merge pull request #395 from cjqed/386-assert-operator-no-eval
+  * No longer using eval on assert operator #386
+  * Merge pull request #389 from chaijs/update-git-summary
+  * Update `git summary` in README
+
+2.1.1 / 2015-03-04
+==================
+
+  * Merge pull request #385 from eldritch-fossicker/master
+  * updates to reflect code style preference from @keithamus
+  * fix indexing into array with deep propery
+  * Merge pull request #382 from astorije/patch-2
+  * Merge pull request #383 from gurdiga/config-doc-wording-improvement
+  * config.truncateThreshold docs: simpler wording
+  * Add missing docstring for showDiff argument of assert
+  * Merge pull request #381 from astorije/patch-1
+  * Add a minor precision that empty asserts on strings too.
+  * Merge pull request #379 from dcneiner/should-primitive-fix
+  * Primitives now use valueOf in shouldGetter
+
+2.1.0 / 2015-02-23
+==================
+
+  * Merge pull request #374 from jmm/v2.0.1
+  * Increment version to 2.0.1.
+  * Merge pull request #365 from chaijs/fix-travis
+  * Fix travis.yml deploy
+  * Merge pull request #356 from Soviut/master
+  * documented fail methods for expect and should interfaces
+  * fail method added directly to expect
+
+2.0.0 / 2015-02-09
+==================
+
+ * Merge pull request #361 from gregglind/b265-keys-object
+ * fix #359.  Add `.keys(object)`
+ * Merge pull request #359 from gregglind/b359-unexpected-keys-sort
+ * Fix #359 keys() sorts input unexpectedly
+ * contrib: publish release strategy and travis npm creds #337
+ * Merge pull request #357 from danilovaz/master
+ * Update copyright date
+ * Merge pull request #349 from toastynerd/add-which-chain-method
+ * add the which chain method as per issue #347
+ * Merge pull request #333 from cmpolis/change-assertions
+ * more `by` cleanup
+ * cleaned out `.by` for #333
+ * Merge pull request #335 from DingoEatingFuzz/expose-util
+ * Expose chai util through the chai object
+ * cleanup (per notes on pr #333)
+ * updated `change` to work w/ non-number values + tests
+ * Merge pull request #334 from hurrymaplelad/patch-1
+ * Typo, the flag is called 'contains' with an 's'
+ * updated assertion interface with `change` (#330)
+ * added `change`,`increase`,`decrease` assertions (#330)
+ * assert tests for `change`,`increase`,`decrease`
+ * expect/should tests for `change`,`increase`,`decrease`
+ * Merge pull request #328 from lo1tuma/issue-327
+ * Add includes and contains alias (fixes #327)
+ * Merge pull request #325 from chasenlehara/overwriteChainableMethodDocs
+ * Fix docs for overwriteChainableMethod parameters
+ * Merge pull request #317 from jasonkarns/patch-2
+ * Merge pull request #318 from jasonkarns/patch-3
+ * Merge pull request #316 from jasonkarns/patch-1
+ * typos in docs
+ * minor docs typo
+ * update docs: getAllFlags -> transferFlags
+ * Merge pull request #313 from cjqed/254-expect-any-all
+ * Added the all and any flags for keys assertion, with all being the default behavior
+ * Merge pull request #312 from cjqed/291-assert-same-deep-members
+ * Changed public comment of sameDeepMemebers to be more clear
+ * Fixes issue #291, adds assert.sameDeepMembers
+ * Merge pull request #311 from cjqed/305-above-below-on-assert
+ * Merge pull request #308 from prodatakey/hasproperty
+ * Issue #305 fixed, added assert.isAbove and assert.isBelow
+ * Fix typo
+ * More unit tests for new utility functions
+ * Refactor common functionality, document, test
+ * Refactor if statement out
+ * Small unit test fix
+ * Handle array indexing terminating paths
+ * Merge pull request #309 from ericdouglas/iterableEqual-couting-once
+ * couting variables just once
+ * Fix properties with `undefined` value pass property assertion
+ * Merge pull request #306 from chaijs/revert-297-noopchainfunc
+ * Revert "Allows writing lint-friendly tests"
+
+1.10.0 / 2014-11-10
 ==================
 
  * Merge pull request #297 from prodatakey/noopchainfunc
@@ -19,7 +141,7 @@
  * Allows writing lint-friendly tests
  * readme: update contributors for 1.9.2
 
-1.9.2 / 2014-09-29 
+1.9.2 / 2014-09-29
 ==================
 
  * Merge pull request #268 from charlierudolph/cr-lazyMessages
@@ -41,7 +163,7 @@
  * Merge pull request #264 from cjthompson/keys_diff
  * Show diff for keys assertion
 
-1.9.1 / 2014-03-19 
+1.9.1 / 2014-03-19
 ==================
 
   * deps update
@@ -65,7 +187,7 @@
   * Merge pull request #228 from duncanbeevers/deep_members
   * Deep equality check for collection membership
 
-1.9.0 / 2014-01-29 
+1.9.0 / 2014-01-29
 ==================
 
   * docs: add contributing.md #238
@@ -107,12 +229,12 @@
   * test: updated for the new assertion errors
   * core: improve message for assertion errors (throw assertion)
 
-1.8.1 / 2013-10-10 
+1.8.1 / 2013-10-10
 ==================
 
  * pkg: update deep-eql version
 
-1.8.0 / 2013-09-18 
+1.8.0 / 2013-09-18
 ==================
 
  * test: [sauce] add a few more browsers
@@ -127,7 +249,7 @@
  * Merge pull request #181 from tricknotes/fix-highlight
  * Fix highlight for example code
 
-1.7.2 / 2013-06-27 
+1.7.2 / 2013-06-27
 ==================
 
   * coverage: add coveralls badge
@@ -140,14 +262,14 @@
   * Fix to highlight code example
   * bower: granular ignores
 
-1.7.1 / 2013-06-24 
+1.7.1 / 2013-06-24
 ==================
 
   * Merge branch 'feature/bower'. #175
   * bower: add json file
   * build: browser
 
-1.7.0 / 2013-06-17 
+1.7.0 / 2013-06-17
 ==================
 
   * error: remove internal assertion error constructor
@@ -166,7 +288,7 @@
   * Merge pull request #169 from katsgeorgeek/topics/master
   * Fix comparison objects.
 
-1.6.1 / 2013-06-05 
+1.6.1 / 2013-06-05
 ==================
 
   * Merge pull request #168 from katsgeorgeek/topics/master
@@ -177,7 +299,7 @@
   * Merge pull request #161 from brandonpayton/master
   * Fix documented name for assert interfaces isDefined method
 
-1.6.0 / 2013-04-29 
+1.6.0 / 2013-04-29
 ==================
 
   * build: browser
@@ -200,7 +322,7 @@
   * notes: migration notes for deep equal changes
   * test: for ever err() there must be a passing version
 
-1.5.0 / 2013-02-03 
+1.5.0 / 2013-02-03
 ==================
 
   * docs: add Release Notes for non-gitlog summary of changes.
@@ -256,14 +378,14 @@
   * Add new getProperties and getEnumerableProperties utils.
   * showDiff: force true for equal and eql
 
-1.4.2 / 2012-12-21 
+1.4.2 / 2012-12-21
 ==================
 
   * browser build: (object diff support when used with mocha) #106
   * test: [display] array test for mocha object diff
   * browser: no longer need different AssertionError constructor
 
-1.4.1 / 2012-12-21 
+1.4.1 / 2012-12-21
 ==================
 
   * showDiff: force diff for equal and eql. #106
@@ -272,7 +394,7 @@
   * FIX: assert.Throw checks error type/message
   * TST: assert.Throw should check error type/message
 
-1.4.0 / 2012-11-29 
+1.4.0 / 2012-11-29
 ==================
 
   * pre-release browser build
@@ -288,7 +410,7 @@
   * Check for 'actual' type
   * Added support for circular references when checking deep (in)equality.
 
-1.3.0 / 2012-10-01 
+1.3.0 / 2012-10-01
 ==================
 
   * browser build w/ folio >= 0.3.4. Closes #99
@@ -309,7 +431,7 @@
   * Make globalShould test work in browser too.
   * Add a setter for `Object.prototype.should`. Closes #86.
 
-1.2.0 / 2012-08-07 
+1.2.0 / 2012-08-07
 ==================
 
   * Merge branch 'feature/errmsg'
@@ -329,7 +451,7 @@
   * Merge pull request #88 from pwnall/master
   * Don't inspect() assertion arguments if the assertion passes.
 
-1.1.1 / 2012-07-09 
+1.1.1 / 2012-07-09
 ==================
 
   * improve commonjs support on browser build
@@ -343,7 +465,7 @@
   * clean up makefile
   * early folio 0.3.x support
 
-1.1.0 / 2012-06-26 
+1.1.0 / 2012-06-26
 ==================
 
   * browser build
@@ -368,7 +490,7 @@
   * move core assertions to own file and refactor all using utils
   * rearrange folder structure
 
-1.0.4 / 2012-06-03 
+1.0.4 / 2012-06-03
 ==================
 
   * Merge pull request #68 from fizker/itself
@@ -376,7 +498,7 @@
   * simplify error inspections for cross browser compatibility
   * fix safari `addChainableMethod` errors. Closes #69
 
-1.0.3 / 2012-05-27 
+1.0.3 / 2012-05-27
 ==================
 
   * Point Travis badge to the right place.
@@ -384,7 +506,7 @@
   * Fix .not.deep.equal.
   * contributors list
 
-1.0.2 / 2012-05-26 
+1.0.2 / 2012-05-26
 ==================
 
   * Merge pull request #67 from chaijs/chaining-and-flags
@@ -398,7 +520,7 @@
   * Add .mailmap to .npmignore.
   * Add a .mailmap file to fix my name in shortlogs.
 
-1.0.1 / 2012-05-18 
+1.0.1 / 2012-05-18
 ==================
 
   * browser build
@@ -411,7 +533,7 @@
   * Add npm-debug.log to .gitignore.
   * no reserved words as actuals. #62
 
-1.0.0 / 2012-05-15 
+1.0.0 / 2012-05-15
 ==================
 
   * readme cleanup
@@ -430,7 +552,7 @@
   * Use defined return value of Assertion extension functions
   * Update utility docs
 
-1.0.0-rc3 / 2012-05-09 
+1.0.0-rc3 / 2012-05-09
 ==================
 
   * Merge branch 'feature/rc3'
@@ -464,7 +586,7 @@
   * Sinon–Chai has a dash
   * updated plugins list for docs
 
-1.0.0-rc2 / 2012-05-06 
+1.0.0-rc2 / 2012-05-06
 ==================
 
   * Merge branch 'feature/test-cov'
@@ -476,7 +598,7 @@
   * overwrite Property and Method now ensure chain
   * version notes in readme
 
-1.0.0-rc1 / 2012-05-04 
+1.0.0-rc1 / 2012-05-04
 ==================
 
   * browser build (rc1)
@@ -583,7 +705,7 @@
   * added 2012 to copyright headers
   * Added DeepEqual assertions
 
-0.5.3 / 2012-04-21 
+0.5.3 / 2012-04-21
 ==================
 
   * Merge branch 'refs/heads/jgonera-oldbrowsers'
@@ -598,7 +720,7 @@
   * Support for expected and actual parameters in assert-style error object
   * chai as promised - readme
 
-0.5.2 / 2012-03-21 
+0.5.2 / 2012-03-21
 ==================
 
   * browser build
@@ -608,7 +730,7 @@
   * better error message for assert.operator. Closes #39
   * version notes
 
-0.5.1 / 2012-03-14 
+0.5.1 / 2012-03-14
 ==================
 
   * chai.fail no longer exists
@@ -616,7 +738,7 @@
   * Added asset#isDefined. Closes #37.
   * dev docs update for Assertion#assert
 
-0.5.0 / 2012-03-07 
+0.5.0 / 2012-03-07
 ==================
 
   * [bug] on inspect of reg on n 0.4.12
@@ -648,7 +770,7 @@
   * Update the compiled version.
   * Add object & sane arguments support to `Assertion#empty`.
 
-0.4.2 / 2012-02-28 
+0.4.2 / 2012-02-28
 ==================
 
   * fix for `process` not available in browser when used via browserify. Closes #28
@@ -680,7 +802,7 @@
   * Add test for `assert.strictEqual`.
   * Add test for `assert.notEqual`.
 
-0.4.1 / 2012-02-26 
+0.4.1 / 2012-02-26
 ==================
 
   * Merge pull request #27 from logicalparadox/type-fix
@@ -691,7 +813,7 @@
   * Add test for `new Number` type check.
   * Fix type of actual checks.
 
-0.4.0 / 2012-02-25 
+0.4.0 / 2012-02-25
 ==================
 
   * docs and readme for upcoming 0.4.0
@@ -724,7 +846,7 @@
   * doc contributors
   * README contributors
 
-0.3.4 / 2012-02-23 
+0.3.4 / 2012-02-23
 ==================
 
   * inline comment typos for #15
@@ -739,25 +861,25 @@
   * doc updates
   * read me updates include plugins
 
-0.3.3 / 2012-02-12 
+0.3.3 / 2012-02-12
 ==================
 
   * Merge pull request #14 from jfirebaugh/configurable_properties
   * Make Assertion.prototype properties configurable
 
-0.3.2 / 2012-02-10 
+0.3.2 / 2012-02-10
 ==================
 
   * codex version
   * docs
   * docs cleanup
 
-0.3.1 / 2012-02-07 
+0.3.1 / 2012-02-07
 ==================
 
   * node 0.4.x compat
 
-0.3.0 / 2012-02-07 
+0.3.0 / 2012-02-07
 ==================
 
   * Merge branch 'feature/03x'
@@ -768,27 +890,27 @@
   * Merge pull request #11 from domenic/master
   * Make `chai.use` a no-op if the function has already been used.
 
-0.2.4 / 2012-02-02 
+0.2.4 / 2012-02-02
 ==================
 
   * added in past tense switch for `been`
 
-0.2.3 / 2012-02-01 
+0.2.3 / 2012-02-01
 ==================
 
   * try that again
 
-0.2.2 / 2012-02-01 
+0.2.2 / 2012-02-01
 ==================
 
   * added `been` (past of `be`) alias
 
-0.2.1 / 2012-01-29 
+0.2.1 / 2012-01-29
 ==================
 
   * added Throw, with a capital T, as an alias to `throw` (#7)
 
-0.2.0 / 2012-01-26 
+0.2.0 / 2012-01-26
 ==================
 
   * update gitignore for vim *.swp
@@ -798,7 +920,7 @@
   * simple .use function. See #9.
   * readme notice on browser compat
 
-0.1.7 / 2012-01-25 
+0.1.7 / 2012-01-25
 ==================
 
   * added assert tests to browser test runner
