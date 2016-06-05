@@ -31,7 +31,7 @@
     "underscore": ">= 1.7"
   },
   "devDependencies": {
-      "mocha": "1.6.0",
+      "mocha": "2.4.5",
       "chai": "*",
       "colors" : "1.0.3"
   },
@@ -40,7 +40,7 @@
     "node": ">= 0.4.x"
   },
   "scripts": {
-   "test": "./node_modules/mocha/bin/mocha"
+   "test": "mocha --recursive test"
   },
   "readmeFilename": "README.md"
 }
