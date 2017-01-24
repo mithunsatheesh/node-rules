@@ -246,6 +246,24 @@ describe("Rules", function() {
                 expect(result.matchPath).to.eql([rules[0].name, rules[2].id, lastMatch]);
             });
         });
+
+        it("should support fact as optional second parameter for es6 compatibility", function() {
+            var rule = {
+                "condition": function(R, fact) {
+                    R.when(fact && (fact.transactionTotal < 500));
+                },
+                "consequence": function(R, fact) {
+                    fact.result = false;
+                    R.stop();
+                }
+            };
+            var R = new RuleEngine(rule);
+            R.execute({
+                "transactionTotal": 200
+            }, function(result) {
+                expect(result.result).to.eql(false);
+            });
+        });
         
     });
     describe(".findRules()", function() {
