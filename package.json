@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -26,7 +26,7 @@
         "url" : "https://github.com/ramanaveli2i"
     }
   ],
-  "repository" : { 
+  "repository" : {
       "type" : "git",
       "url" : "https://github.com/mithunsatheesh/node-rules"
   },
