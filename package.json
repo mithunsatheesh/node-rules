@@ -4,9 +4,12 @@
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
+    "rete",
+    "rule",
     "rules",
     "engine",
-    "rule engine"
+    "rule engine",
+    "rules engine"
   ],
   "author": {
     "name": "Mithun Satheesh",
