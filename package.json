@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -17,33 +17,35 @@
   },
   "contributors": [
     {
-        "name": "Abdul Munim Kazia",
-        "email" : "munim2020@gmail.com",
-        "url" : "http://munimkazia.com"
+      "name": "Abdul Munim Kazia",
+      "email": "munim2020@gmail.com",
+      "url": "http://munimkazia.com"
     },
     {
-        "name": "ramanaveli2i",
-        "url" : "https://github.com/ramanaveli2i"
+      "name": "ramanaveli2i",
+      "url": "https://github.com/ramanaveli2i"
     }
   ],
-  "repository" : {
-      "type" : "git",
-      "url" : "https://github.com/mithunsatheesh/node-rules"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mithunsatheesh/node-rules"
   },
   "dependencies": {
-    "underscore": ">= 1.7"
+    "underscore": ">= 1.9"
   },
   "devDependencies": {
-      "mocha": "1.6.0",
-      "chai": "*",
-      "colors" : "1.0.3"
+    "mocha": "5.1.1",
+    "chai": "*",
+    "colors": "1.2.5"
   },
+  "bugs": {
+    "url": "https://github.com/mithunsatheesh/node-rules/issues"
+  },
+  "homepage": "https://github.com/mithunsatheesh/node-rules",
+  "license": "MIT",
   "main": "index.js",
-  "engines": {
-    "node": ">= 0.4.x"
-  },
   "scripts": {
-   "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "readmeFilename": "README.md"
 }
