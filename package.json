@@ -32,7 +32,10 @@
     "url": "https://github.com/mithunsatheesh/node-rules"
   },
   "dependencies": {
-    "underscore": ">= 1.7"
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.filter": "^4.6.0",
+    "lodash.isequal": "^4.5.0",
+    "lodash.matches": "^4.6.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
