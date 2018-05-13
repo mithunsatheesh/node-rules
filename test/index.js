@@ -264,7 +264,7 @@ describe("Rules", function() {
                 expect(result.result).to.eql(false);
             });
         });
-        
+
     });
     describe(".findRules()", function() {
         var rules = [{
