@@ -2,8 +2,8 @@ module.exports = function(config) {
   config.set({
       frameworks: [ 'mocha' ]
     , files: [
-          'build/build.js'
-        , 'test/bootstrap/karma.js'
+          'chai.js'
+        , 'test/bootstrap/index.js'
         , 'test/*.js'
       ]
     , reporters: [ 'progress' ]
