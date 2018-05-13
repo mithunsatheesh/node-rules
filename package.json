@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -11,39 +11,58 @@
     "rule engine",
     "rules engine"
   ],
+  "license": "MIT",
   "author": {
     "name": "Mithun Satheesh",
     "email": "mithunsatish@gmail.com"
   },
   "contributors": [
     {
-        "name": "Abdul Munim Kazia",
-        "email" : "munim2020@gmail.com",
-        "url" : "http://munimkazia.com"
+      "name": "Abdul Munim Kazia",
+      "email": "munim2020@gmail.com",
+      "url": "http://munimkazia.com"
     },
     {
-        "name": "ramanaveli2i",
-        "url" : "https://github.com/ramanaveli2i"
+      "name": "ramanaveli2i",
+      "url": "https://github.com/ramanaveli2i"
     }
   ],
-  "repository" : {
-      "type" : "git",
-      "url" : "https://github.com/mithunsatheesh/node-rules"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mithunsatheesh/node-rules"
   },
   "dependencies": {
-    "underscore": ">= 1.7"
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.filter": "^4.6.0",
+    "lodash.isequal": "^4.5.0",
+    "lodash.matches": "^4.6.0"
   },
   "devDependencies": {
-      "mocha": "1.6.0",
-      "chai": "*",
-      "colors" : "1.0.3"
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.0",
+    "babel-eslint": "8.0.2",
+    "babel-loader": "7.1.2",
+    "babel-polyfill": "6.26.0",
+    "babel-preset-env": "^1.2.1",
+    "babel-preset-es2015": "~6.24.1",
+    "babel-preset-stage-0": "~6.24.1",
+    "babel-register": "6.26.0",
+    "chai": "*",
+    "colors": "1.0.3",
+    "coveralls": "^3.0.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.0.5",
+    "mocha-lcov-reporter": "^1.3.0",
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
   },
   "main": "index.js",
-  "engines": {
-    "node": ">= 0.4.x"
-  },
   "scripts": {
-   "test": "./node_modules/mocha/bin/mocha"
+    "test": "mocha",
+    "build": "webpack",
+    "cover": "istanbul cover _mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "readmeFilename": "README.md"
 }

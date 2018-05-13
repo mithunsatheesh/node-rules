@@ -1,0 +1,10 @@
+
+/node_modules
+/node_modules/*
+/coverage
+/coverage/*
+/docs
+/docs/*
+npm-debug.log
+.DS_Store
+.coveralls.yml

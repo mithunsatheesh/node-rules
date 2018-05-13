@@ -1,3 +1,9 @@
 language: node_js
 node_js:
-  - 0.6
+- "stable"
+before_script:
+- PATH=${PATH//:\.\/node_modules\/\.bin/}
+after_success:
+- npm run coveralls
+script:
+- npm test

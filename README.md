@@ -1,6 +1,7 @@
 [![Build Status](https://api.travis-ci.org/mithunsatheesh/node-rules.svg?branch=master)](https://travis-ci.org/mithunsatheesh/node-rules)
 [![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)]()
 [![npm version](https://badge.fury.io/js/node-rules.svg)](http://badge.fury.io/js/node-rules)
+[![Coverage Status](https://coveralls.io/repos/github/mithunsatheesh/node-rules/badge.svg?branch=4.0.0)](https://coveralls.io/github/mithunsatheesh/node-rules?branch=4.0.0)
 
 Node Rules
 =====
@@ -8,14 +9,11 @@ Node Rules
 Node-rules is a light weight forward chaining Rule Engine, written on node.js.
 
 
-
 #### Installation
 
 install node-rules via npm
 
     npm install node-rules
-    
->*We have improved the API in the 3.x.x version, if you were using the v2.x.x, please find the relevant docs and code base [here](https://github.com/mithunsatheesh/node-rules/tree/v2.2.3). To migrate to 3.0.0 please  read [the wiki here](https://github.com/mithunsatheesh/node-rules/wiki)!*
 
 ![Sample Screencast](https://raw.githubusercontent.com/mithunsatheesh/node-rules/gh-pages/images/screencast.gif "See it in action")
 
@@ -38,7 +36,7 @@ A rule will consist of a condition and its corresponding consequence. You can fi
 		"priority" : 4
 	}
 
-Here priority is an optional parameter which will be used to specify priority of a rule over other rules when there are multiple rules running. In the above rule `R.when` evaluates the condition expression and `R.stop` used to stop further processing of the fact as we have arrived at a result. 
+Here priority is an optional parameter which will be used to specify priority of a rule over other rules when there are multiple rules running. In the above rule `R.when` evaluates the condition expression and `R.stop` used to stop further processing of the fact as we have arrived at a result.
 
 The functions `R.stop`, `R.when`, `R.next`, `R.restart` are part of the Flow Control API which allows user to control the Engine Flow. Read more about  [Flow Controls](https://github.com/mithunsatheesh/node-rules/wiki/Flow-Control-API) in [wiki](https://github.com/mithunsatheesh/node-rules/wiki).
 
@@ -58,7 +56,7 @@ A sample Fact may look like
 ###### 3. Using the Rule Engine
 
 The example below shows how to use the rule engine to apply a sample rule on a specific fact. Rules can be fed into the rule engine as Array of rules or as an individual rule object.
-	
+
 ``` js
 var RuleEngine = require('node-rules');
 
@@ -73,7 +71,7 @@ var rules = [{
 	}
 }];
 
-//sample fact to run the rules on	
+//sample fact to run the rules on
 var fact = {
     "name":"user4",
     "application":"MOB2",
@@ -85,13 +83,13 @@ var fact = {
 var R = new RuleEngine(rules);
 
 //Now pass the fact on to the rule engine for results
-R.execute(fact,function(result){ 
+R.execute(fact,function(result){
 
-	if(result.result) 
-		console.log("Payment Accepted"); 
-	else 
+	if(result.result)
+		console.log("Payment Accepted");
+	else
 		console.log("Payment Rejected");
-	
+
 });
 ```
 
@@ -99,7 +97,7 @@ R.execute(fact,function(result){
 If you are looking for ways to specify the order in which the rules get applied on a fact, it can be done via using the `priority` parameter. Read more about it in the [Rule wiki](https://github.com/mithunsatheesh/node-rules/wiki/Rules). If you need to know about how to change priority of rules or remove add new rules to a Running Rule Engine, you may read more about it in [Dynamic Control Wiki](https://github.com/mithunsatheesh/node-rules/wiki/Dynamic-Control).
 
 ###### 5. Exporting Rules to an external storage
-To read more about storing rules running on the engine to an external DB, refer this [wiki article](https://github.com/mithunsatheesh/node-rules/wiki/Exporting-and-Importing-Rules). 
+To read more about storing rules running on the engine to an external DB, refer this [wiki article](https://github.com/mithunsatheesh/node-rules/wiki/Exporting-and-Importing-Rules).
 
 
 #### Wiki
@@ -110,7 +108,6 @@ Got issues with the implementation?. Feel free to open an issue [here](https://g
 
 #### Licence
 Node rules is distributed under the MIT License.
-
 
 #### Credits
 The JSON friendly rule formats used in version 2.x.x of this module were initially based on the node module [jools](https://github.com/tdegrunt/jools).

@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for node-rules/lib/node-rules.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">node-rules/lib/</a> node-rules.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.52% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>94/105</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">77.55% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>38/49</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.31% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>24/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.52% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>94/105</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">46×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function() {
+    'use strict';
+    var _ = require('underscore');
+    exports.version = '3.0.0';
+&nbsp;
+    function RuleEngine(rules, options) {
+        this.init();
+        if (typeof(rules) != "undefined") {
+            this.register(rules);
+        }
+        if (options) {
+            this.ignoreFactChanges = options.ignoreFactChanges;
+        }
+        return this;
+    }
+    RuleEngine.prototype.init = function(rules) {
+        this.rules = [];
+        this.activeRules = [];
+    };
+    RuleEngine.prototype.register = function(rules) {
+        if (Array.isArray(rules)) {
+            this.rules = this.rules.concat(rules);
+        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (rules !== null &amp;&amp; typeof(rules) == "object") {
+            this.rules.push(rules);
+        }
+        this.sync();
+    };
+    RuleEngine.prototype.sync = function() {
+        this.activeRules = this.rules.filter(function(a) {
+            if (typeof(a.on) === "undefined") {
+                a.on = true;
+            }
+            if (a.on === true) {
+                return a;
+            }
+        });
+        this.activeRules.sort(function(a, b) {
+            if (a.priority &amp;&amp; b.priority) {
+                return b.priority - a.priority;
+            } else {
+                return 0;
+            }
+        });
+    };
+    RuleEngine.prototype.execute = function(fact, callback) {
+        //these new attributes have to be in both last session and current session to support
+        // the compare function
+        var complete = false;
+        fact.result = true;
+        var session = _.clone(fact);
+        var lastSession = _.clone(fact);
+        var _rules = this.activeRules;
+        var matchPath = [];
+        var ignoreFactChanges = this.ignoreFactChanges;
+        (function FnRuleLoop(x) {
+            var API = {
+                "rule": function() { return _rules[x]; },
+                "when": function(outcome) {
+                    if (outcome) {
+                        var _consequence = _rules[x].consequence;
+                        _consequence.ruleRef = _rules[x].id || _rules[x].name || 'index_'+x;
+                        process.nextTick(function() {
+                            matchPath.push(_consequence.ruleRef);
+                            _consequence.call(session, API, session);
+                        });
+                    } else {
+                        process.nextTick(function() {
+                            API.next();
+                        });
+                    }
+                },
+                "restart": <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >                    return FnRuleLoop(0);</span>
+                },
+                "stop": function() {
+                    complete = true;
+                    return FnRuleLoop(0);
+                },
+                "next": function() {
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (!ignoreFactChanges &amp;&amp; !_.isEqual(lastSession, session)) {
+<span class="cstat-no" title="statement not covered" >                        lastSession = _.clone(session);</span>
+<span class="cstat-no" title="statement not covered" >                        process.nextTick(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >                            API.restart();</span>
+                        });
+                    } else {
+                        process.nextTick(function() {
+                            return FnRuleLoop(x + 1);
+                        });
+                    }
+                }
+            };
+            if (x &lt; _rules.length &amp;&amp; complete === false) {
+                var _rule = _rules[x].condition;
+                _rule.call(session, API, session);
+            } else {
+                process.nextTick(function() {
+                    session.matchPath = matchPath;
+                    return callback(session);
+                });
+            }
+        })(0);
+    };
+    RuleEngine.prototype.findRules = function(filter) {
+        if (typeof(filter) === "undefined") {
+            return this.rules;
+        } else {
+            var find = _.matches(filter);
+            return _.filter(this.rules, find);
+        }
+    }
+    RuleEngine.prototype.turn = function(state, filter) {
+        var state = (state === "on" || state === "ON") ? true : false;
+        var rules = this.findRules(filter);
+        for (var i = 0, j = rules.length; i &lt; j; i++) {
+            rules[i].on = state;
+        }
+        this.sync();
+    }
+    RuleEngine.prototype.prioritize = function(priority, filter) {
+        priority = parseInt(priority, 10);
+        var rules = this.findRules(filter);
+        for (var i = 0, j = rules.length; i &lt; j; i++) {
+            rules[i].priority = priority;
+        }
+        this.sync();
+    }
+    RuleEngine.prototype.toJSON = function() {
+        var rules = this.rules;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (rules instanceof Array) {
+            rules = rules.map(function(rule) {
+                rule.condition = rule.condition.toString();
+                rule.consequence = rule.consequence.toString();
+                return rule;
+            });
+        } else <span class="cstat-no" title="statement not covered" >if (typeof(rules) != "undefined") {</span>
+<span class="cstat-no" title="statement not covered" >            rules.condition = rules.condition.toString();</span>
+<span class="cstat-no" title="statement not covered" >            rules.consequence = rules.consequence.toString();</span>
+        }
+        return rules;
+    };
+    RuleEngine.prototype.fromJSON = function(rules) {
+        this.init();
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof(rules) == "string") {
+<span class="cstat-no" title="statement not covered" >            rules = JSON.parse(rules);</span>
+        }
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (rules instanceof Array) {
+            rules = rules.map(function(rule) {
+                rule.condition = eval("(" + rule.condition + ")");
+                rule.consequence = eval("(" + rule.consequence + ")");
+                return rule;
+            });
+        } else <span class="cstat-no" title="statement not covered" >if (rules !== null &amp;&amp; typeof(rules) == "object") {</span>
+<span class="cstat-no" title="statement not covered" >            rules.condition = eval("(" + rules.condition + ")");</span>
+<span class="cstat-no" title="statement not covered" >            rules.consequence = eval("(" + rules.consequence + ")");</span>
+        }
+        this.register(rules);
+    };
+    module.exports = RuleEngine;
+}(module.exports));
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun May 13 2018 19:20:16 GMT+0530 (IST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
