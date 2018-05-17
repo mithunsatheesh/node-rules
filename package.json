@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -9,7 +9,11 @@
     "rules",
     "engine",
     "rule engine",
-    "rules engine"
+    "rules engine",
+    "javascript rule engine",
+    "js rule engine",
+    "forward chaining rule engine",
+    "inference system"
   ],
   "license": "MIT",
   "author": {
