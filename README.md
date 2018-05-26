@@ -27,16 +27,17 @@ Node-rules takes rules written in JSON friendly format as input. Once the rule e
 
 A rule will consist of a condition and its corresponding consequence. You can find the explanation for various mandatory and optional parameters of a rule in [this wiki](https://github.com/mithunsatheesh/node-rules/wiki/Rules).
 
-    {
-		"condition" : function(R) {
-			R.when(this.transactionTotal < 500);
-		},
-		"consequence" : function(R) {
-			this.result = false;
-			R.stop();
-		},
-		"priority" : 4
-	}
+``` js
+{
+    "condition" : function(R) {
+        R.when(this.transactionTotal < 500);
+    },
+    "consequence" : function(R) {
+        this.result = false;
+        R.stop();
+    }
+}
+```
 
 Here priority is an optional parameter which will be used to specify priority of a rule over other rules when there are multiple rules running. In the above rule `R.when` evaluates the condition expression and `R.stop` used to stop further processing of the fact as we have arrived at a result.
 
