@@ -6,16 +6,18 @@
 Node Rules
 =====
 
-Node-rules is a light weight forward chaining Rule Engine, written on node.js.
+Node-rules is a light weight forward chaining Rule Engine, written in JavaScript.
 
 
 #### Installation
 
-install node-rules via npm
-
     npm install node-rules
 
 ![Sample Screencast](https://raw.githubusercontent.com/mithunsatheesh/node-rules/gh-pages/images/screencast.gif "See it in action")
+
+#### Try This Out!
+
+You can see it in action in [this RunKit example](https://runkit.com/mithunsatheesh/runkit-npm-node-rules).
 
 #### Overview
 
@@ -58,38 +60,42 @@ A sample Fact may look like
 The example below shows how to use the rule engine to apply a sample rule on a specific fact. Rules can be fed into the rule engine as Array of rules or as an individual rule object.
 
 ``` js
-var RuleEngine = require('node-rules');
+var RuleEngine = require("node-rules");
 
-//define the rules
-var rules = [{
-	"condition": function(R) {
-		R.when(this && (this.transactionTotal < 500));
-	},
-	"consequence": function(R) {
-		this.result = false;
-		R.stop();
-	}
-}];
+/* Creating Rule Engine instance */
+var R = new RuleEngine();
 
-//sample fact to run the rules on
-var fact = {
-    "name":"user4",
-    "application":"MOB2",
-    "transactionTotal":400,
-    "cardType":"Credit Card",
+/* Add a rule */
+var rule = {
+    "condition": (R) => {
+        console.log(this);
+        R.when(this.transactionTotal < 500);
+    },
+    "consequence": (R) => {
+        this.result = false;
+        this.reason = "The transaction was blocked as it was less than 500";
+        R.stop();
+    }
 };
 
-//initialize the rule engine
-var R = new RuleEngine(rules);
+/* Register Rule */
+R.register(rule);
 
-//Now pass the fact on to the rule engine for results
-R.execute(fact,function(result){
+/* Add a Fact with less than 500 as transaction, and this should be blocked */
+var fact = {
+    "name": "user4",
+    "application": "MOB2",
+    "transactionTotal": 400,
+    "cardType": "Credit Card"
+};
 
-	if(result.result)
-		console.log("Payment Accepted");
-	else
-		console.log("Payment Rejected");
-
+/* Check if the engine blocks it! */
+R.execute(fact, function (data) {
+    if (data.result) {
+        console.log("Valid transaction");
+    } else {
+        console.log("Blocked Reason:" + data.reason);
+    }
 });
 ```
 
