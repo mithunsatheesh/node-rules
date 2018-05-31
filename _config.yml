@@ -1,0 +1,8 @@
+title: Node Rules
+description: Node-rules is a forward chaining Rules Engine, written on node.js.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
