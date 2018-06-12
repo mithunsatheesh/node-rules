@@ -68,11 +68,11 @@ var R = new RuleEngine();
 
 /* Add a rule */
 var rule = {
-    "condition": (R) => {
+    "condition": function(R) {
         console.log(this);
         R.when(this.transactionTotal < 500);
     },
-    "consequence": (R) => {
+    "consequence": function(R) {
         this.result = false;
         this.reason = "The transaction was blocked as it was less than 500";
         R.stop();
