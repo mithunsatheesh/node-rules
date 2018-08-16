@@ -2,6 +2,8 @@
 [![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)]()
 [![npm version](https://badge.fury.io/js/node-rules.svg)](http://badge.fury.io/js/node-rules)
 [![Coverage Status](https://coveralls.io/repos/github/mithunsatheesh/node-rules/badge.svg?branch=4.0.0)](https://coveralls.io/github/mithunsatheesh/node-rules?branch=4.0.0)
+[![Known Vulnerabilities](https://snyk.io/test/npm/node-rules/badge.svg)](https://snyk.io/test/npm/node-rules)
+
 
 Node Rules
 =====
