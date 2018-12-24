@@ -118,6 +118,9 @@ Got issues with the implementation?. Feel free to open an issue [here](https://g
 #### Licence
 Node rules is distributed under the MIT License.
 
+#### External References
+* https://ieeexplore.ieee.org/document/7968566
+
 #### Credits
 The JSON friendly rule formats used in version 2.x.x of this module were initially based on the node module [jools](https://github.com/tdegrunt/jools).
 The screencast image shown in this page is taken from [nmotv.in](http://nmotw.in/node-rules/) which has a pretty nice article on how to use this module!
