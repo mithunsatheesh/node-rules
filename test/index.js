@@ -381,55 +381,31 @@ describe("Rules", function() {
             expect(R.activeRules[0].id).to.eql("one");
         });
     });
-    describe(".toJSON() & .fromJSON", function() {
+    describe("ignoreFactChanges", function() {
         var rules = [{
+            "name": "rule1",
             "condition": function(R) {
-                R.when(1);
+                R.when(this.value1 > 5);
             },
             "consequence": function(R) {
-                R.stop();
-            },
-            "on": true
+                this.result = false;
+                this.errors = this.errors || [];
+                this.errors.push('must be less than 5');
+                R.next();
+            }
         }];
-        it("rules after toJSON and fromJSON back should be equivalent to the old form", function() {
-            var R1 = new RuleEngine(rules);
-            var store = R1.toJSON();
-            var R2 = new RuleEngine();
-            R2.fromJSON(store);
-            expect(R1.rules).to.eql(R2.rules);
-        });
-        it("rules serilisation & back working fine?", function() {
-            var R = new RuleEngine(rules);
-            var store = R.toJSON();
-            R.fromJSON(store);
-            expect(rules).to.eql(R.rules);
-        });
-    });
-  describe("ignoreFactChanges", function() {
-    var rules = [{
-        "name": "rule1",
-        "condition": function(R) {
-            R.when(this.value1 > 5);
-        },
-        "consequence": function(R) {
-            this.result = false;
-            this.errors = this.errors || [];
-            this.errors.push('must be less than 5');
-            R.next();
-        }
-    }];
 
-    var fact = {
-        "value1": 6
-    };
+        var fact = {
+            "value1": 6
+        };
 
-    it("doesn't rerun when a fact changes if ignoreFactChanges is true", function(done) {
-        var R = new RuleEngine(rules, { ignoreFactChanges: true });
+        it("doesn't rerun when a fact changes if ignoreFactChanges is true", function(done) {
+            var R = new RuleEngine(rules, { ignoreFactChanges: true });
 
-        R.execute(fact, function(result) {
-            expect(result.errors).to.have.length(1);
-            done();
+            R.execute(fact, function(result) {
+                expect(result.errors).to.have.length(1);
+                done();
+            });
         });
     });
-  });
 });
