@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TaserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -22,10 +22,10 @@ module.exports = {
   optimization: {
     minimizer: [
       // we specify a custom UglifyJsPlugin here to get source maps in production
-      new UglifyJsPlugin({
+      new TaserJSPlugin({
         cache: true,
         parallel: true,
-        uglifyOptions: {
+        terserOptions: {
           compress: false,
           ecma: 6,
           mangle: true
