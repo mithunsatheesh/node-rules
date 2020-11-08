@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/mithunsatheesh/node-rules/badge.svg?branch=master)](https://coveralls.io/github/mithunsatheesh/node-rules?branch=master)
 [![npm downloads](https://img.shields.io/npm/dm/node-rules.svg)](https://img.shields.io/npm/dm/node-rules.svg)
 [![install size](https://img.shields.io/github/size/mithunsatheesh/node-rules/dist/node-rules.min.js)](https://github.com/mithunsatheesh/node-rules/blob/master/dist/node-rules.min.js)
+[![install size](https://packagephobia.com/badge?p=node-rules)](https://packagephobia.com/result?p=node-rules)
 [![Known Vulnerabilities](https://snyk.io/test/npm/node-rules/badge.svg)](https://snyk.io/test/npm/node-rules)
 
 
