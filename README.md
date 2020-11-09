@@ -6,6 +6,8 @@
 [![install size](https://img.shields.io/github/size/mithunsatheesh/node-rules/dist/node-rules.min.js)](https://github.com/mithunsatheesh/node-rules/blob/master/dist/node-rules.min.js)
 [![install size](https://packagephobia.com/badge?p=node-rules)](https://packagephobia.com/result?p=node-rules)
 [![Known Vulnerabilities](https://snyk.io/test/npm/node-rules/badge.svg)](https://snyk.io/test/npm/node-rules)
+[![CDNJS](https://img.shields.io/cdnjs/v/node-rules?color=orange&style=flat-square)](https://cdnjs.com/libraries/node-rules)
+
 
 
 Node Rules
