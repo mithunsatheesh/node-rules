@@ -408,4 +408,95 @@ describe("Rules", function() {
             });
         });
     });
+    describe("test Parallelism", function() {
+        var rules = [
+            {
+                "name": "high credibility customer - avoid checks and bypass",
+                "priority": 4,
+                "on": true,
+                "condition": function(R) {
+                    console.log(`Executing rule 1 on ${this.name}`);
+                    R.when(this.userCredibility && this.userCredibility > 5);
+                },
+                "consequence": function(R) {
+                    console.log(`Rule 1 matched for ${this.name} user credibility is more, then avoid further check. Accepting payment.`);
+                    this.result = true;
+                    R.stop();
+                }
+            },
+            {
+                "name": "block guest payment above 10000",
+                "priority": 3,
+                "condition": function(R) {
+                    console.log(`Executing rule 2 on ${this.name}`);
+                    R.when(this.customerType && this.transactionTotal > 10000 && this.customerType == "guest");
+                },
+                "consequence": function(R) {
+                    console.log(`Rule 2 matched for ${this.name} reject if above 10000 and customer type is guest. Rejecting payment.`);
+                    this.result = false;
+                    R.stop();
+                }
+            },
+            {
+                "name": "is customer guest?",
+                "priority": 2,
+                "condition": function(R) {
+                    console.log(`Executing rule 3 on ${this.name}`);
+                    R.when(!this.userLoggedIn);
+                },
+                "consequence": function(R) {
+                    console.log(`Rule 3 matched for ${this.name} support rule written for blocking payment above 10000 from guests.`);
+                    console.log("Process left to chain with rule 2.");
+                    this.customerType = "guest";
+                    // the fact has been altered above, so all rules will run again since ignoreFactChanges is not set.
+                    R.next();
+                }
+            },
+            {
+                "name": "block Cashcard Payment",
+                "priority": 1,
+                "condition": function(R) {
+                    console.log(`Executing rule 4 on ${this.name}`);
+                    R.when(this.cardType == "Cash Card");
+                },
+                "consequence": function(R) {
+                    console.log(`Rule 4 matched for ${this.name} reject the payment if cash card. Rejecting payment.`);
+                    this.result = false;
+                    R.stop();
+                }
+            }
+        ];
+
+        var straightFact = {
+            "name": "straightFact",
+            "userCredibility": 1,
+            "userLoggedIn": true,
+            "transactionTotal": 12000,
+            "cardType": "Cash Card"
+        };
+
+        /** example of a chaned up rule. will take two iterations. ****/
+        var chainedFact = {
+            "name": "chainedFact",
+            "userCredibility": 2,
+            "userLoggedIn": false,
+            "transactionTotal": 100000,
+            "cardType": "Credit Card"
+        };
+
+        it("context switches and finishes the fact which needs least iteration first", function(done) {
+            var R = new RuleEngine(rules);
+            var isStraightFactFast = false;
+
+            R.execute(chainedFact, function(result) {
+                expect(isStraightFactFast).eql(true);
+                done();
+            });
+
+            R.execute(straightFact, function(result) {
+                isStraightFactFast = true;
+            });
+
+        });
+    });
 });

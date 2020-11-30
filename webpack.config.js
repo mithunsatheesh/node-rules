@@ -9,7 +9,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'node-rules.min.js',
     libraryTarget: 'umd',
-    library: 'node-rules'
+    library: 'NodeRules'
   },
   module: {
     rules: [
