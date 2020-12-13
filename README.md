@@ -13,7 +13,7 @@
 Node Rules
 =====
 
-Node-rules is a light weight forward chaining Rule Engine, written in JavaScript.
+Node-rules is a light weight forward chaining Rule Engine, written in JavaScript for both browser and node.js environments.
 
 
 #### Installation
@@ -24,7 +24,7 @@ Node-rules is a light weight forward chaining Rule Engine, written in JavaScript
 
 #### Try This Out!
 
-You can see it in action in [this RunKit example](https://runkit.com/mithunsatheesh/runkit-npm-node-rules).
+You can see this in action in a node.js environment using [this RunKit example](https://runkit.com/mithunsatheesh/runkit-npm-node-rules). If you are interested to use it in the browser, use [this JSFiddle](https://jsfiddle.net/mithunsatheesh/6pwohf3g/) for a quick start.
 
 #### Overview
 
