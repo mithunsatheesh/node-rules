@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node Rules Web example</title>
+  <script src="../../dist/node-rules.min.js"></script>
+</head>
+<body>
+
+  <!-- 
+  ==== READ THIS IF YOU ARE FINDING TROUBLE TO TO RUN THIS! ====
+  1. Install "Live Server" plugin on VS Code.
+  2. Right click on this file in the sidebar of Vs Code.
+  3. Choose open with Live Server option and bingo you are done.
+  -->
+  
+  <script type="text/javascript">
+
+    /* Creating Rule Engine instance */
+    var R = new NodeRules();
+
+    /* Add a rule */
+    var rule = {
+        "condition": function(R) {
+            console.log(this);
+            R.when(this.transactionTotal < 500);
+        },
+        "consequence": function(R) {
+            this.result = false;
+            this.reason = "The transaction was blocked as it was less than 500";
+            R.stop();
+        }
+    };
+
+    /* Register Rule */
+    R.register(rule);
+
+    /* Add a Fact with less than 500 as transaction, and this should be blocked */
+    var fact = {
+        "name": "user4",
+        "application": "MOB2",
+        "transactionTotal": 400,
+        "cardType": "Credit Card"
+    };
+
+    /* Check if the engine blocks it! */
+    R.execute(fact, function (data) {
+        if (data.result) {
+            console.log("Valid transaction");
+        } else {
+            console.log("Blocked Reason:" + data.reason);
+        }
+    });
+
+  </script>
+
+</body>
+</html>
