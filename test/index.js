@@ -60,8 +60,11 @@ describe("Rules", function() {
             }];
             var R1 = new RuleEngine(rules);
             var R2 = new RuleEngine(rules[0]);
+            var R3 = new RuleEngine();
             R2.register(rules[1]);
             expect(R1.rules).to.eql(R2.rules);
+            R3.register(rules);
+            expect(R1.rules).to.eql(R3.rules);
         });
     });
     describe(".sync()", function() {
@@ -265,6 +268,26 @@ describe("Rules", function() {
             });
         });
 
+        it("should work even when process.NextTick is unavailable", function() {
+            process.nextTick = undefined;
+
+            var rule = {
+                "condition": function(R) {
+                    R.when(this && (this.transactionTotal < 500));
+                },
+                "consequence": function(R) {
+                    this.result = false;
+                    R.stop();
+                }
+            };
+            var R = new RuleEngine(rule);
+            R.execute({
+                "transactionTotal": 200
+            }, function(result) {
+                expect(result.result).to.eql(false);
+            });
+        });
+
     });
     describe(".findRules()", function() {
         var rules = [{
@@ -293,6 +316,12 @@ describe("Rules", function() {
         it("find selector function for rules should give the correct match as result", function() {
             expect(R.findRules({
                 "id": "one"
+            })[0].id).to.eql("one");
+        });
+        it("find selector function should filter off undefined entries in the query if any", function() {
+            expect(R.findRules({
+                "id": "one",
+                "myMistake": undefined
             })[0].id).to.eql("one");
         });
         it("find without condition works fine", function() {
