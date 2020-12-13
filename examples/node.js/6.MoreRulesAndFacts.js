@@ -1,5 +1,5 @@
 var colors = require('colors');
-var RuleEngine = require('../index');
+var RuleEngine = require('../../index');
 var rules = [
     /**** Rule 1 ****/
     {

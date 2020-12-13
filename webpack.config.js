@@ -11,14 +11,6 @@ module.exports = {
     libraryTarget: 'umd',
     library: 'NodeRules'
   },
-  module: {
-    rules: [
-      {
-        test: /\.(js)$/,
-        use: 'babel-loader'
-      }
-    ]
-  },
   optimization: {
     minimizer: [
       // we specify a custom UglifyJsPlugin here to get source maps in production

@@ -1,4 +1,4 @@
-var RuleEngine = require('../index');
+var RuleEngine = require('../../index');
 /* Set of Rules to be applied
 First blocks a transaction if less than 500
 Second blocks a debit card transaction.*/

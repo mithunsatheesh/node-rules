@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -46,7 +46,6 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/register": "^7.12.1",
     "babel-eslint": "^8.0.2",
-    "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
     "colors": "^1.4.0",
     "coveralls": "^3.1.0",
