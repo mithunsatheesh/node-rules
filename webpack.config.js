@@ -1,6 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
-const TaserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -13,17 +11,17 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      // we specify a custom UglifyJsPlugin here to get source maps in production
-      new TaserJSPlugin({
-        cache: true,
-        parallel: true,
-        terserOptions: {
-          compress: false,
-          ecma: 6,
-          mangle: true
-        },
-        sourceMap: true
-      })
+      (compiler) => {
+        const TerserPlugin = require('terser-webpack-plugin');
+        new TerserPlugin({
+          parallel: true,
+          terserOptions: {
+            compress: {},
+            ecma: 6,
+            mangle: true
+          }
+        }).apply(compiler);
+      },
     ]
   }
 }

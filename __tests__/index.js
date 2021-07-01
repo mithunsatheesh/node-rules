@@ -1,5 +1,4 @@
 var RuleEngine = require('../index');
-var expect = require("chai").expect;
 describe("Rules", function() {
     describe(".init()", function() {
         it("should empty the existing rule array", function() {
@@ -13,7 +12,7 @@ describe("Rules", function() {
             }];
             var R = new RuleEngine(rules);
             R.init();
-            expect(R.rules).to.eql([]);
+            expect(R.rules).toEqual([]);
         });
     });
     describe(".register()", function() {
@@ -27,7 +26,7 @@ describe("Rules", function() {
                 }
             }];
             var R = new RuleEngine(rules);
-            expect(R.rules[0].on).to.eql(true);
+            expect(R.rules[0].on).toEqual(true);
         });
         it("Rule can be passed to register as both arrays and individual objects", function() {
             var rule = {
@@ -40,7 +39,7 @@ describe("Rules", function() {
             };
             var R1 = new RuleEngine(rule);
             var R2 = new RuleEngine([rule]);
-            expect(R1.rules).to.eql(R2.rules);
+            expect(R1.rules).toEqual(R2.rules);
         });
         it("Rules can be appended multiple times via register after creating rule engine instance", function() {
             var rules = [{
@@ -62,9 +61,9 @@ describe("Rules", function() {
             var R2 = new RuleEngine(rules[0]);
             var R3 = new RuleEngine();
             R2.register(rules[1]);
-            expect(R1.rules).to.eql(R2.rules);
+            expect(R1.rules).toEqual(R2.rules);
             R3.register(rules);
-            expect(R1.rules).to.eql(R3.rules);
+            expect(R1.rules).toEqual(R3.rules);
         });
     });
     describe(".sync()", function() {
@@ -90,7 +89,7 @@ describe("Rules", function() {
             }];
             var R = new RuleEngine();
             R.register(rules);
-            expect(R.activeRules).not.to.eql(R.rules);
+            expect(R.activeRules).not.toEqual(R.rules);
         });
         it("should sort the rules accroding to priority, if priority is present", function() {
             var rules = [{
@@ -123,7 +122,7 @@ describe("Rules", function() {
             }];
             var R = new RuleEngine();
             R.register(rules);
-            expect(R.activeRules[2].index).to.eql(2);
+            expect(R.activeRules[2].index).toEqual(2);
         });
     });
     describe(".exec()", function() {
@@ -141,7 +140,7 @@ describe("Rules", function() {
             R.execute({
                 "transactionTotal": 200
             }, function(result) {
-                expect(result.result).to.eql(false);
+                expect(result.result).toEqual(false);
             });
         });
         it("should chain rules and find result with next()", function() {
@@ -168,7 +167,7 @@ describe("Rules", function() {
                 "transactionTotal": 200,
                 "card": "VISA"
             }, function(result) {
-                expect(result.result).to.eql("Custom Result");
+                expect(result.result).toEqual("Custom Result");
             });
         });
         it("should provide access to rule definition properties via rule()", function() {
@@ -189,8 +188,8 @@ describe("Rules", function() {
             R.execute({
                 "input": true
             }, function(result) {
-                expect(result.ruleName).to.eql(rule.name);
-                expect(result.ruleID).to.eql(rule.id);
+                expect(result.ruleName).toEqual(rule.name);
+                expect(result.ruleID).toEqual(rule.id);
             });
         });
         it("should include the matched rule path", function() {
@@ -246,7 +245,7 @@ describe("Rules", function() {
                 "x": true,
                 "y": false
             }, function(result) {
-                expect(result.matchPath).to.eql([rules[0].name, rules[2].id, lastMatch]);
+                expect(result.matchPath).toEqual([rules[0].name, rules[2].id, lastMatch]);
             });
         });
 
@@ -264,7 +263,7 @@ describe("Rules", function() {
             R.execute({
                 "transactionTotal": 200
             }, function(result) {
-                expect(result.result).to.eql(false);
+                expect(result.result).toEqual(false);
             });
         });
 
@@ -284,7 +283,7 @@ describe("Rules", function() {
             R.execute({
                 "transactionTotal": 200
             }, function(result) {
-                expect(result.result).to.eql(false);
+                expect(result.result).toEqual(false);
             });
         });
 
@@ -311,21 +310,21 @@ describe("Rules", function() {
         it("find selector function for rules should exact number of matches", function() {
             expect(R.findRules({
                 "id": "one"
-            }).length).to.eql(1);
+            }).length).toEqual(1);
         });
         it("find selector function for rules should give the correct match as result", function() {
             expect(R.findRules({
                 "id": "one"
-            })[0].id).to.eql("one");
+            })[0].id).toEqual("one");
         });
         it("find selector function should filter off undefined entries in the query if any", function() {
             expect(R.findRules({
                 "id": "one",
                 "myMistake": undefined
-            })[0].id).to.eql("one");
+            })[0].id).toEqual("one");
         });
         it("find without condition works fine", function() {
-            expect(R.findRules().length).to.eql(2);
+            expect(R.findRules().length).toEqual(2);
         });
     });
     describe(".turn()", function() {
@@ -354,7 +353,7 @@ describe("Rules", function() {
             });
             expect(R.findRules({
                 "id": "one"
-            })[0].on).to.eql(false);
+            })[0].on).toEqual(false);
         });
         it("checking whether turn on rules work as expected", function() {
             R.turn("ON", {
@@ -362,7 +361,7 @@ describe("Rules", function() {
             });
             expect(R.findRules({
                 "id": "two"
-            })[0].on).to.eql(true);
+            })[0].on).toEqual(true);
         });
     });
     describe(".prioritize()", function() {
@@ -401,13 +400,13 @@ describe("Rules", function() {
             });
             expect(R.findRules({
                 "id": "one"
-            })[0].priority).to.eql(10);
+            })[0].priority).toEqual(10);
         });
         it("checking whether rules reorder after prioritize", function() {
             R.prioritize(10, {
                 "id": "one"
             });
-            expect(R.activeRules[0].id).to.eql("one");
+            expect(R.activeRules[0].id).toEqual("one");
         });
     });
     describe("ignoreFactChanges", function() {
@@ -432,7 +431,7 @@ describe("Rules", function() {
             var R = new RuleEngine(rules, { ignoreFactChanges: true });
 
             R.execute(fact, function(result) {
-                expect(result.errors).to.have.length(1);
+                expect(result.errors).toHaveLength(1);
                 done();
             });
         });
@@ -444,11 +443,9 @@ describe("Rules", function() {
                 "priority": 4,
                 "on": true,
                 "condition": function(R) {
-                    console.log(`Executing rule 1 on ${this.name}`);
                     R.when(this.userCredibility && this.userCredibility > 5);
                 },
                 "consequence": function(R) {
-                    console.log(`Rule 1 matched for ${this.name} user credibility is more, then avoid further check. Accepting payment.`);
                     this.result = true;
                     R.stop();
                 }
@@ -457,11 +454,9 @@ describe("Rules", function() {
                 "name": "block guest payment above 10000",
                 "priority": 3,
                 "condition": function(R) {
-                    console.log(`Executing rule 2 on ${this.name}`);
                     R.when(this.customerType && this.transactionTotal > 10000 && this.customerType == "guest");
                 },
                 "consequence": function(R) {
-                    console.log(`Rule 2 matched for ${this.name} reject if above 10000 and customer type is guest. Rejecting payment.`);
                     this.result = false;
                     R.stop();
                 }
@@ -470,12 +465,9 @@ describe("Rules", function() {
                 "name": "is customer guest?",
                 "priority": 2,
                 "condition": function(R) {
-                    console.log(`Executing rule 3 on ${this.name}`);
                     R.when(!this.userLoggedIn);
                 },
                 "consequence": function(R) {
-                    console.log(`Rule 3 matched for ${this.name} support rule written for blocking payment above 10000 from guests.`);
-                    console.log("Process left to chain with rule 2.");
                     this.customerType = "guest";
                     // the fact has been altered above, so all rules will run again since ignoreFactChanges is not set.
                     R.next();
@@ -485,11 +477,9 @@ describe("Rules", function() {
                 "name": "block Cashcard Payment",
                 "priority": 1,
                 "condition": function(R) {
-                    console.log(`Executing rule 4 on ${this.name}`);
                     R.when(this.cardType == "Cash Card");
                 },
                 "consequence": function(R) {
-                    console.log(`Rule 4 matched for ${this.name} reject the payment if cash card. Rejecting payment.`);
                     this.result = false;
                     R.stop();
                 }
@@ -518,7 +508,7 @@ describe("Rules", function() {
             var isStraightFactFast = false;
 
             R.execute(chainedFact, function(result) {
-                expect(isStraightFactFast).eql(true);
+                expect(isStraightFactFast).toBe(true);
                 done();
             });
 
