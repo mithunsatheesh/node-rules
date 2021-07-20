@@ -57,7 +57,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "webpack",
+    "build": "tsup ./lib/node-rules.ts --dts",
     "cover": "jest --coverage",
     "coveralls": "npm run cover && coveralls < coverage/lcov.info"
   },
