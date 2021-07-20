@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.21",
+    "@types/jest": "^26.0.24",
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.isequal": "^4.5.5",
     "@types/node": "^16.3.3",
