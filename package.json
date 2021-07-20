@@ -15,8 +15,11 @@
     "forward chaining rule engine",
     "inference system"
   ],
-  "engines" : {
-    "node" : ">=12"
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=12"
   },
   "license": "MIT",
   "author": {
