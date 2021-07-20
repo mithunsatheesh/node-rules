@@ -15,6 +15,9 @@
     "forward chaining rule engine",
     "inference system"
   ],
+  "engines" : {
+    "node" : ">=12"
+  },
   "license": "MIT",
   "author": {
     "name": "Mithun Satheesh",
