@@ -1,33 +1,54 @@
-(function() {
-    'use strict';
-    exports.version = '3.0.0';
+import isEqual from 'lodash.isequal';
+import cloneDeep from 'lodash.clonedeep';
 
-    var isEqual = require('lodash.isequal');
-    var clonedeep = require('lodash.clonedeep');
+export const version = '3.0.0';
 
-    function RuleEngine(rules, options) {
-        this.init();
-        if (typeof(rules) != "undefined") {
+export interface API {
+    rule: () => any;
+    when: (outcome: any) => void;
+    restart: () => void;
+    stop: () => void;
+    next: () => void;
+};
+
+interface Rule {
+    condition: (R: API) => void;
+    consequence: (R: API) => void;
+};
+
+export class RuleEngine {
+    public activeRules: any[];
+    public rules: any[];
+    ignoreFactChanges: any;
+
+    constructor(rules?: any, options: { ignoreFactChanges?: boolean } = {}) {
+        this.rules = [];
+        this.activeRules = [];
+
+        if (typeof(rules) !== "undefined") {
             this.register(rules);
         }
+
         if (options) {
             this.ignoreFactChanges = options.ignoreFactChanges;
         }
-        return this;
-    };
-    RuleEngine.prototype.init = function(rules) {
+    }
+
+    init() {
         this.rules = [];
         this.activeRules = [];
-    };
-    RuleEngine.prototype.register = function(rules) {
+    }
+    
+    register(rules: any) {
         if (Array.isArray(rules)) {
             this.rules = this.rules.concat(rules);
         } else if (rules !== null && typeof(rules) == "object") {
             this.rules.push(rules);
         }
         this.sync();
-    };
-    RuleEngine.prototype.sync = function() {
+    }
+
+    sync() {
         this.activeRules = this.rules.filter(function(a) {
             if (typeof(a.on) === "undefined") {
                 a.on = true;
@@ -43,25 +64,27 @@
                 return 0;
             }
         });
-    };
-    RuleEngine.prototype.execute = function(fact, callback) {
-        //these new attributes have to be in both last session and current session to support
-        // the compare function
-        var thisHolder = this;
-        var complete = false;
-        fact.result = true;
-        var session = clonedeep(fact);
-        var lastSession = clonedeep(fact);
-        var _rules = this.activeRules;
-        var matchPath = [];
-        var ignoreFactChanges = this.ignoreFactChanges;
+    }
+
+    execute(fact: Record<string, unknown>, callback: (session: Record<string, unknown>) => void) {
+        // These new attributes have to be in both last session
+        // and current session to support the compare function
+        const thisHolder = this;
+        const session: any = cloneDeep({ ...fact, result: true });
+        const matchPath: any[] = [];
+        const ignoreFactChanges = this.ignoreFactChanges;
+
+        let complete = false;
+        let _rules = this.activeRules;
+        let lastSession = cloneDeep({ ...fact, result: true });
+
         (function FnRuleLoop(x) {
-            var API = {
+            const API: API = {
                 "rule": function() { return _rules[x]; },
-                "when": function(outcome) {
+                "when": function(outcome: any) {
                     if (outcome) {
-                        var _consequence = _rules[x].consequence;
-                        _consequence.ruleRef = _rules[x].id || _rules[x].name || 'index_'+x;
+                        const _consequence = _rules[x].consequence;
+                        _consequence.ruleRef = _rules[x].id || _rules[x].name || `index_${x}`;
                         thisHolder.nextTick(function() {
                             matchPath.push(_consequence.ruleRef);
                             _consequence.call(session, API, session);
@@ -81,7 +104,7 @@
                 },
                 "next": function() {
                     if (!ignoreFactChanges && !isEqual(lastSession, session)) {
-                        lastSession = clonedeep(session);
+                        lastSession = cloneDeep(session);
                         thisHolder.nextTick(function() {
                             API.restart();
                         });
@@ -92,9 +115,10 @@
                     }
                 }
             };
+
             _rules = thisHolder.activeRules;
             if (x < _rules.length && complete === false) {
-                var _rule = _rules[x].condition;
+                const _rule = _rules[x].condition;
                 _rule.call(session, API, session);
             } else {
                 thisHolder.nextTick(function() {
@@ -103,43 +127,40 @@
                 });
             }
         })(0);
-    };
-    RuleEngine.prototype.nextTick = function(callbackFn) {
-        if (typeof process !== 'undefined' && process.nextTick) {
-            process.nextTick(callbackFn);
-        } else {
-            setTimeout(callbackFn, 0);
-        }
-    }; 
-    RuleEngine.prototype.findRules = function(query) {
+    }
+
+    nextTick(callback: () => void) {
+        process?.nextTick ? process?.nextTick(callback) : setTimeout(callback, 0);
+    }
+
+    findRules(query?: any) {
         if (typeof(query) === "undefined") {
             return this.rules;
-        } else {
-            // Clean the properties set to undefined in the search query if any to prevent miss match issues.
-            Object.keys(query).forEach(key => query[key] === undefined && delete query[key]);
-            // Return rules in the registered rules array which match partially to the query.
-            return this.rules.filter(function (rule) {
-                return Object.keys(query).some(function (key) {
-                    return query[key] === rule[key];
-                });
-            });
         }
-    };
-    RuleEngine.prototype.turn = function(state, filter) {
-        var state = (state === "on" || state === "ON") ? true : false;
-        var rules = this.findRules(filter);
-        for (var i = 0, j = rules.length; i < j; i++) {
-            rules[i].on = state;
+
+        // Clean the properties set to undefined in the search query if any to prevent miss match issues.
+        Object.keys(query).forEach(key => query[key] === undefined && delete query[key]);
+        // Return rules in the registered rules array which match partially to the query.
+        return this.rules.filter(function (rule) {
+            return Object.keys(query).some(function (key) {
+                return query[key] === rule[key];
+            });
+        });
+    }
+
+    turn(state: string, filter: any) {
+        const rules = this.findRules(filter);
+        for (let i = 0, j = rules.length; i < j; i++) {
+            rules[i].on = state.toLowerCase() === 'on';
         }
         this.sync();
-    };
-    RuleEngine.prototype.prioritize = function(priority, filter) {
-        priority = parseInt(priority, 10);
-        var rules = this.findRules(filter);
-        for (var i = 0, j = rules.length; i < j; i++) {
+    }
+
+    prioritize(priority: number, filter: any) {
+        const rules = this.findRules(filter);
+        for (let i = 0, j = rules.length; i < j; i++) {
             rules[i].priority = priority;
         }
         this.sync();
-    };
-    module.exports = RuleEngine;
-}(module.exports));
+    }    
+}

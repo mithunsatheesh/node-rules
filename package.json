@@ -36,26 +36,25 @@
     "url": "https://github.com/mithunsatheesh/node-rules"
   },
   "devDependencies": {
-    "core-js": "^3.15.2",
-    "@babel/cli": "^7.14.5",
-    "@babel/core": "^7.14.6",
-    "@babel/eslint-parser": "^7.14.7",
-    "@babel/preset-env": "^7.14.7",
-    "@babel/register": "^7.14.5",
-    "eslint": "^7.29.0",
+    "@types/chai": "^4.2.21",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/lodash.isequal": "^4.5.5",
+    "@types/node": "^16.3.3",
+    "chai": "^4.3.4",
     "colors": "^1.4.0",
+    "core-js": "^3.15.2",
     "coveralls": "^3.1.1",
+    "eslint": "^7.29.0",
     "jest": "^27.0.6",
     "jest-cli": "^27.0.6",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
-    "webpack": "^5.41.1",
-    "webpack-cli": "^4.7.2"
+    "ts-jest": "^27.0.3",
+    "tsup": "^4.12.5",
+    "typescript": "^4.3.5"
   },
-  "main": "index.js",
-  "engines": {
-    "node": "10"
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "webpack",
