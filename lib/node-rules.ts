@@ -11,7 +11,7 @@ export interface API {
     next: () => void;
 };
 
-interface Rule {
+export interface Rule {
     condition: (R: API) => void;
     consequence: (R: API) => void;
 };
@@ -39,7 +39,7 @@ export class RuleEngine {
         this.activeRules = [];
     }
     
-    register(rules: any) {
+    register(rules: Rule | Rule[]) {
         if (Array.isArray(rules)) {
             this.rules = this.rules.concat(rules);
         } else if (rules !== null && typeof(rules) == "object") {
@@ -49,7 +49,7 @@ export class RuleEngine {
     }
 
     sync() {
-        this.activeRules = this.rules.filter(function(a) {
+        this.activeRules = this.rules.filter(a => {
             if (typeof(a.on) === "undefined") {
                 a.on = true;
             }
@@ -57,21 +57,21 @@ export class RuleEngine {
                 return a;
             }
         });
-        this.activeRules.sort(function(a, b) {
+        this.activeRules.sort((a, b) => {
             if (a.priority && b.priority) {
                 return b.priority - a.priority;
-            } else {
-                return 0;
             }
+
+            return 0;
         });
     }
 
-    execute(fact: Record<string, unknown>, callback: (session: Record<string, unknown>) => void) {
+    execute<T>(fact: Record<string, T>, callback: (session: Record<string, T>) => void) {
         // These new attributes have to be in both last session
         // and current session to support the compare function
         const thisHolder = this;
         const session: any = cloneDeep({ ...fact, result: true });
-        const matchPath: any[] = [];
+        const matchPath: string[] = [];
         const ignoreFactChanges = this.ignoreFactChanges;
 
         let complete = false;
@@ -80,8 +80,8 @@ export class RuleEngine {
 
         (function FnRuleLoop(x) {
             const API: API = {
-                "rule": function() { return _rules[x]; },
-                "when": function(outcome: any) {
+                rule() { return _rules[x]; },
+                when(outcome: any) {
                     if (outcome) {
                         const _consequence = _rules[x].consequence;
                         _consequence.ruleRef = _rules[x].id || _rules[x].name || `index_${x}`;
@@ -95,21 +95,21 @@ export class RuleEngine {
                         });
                     }
                 },
-                "restart": function() {
+                restart() {
                     return FnRuleLoop(0);
                 },
-                "stop": function() {
+                stop() {
                     complete = true;
                     return FnRuleLoop(0);
                 },
-                "next": function() {
+                next() {
                     if (!ignoreFactChanges && !isEqual(lastSession, session)) {
                         lastSession = cloneDeep(session);
-                        thisHolder.nextTick(function() {
+                        thisHolder.nextTick(() => {
                             API.restart();
                         });
                     } else {
-                        thisHolder.nextTick(function() {
+                        thisHolder.nextTick(() => {
                             return FnRuleLoop(x + 1);
                         });
                     }
@@ -141,8 +141,8 @@ export class RuleEngine {
         // Clean the properties set to undefined in the search query if any to prevent miss match issues.
         Object.keys(query).forEach(key => query[key] === undefined && delete query[key]);
         // Return rules in the registered rules array which match partially to the query.
-        return this.rules.filter(function (rule) {
-            return Object.keys(query).some(function (key) {
+        return this.rules.filter(rule => {
+            return Object.keys(query).some(key => {
                 return query[key] === rule[key];
             });
         });

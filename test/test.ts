@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { API, RuleEngine } from '../lib/node-rules';
+import { API, Rule, RuleEngine } from '../lib/node-rules';
 
 describe("Rules", function() {
     describe(".init()", function() {
