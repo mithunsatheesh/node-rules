@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { API, Rule, RuleEngine } from '../lib/node-rules';
+import { API, RuleEngine } from '../lib/node-rules';
 
 describe("Rules", function() {
     describe(".init()", function() {
@@ -93,7 +93,7 @@ describe("Rules", function() {
             R.register(rules);
             expect(R.activeRules).not.to.equal(R.rules);
         });
-        it("should sort the rules accroding to priority, if priority is present", function() {
+        it("should sort the rules according to priority, if priority is present", function() {
             var rules = [{
                 "priority": 8,
                 "index": 1,
@@ -497,7 +497,7 @@ describe("Rules", function() {
             "cardType": "Cash Card"
         };
 
-        /** example of a chaned up rule. will take two iterations. ****/
+        /** example of a chained up rule. will take two iterations. ****/
         var chainedFact = {
             "name": "chainedFact",
             "userCredibility": 2,

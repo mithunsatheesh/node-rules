@@ -57,7 +57,8 @@
     "lodash.isequal": "^4.5.0",
     "ts-jest": "^27.0.3",
     "tsup": "^4.12.5",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "typescript-coverage-report": "^0.6.0"
   },
   "main": "dist/node-rules.js",
   "types": "dist/node-rules.d.ts",
@@ -65,7 +66,9 @@
     "prepare": "npm run build",
     "test": "jest",
     "build": "tsup ./lib/node-rules.ts --dts",
-    "cover": "jest --coverage",
+    "cover": "npm run test-coverage && npm run type-coverage",
+    "test-coverage": "jest --coverage",
+    "type-coverage": "typescript-coverage-report",
     "coveralls": "npm run cover && coveralls < coverage/lcov.info"
   },
   "readmeFilename": "README.md"
