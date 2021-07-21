@@ -13,12 +13,14 @@
 Node Rules
 =====
 
-Node-rules is a light weight forward chaining Rule Engine, written in JavaScript for both browser and node.js environments.
+Node-rules is a light weight forward chaining Rule Engine, written in Typescript for all environments.
 
 
 #### Installation
 
-    npm install node-rules
+```console
+npm install node-rules
+```
 
 ![Sample Screencast](https://raw.githubusercontent.com/mithunsatheesh/node-rules/gh-pages/images/screencast.gif "See it in action")
 
@@ -34,16 +36,36 @@ Node-rules takes rules written in JSON friendly format as input. Once the rule e
 
 A rule will consist of a condition and its corresponding consequence. You can find the explanation for various mandatory and optional parameters of a rule in [this wiki](https://github.com/mithunsatheesh/node-rules/wiki/Rules).
 
-``` js
-{
-    "condition" : function(R) {
+```ts
+import { API } from 'node-rules';
+
+interface Fact {
+    result: boolean;
+    transactionTotal: number;
+}
+
+const rule = {
+    condition(this: Fact, R: API) {
         R.when(this.transactionTotal < 500);
     },
-    "consequence" : function(R) {
+    consequence(this: Fact, R: API) {
         this.result = false;
         R.stop();
     }
-}
+};
+```
+
+```js
+/** @type {import('./lib/node-rules').Rule} */
+const rule = {
+    condition(this: Fact, R: API) {
+        R.when(this.transactionTotal < 500);
+    },
+    consequence(this: Fact, R: API) {
+        this.result = false;
+        R.stop();
+    }
+};
 ```
 
 Here priority is an optional parameter which will be used to specify priority of a rule over other rules when there are multiple rules running. In the above rule `R.when` evaluates the condition expression and `R.stop` used to stop further processing of the fact as we have arrived at a result.
@@ -56,30 +78,32 @@ Facts are those input json values on which the rule engine applies its rule to o
 
 A sample Fact may look like
 
-	{
-	  "name":"user4",
-	  "application":"MOB2",
-	  "transactionTotal":400,
-	  "cardType":"Credit Card",
-    }
+```json
+{
+    "name": "user4",
+    "application": "MOB2",
+    "transactionTotal": 400,
+    "cardType": "Credit Card"
+}
+```
 
 ###### 3. Using the Rule Engine
 
 The example below shows how to use the rule engine to apply a sample rule on a specific fact. Rules can be fed into the rule engine as Array of rules or as an individual rule object.
 
-``` js
-var RuleEngine = require("node-rules");
+```js
+const { RuleEngine } = require("node-rules");
 
 /* Creating Rule Engine instance */
-var R = new RuleEngine();
+const R = new RuleEngine();
 
 /* Add a rule */
-var rule = {
-    "condition": function(R) {
+const rule = {
+    condition(R) {
         console.log(this);
         R.when(this.transactionTotal < 500);
     },
-    "consequence": function(R) {
+    consequence(R) {
         this.result = false;
         this.reason = "The transaction was blocked as it was less than 500";
         R.stop();
@@ -90,19 +114,19 @@ var rule = {
 R.register(rule);
 
 /* Add a Fact with less than 500 as transaction, and this should be blocked */
-var fact = {
-    "name": "user4",
-    "application": "MOB2",
-    "transactionTotal": 400,
-    "cardType": "Credit Card"
+const fact = {
+    name: "user4",
+    application: "MOB2",
+    transactionTotal: 400,
+    cardType: "Credit Card"
 };
 
 /* Check if the engine blocks it! */
-R.execute(fact, function (data) {
+R.execute(fact, data => {
     if (data.result) {
         console.log("Valid transaction");
     } else {
-        console.log("Blocked Reason:" + data.reason);
+        console.log('Blocked Reason: %s', data.reason);
     }
 });
 ```

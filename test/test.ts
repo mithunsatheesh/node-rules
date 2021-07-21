@@ -4,64 +4,64 @@ import { API, RuleEngine } from '../lib/node-rules';
 describe("Rules", function() {
     describe(".init()", function() {
         it("should empty the existing rule array", function() {
-            var rules = [{
-                "condition": function(R: API) {
+            const rules = [{
+                condition(R: API) {
                     R.when(1);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 }
             }];
-            var R = new RuleEngine(rules);
+            const R = new RuleEngine(rules);
             R.init();
             expect(R.rules).to.deep.equal([]);
         });
     });
     describe(".register()", function() {
         it("Rule should be turned on if the field - ON is absent in the rule", function() {
-            var rules = [{
-                "condition": function(R: API) {
+            const rules = [{
+                condition(R: API) {
                     R.when(1);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 }
             }];
-            var R = new RuleEngine(rules);
+            const R = new RuleEngine(rules);
             expect(R.rules[0].on).to.equal(true);
         });
         it("Rule can be passed to register as both arrays and individual objects", function() {
-            var rule = {
-                "condition": function(R: API) {
+            const rule = {
+                condition(R: API) {
                     R.when(1);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 }
             };
-            var R1 = new RuleEngine(rule);
-            var R2 = new RuleEngine([rule]);
+            const R1 = new RuleEngine(rule);
+            const R2 = new RuleEngine([rule]);
             expect(R1.rules).to.deep.equal(R2.rules);
         });
         it("Rules can be appended multiple times via register after creating rule engine instance", function() {
-            var rules = [{
-                "condition": function(R: API) {
+            const rules = [{
+                condition(R: API) {
                     R.when(1);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 }
             }, {
-                "condition": function(R: API) {
+                condition(R: API) {
                     R.when(0);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 }
             }];
-            var R1 = new RuleEngine(rules);
-            var R2 = new RuleEngine(rules[0]);
-            var R3 = new RuleEngine();
+            const R1 = new RuleEngine(rules);
+            const R2 = new RuleEngine(rules[0]);
+            const R3 = new RuleEngine();
             R2.register(rules[1]);
             expect(R1.rules).to.deep.equal(R2.rules);
             R3.register(rules);
@@ -70,75 +70,75 @@ describe("Rules", function() {
     });
     describe(".sync()", function() {
         it("should only push active rules into active rules array", function() {
-            var rules = [{
-                "condition": function(R: API) {
+            const rules = [{
+                condition(R: API) {
                     R.when(1);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 },
                 "id": "one",
                 "on": true
             }, {
-                "condition": function(R: API) {
+                condition(R: API) {
                     R.when(0);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 },
                 "id": "one",
                 "on": false
             }];
-            var R = new RuleEngine();
+            const R = new RuleEngine();
             R.register(rules);
             expect(R.activeRules).not.to.equal(R.rules);
         });
-        it("should sort the rules accroding to priority, if priority is present", function() {
-            var rules = [{
+        it("should sort the rules according to priority, if priority is present", function() {
+            const rules = [{
                 "priority": 8,
                 "index": 1,
-                "condition": function(R: API) {
+                condition(R: API) {
                     R.when(1);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 },
             }, {
                 "priority": 6,
                 "index": 2,
-                "condition": function(R: API) {
+                condition(R: API) {
                     R.when(1);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 },
             }, {
                 "priority": 9,
                 "index": 0,
-                "condition": function(R: API) {
+                condition(R: API) {
                     R.when(1);
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.stop();
                 },
             }];
-            var R = new RuleEngine();
+            const R = new RuleEngine();
             R.register(rules);
             expect(R.activeRules[2].index).to.equal(2);
         });
     });
     describe(".exec()", function() {
         it("should run consequence when condition matches", function() {
-            var rule = {
-                "condition": function(this: any, R: API) {
+            const rule = {
+                condition(this: any, R: API) {
                     R.when(this && (this.transactionTotal < 500));
                 },
-                "consequence": function(this: any, R: API) {
+                consequence(this: any, R: API) {
                     this.result = false;
                     R.stop();
                 }
             };
-            var R = new RuleEngine(rule);
+            const R = new RuleEngine(rule);
             R.execute({
                 "transactionTotal": 200
             }, function(result) {
@@ -146,25 +146,25 @@ describe("Rules", function() {
             });
         });
         it("should chain rules and find result with next()", function() {
-            var rule = [{
-                "condition": function(this: any, R: API) {
+            const rule = [{
+                condition(this: any, R: API) {
                     R.when(this && (this.card == "VISA"));
                 },
-                "consequence": function(this: any, R: API) {
+                consequence(this: any, R: API) {
                     R.stop();
                     this.result = "Custom Result";
                 },
                 "priority": 4
             }, {
-                "condition": function(this: any, R: API) {
+                condition(this: any, R: API) {
                     R.when(this && (this.transactionTotal < 1000));
                 },
-                "consequence": function(R: API) {
+                consequence(R: API) {
                     R.next();
                 },
                 "priority": 8
             }];
-            var R = new RuleEngine(rule);
+            const R = new RuleEngine(rule);
             R.execute({
                 "transactionTotal": 200,
                 "card": "VISA"
@@ -173,20 +173,20 @@ describe("Rules", function() {
             });
         });
         it("should provide access to rule definition properties via rule()", function() {
-            var rule = {
+            const rule = {
                 "name": "sample rule name",
                 "id": "xyzzy",
-                "condition": function(this: any, R: API) {
+                condition(this: any, R: API) {
                     R.when(this && (this.input === true));
                 },
-                "consequence": function(this: any, R: API) {
+                consequence(this: any, R: API) {
                     this.result = true;
                     this.ruleName = R.rule().name;
                     this.ruleID = R.rule().id;
                     R.stop();
                 }
             };
-            var R = new RuleEngine(rule);
+            const R = new RuleEngine(rule);
             R.execute({
                 "input": true
             }, function(result) {
@@ -195,54 +195,54 @@ describe("Rules", function() {
             });
         });
         it("should include the matched rule path", function() {
-            var rules = [
+            const rules = [
                 {
                     "name": "rule A",
-                    "condition": function(this: any, R: API) {
+                    condition(this: any, R: API) {
                         R.when(this && (this.x === true));
                     },
-                    "consequence": function(R: API) {
+                    consequence(R: API) {
                         R.next();
                     }
                 },
                 {
                     "name": "rule B",
-                    "condition": function(this: any, R: API) {
+                    condition(this: any, R: API) {
                         R.when(this && (this.y === true));
                     },
-                    "consequence": function(R: API) {
+                    consequence(R: API) {
                         R.next();
                     }
                 },
                 {
                     "id": "rule C",
-                    "condition": function(this: any, R: API) {
+                    condition(this: any, R: API) {
                         R.when(this && (this.x === true && this.y === false));
                     },
-                    "consequence": function(R: API) {
+                    consequence(R: API) {
                         R.next();
                     }
                 },
                 {
                     "id": "rule D",
-                    "condition": function(this: any, R: API) {
+                    condition(this: any, R: API) {
                         R.when(this && (this.x === false && this.y === false));
                     },
-                    "consequence": function(R: API) {
+                    consequence(R: API) {
                         R.next();
                     }
                 },
                 {
-                    "condition": function(this: any, R: API) {
+                    condition(this: any, R: API) {
                         R.when(this && (this.x === true && this.y === false));
                     },
-                    "consequence": function(R: API) {
+                    consequence(R: API) {
                         R.next();
                     }
                 }
             ];
-            var lastMatch = 'index_' + ((rules.length)-1).toString();
-            var R = new RuleEngine(rules);
+            const lastMatch = 'index_' + ((rules.length)-1).toString();
+            const R = new RuleEngine(rules);
             R.execute({
                 "x": true,
                 "y": false
@@ -252,16 +252,16 @@ describe("Rules", function() {
         });
 
         it("should support fact as optional second parameter for es6 compatibility", function() {
-            var rule = {
-                "condition": function(R: API, fact: any) {
+            const rule = {
+                condition(R: API, fact: any) {
                     R.when(fact && (fact.transactionTotal < 500));
                 },
-                "consequence": function(R: API, fact: any) {
+                consequence(R: API, fact: any) {
                     fact.result = false;
                     R.stop();
                 }
             };
-            var R = new RuleEngine(rule);
+            const R = new RuleEngine(rule);
             R.execute({
                 "transactionTotal": 200
             }, function(result) {
@@ -273,16 +273,16 @@ describe("Rules", function() {
             // @ts-expect-error
             process.nextTick = undefined;
 
-            var rule = {
-                "condition": function(this: any, R: API) {
+            const rule = {
+                condition(this: any, R: API) {
                     R.when(this && (this.transactionTotal < 500));
                 },
-                "consequence": function(this: any, R: API) {
+                consequence(this: any, R: API) {
                     this.result = false;
                     R.stop();
                 }
             };
-            var R = new RuleEngine(rule);
+            const R = new RuleEngine(rule);
             R.execute({
                 "transactionTotal": 200
             }, function(result) {
@@ -292,24 +292,24 @@ describe("Rules", function() {
 
     });
     describe(".findRules()", function() {
-        var rules = [{
-            "condition": function(R: API) {
+        const rules = [{
+            condition(R: API) {
                 R.when(1);
             },
-            "consequence": function(R: API) {
+            consequence(R: API) {
                 R.stop();
             },
             "id": "one"
         }, {
-            "condition": function(R: API) {
+            condition(R: API) {
                 R.when(0);
             },
-            "consequence": function(R: API) {
+            consequence(R: API) {
                 R.stop();
             },
             "id": "two"
         }];
-        var R = new RuleEngine(rules);
+        const R = new RuleEngine(rules);
         it("find selector function for rules should exact number of matches", function() {
             expect(R.findRules({
                 "id": "one"
@@ -331,25 +331,25 @@ describe("Rules", function() {
         });
     });
     describe(".turn()", function() {
-        var rules = [{
-            "condition": function(R: API) {
+        const rules = [{
+            condition(R: API) {
                 R.when(1);
             },
-            "consequence": function(R: API) {
+            consequence(R: API) {
                 R.stop();
             },
             "id": "one"
         }, {
-            "condition": function(R: API) {
+            condition(R: API) {
                 R.when(0);
             },
-            "consequence": function(R: API) {
+            consequence(R: API) {
                 R.stop();
             },
             "id": "two",
             "on": false
         }];
-        var R = new RuleEngine(rules);
+        const R = new RuleEngine(rules);
         it("checking whether turn off rules work as expected", function() {
             R.turn("OFF", {
                 "id": "one"
@@ -368,35 +368,35 @@ describe("Rules", function() {
         });
     });
     describe(".prioritize()", function() {
-        var rules = [{
-            "condition": function(R: API) {
+        const rules = [{
+            condition(R: API) {
                 R.when(1);
             },
-            "consequence": function(R: API) {
+            consequence(R: API) {
                 R.stop();
             },
             "id": "two",
             "priority": 1
         }, {
-            "condition": function(R: API) {
+            condition(R: API) {
                 R.when(0);
             },
-            "consequence": function(R: API) {
+            consequence(R: API) {
                 R.stop();
             },
             "id": "zero",
             "priority": 8
         }, {
-            "condition": function(R: API) {
+            condition(R: API) {
                 R.when(0);
             },
-            "consequence": function(R: API) {
+            consequence(R: API) {
                 R.stop();
             },
             "id": "one",
             "priority": 4
         }];
-        var R = new RuleEngine(rules);
+        const R = new RuleEngine(rules);
         it("checking whether prioritize work", function() {
             R.prioritize(10, {
                 "id": "one"
@@ -413,12 +413,12 @@ describe("Rules", function() {
         });
     });
     describe("ignoreFactChanges", function() {
-        var rules = [{
+        const rules = [{
             "name": "rule1",
-            "condition": function(this: any, R: API) {
+            condition(this: any, R: API) {
                 R.when(this.value1 > 5);
             },
-            "consequence": function(this: any, R: API) {
+            consequence(this: any, R: API) {
                 this.result = false;
                 this.errors = this.errors || [];
                 this.errors.push('must be less than 5');
@@ -426,12 +426,12 @@ describe("Rules", function() {
             }
         }];
 
-        var fact = {
+        const fact = {
             "value1": 6
         };
 
         it("doesn't rerun when a fact changes if ignoreFactChanges is true", function(done) {
-            var R = new RuleEngine(rules, { ignoreFactChanges: true });
+            const R = new RuleEngine(rules, { ignoreFactChanges: true });
 
             R.execute(fact, function(result) {
                 expect(result.errors).to.have.length(1);
@@ -440,15 +440,15 @@ describe("Rules", function() {
         });
     });
     describe("test Parallelism", function() {
-        var rules = [
+        const rules = [
             {
                 "name": "high credibility customer - avoid checks and bypass",
                 "priority": 4,
                 "on": true,
-                "condition": function(this: any, R: API) {
+                condition(this: any, R: API) {
                     R.when(this.userCredibility && this.userCredibility > 5);
                 },
-                "consequence": function(this: any, R: API) {
+                consequence(this: any, R: API) {
                     this.result = true;
                     R.stop();
                 }
@@ -456,10 +456,10 @@ describe("Rules", function() {
             {
                 "name": "block guest payment above 10000",
                 "priority": 3,
-                "condition": function(this: any, R: API) {
+                condition(this: any, R: API) {
                     R.when(this.customerType && this.transactionTotal > 10000 && this.customerType == "guest");
                 },
-                "consequence": function(this: any, R: API) {
+                consequence(this: any, R: API) {
                     this.result = false;
                     R.stop();
                 }
@@ -467,10 +467,10 @@ describe("Rules", function() {
             {
                 "name": "is customer guest?",
                 "priority": 2,
-                "condition": function(this: any, R: API) {
+                condition(this: any, R: API) {
                     R.when(!this.userLoggedIn);
                 },
-                "consequence": function(this: any, R: API) {
+                consequence(this: any, R: API) {
                     this.customerType = "guest";
                     // the fact has been altered above, so all rules will run again since ignoreFactChanges is not set.
                     R.next();
@@ -479,17 +479,17 @@ describe("Rules", function() {
             {
                 "name": "block Cashcard Payment",
                 "priority": 1,
-                "condition": function(this: any, R: API) {
+                condition(this: any, R: API) {
                     R.when(this.cardType == "Cash Card");
                 },
-                "consequence": function(this: any, R: API) {
+                consequence(this: any, R: API) {
                     this.result = false;
                     R.stop();
                 }
             }
         ];
 
-        var straightFact = {
+        const straightFact = {
             "name": "straightFact",
             "userCredibility": 1,
             "userLoggedIn": true,
@@ -497,8 +497,8 @@ describe("Rules", function() {
             "cardType": "Cash Card"
         };
 
-        /** example of a chaned up rule. will take two iterations. ****/
-        var chainedFact = {
+        /** example of a chained up rule. will take two iterations. ****/
+        const chainedFact = {
             "name": "chainedFact",
             "userCredibility": 2,
             "userLoggedIn": false,
@@ -507,8 +507,8 @@ describe("Rules", function() {
         };
 
         it("context switches and finishes the fact which needs least iteration first", function(done) {
-            var R = new RuleEngine(rules);
-            var isStraightFactFast = false;
+            const R = new RuleEngine(rules);
+            const isStraightFactFast = false;
 
             R.execute(chainedFact, function(result) {
                 expect(isStraightFactFast).to.be.true;

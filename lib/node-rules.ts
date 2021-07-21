@@ -5,23 +5,33 @@ export const version = '3.0.0';
 
 export interface API {
     rule: () => any;
-    when: (outcome: any) => void;
+    when: (outcome: boolean | number) => void;
     restart: () => void;
     stop: () => void;
     next: () => void;
 };
 
-interface Rule {
-    condition: (R: API) => void;
-    consequence: (R: API) => void;
+interface Consequence {
+    (R: API, fact: Record<string, unknown>): void;
+    ruleRef?: string;
+}
+
+export interface Rule {
+    id?: string;
+    name?: string;
+    on?: boolean;
+    priority?: number;
+    index?: number;
+    condition: (R: API, fact: Record<string, unknown>) => void;
+    consequence: Consequence;
 };
 
 export class RuleEngine {
-    public activeRules: any[];
-    public rules: any[];
-    ignoreFactChanges: any;
+    public activeRules: Rule[];
+    public rules: Rule[];
+    public ignoreFactChanges?: boolean;
 
-    constructor(rules?: any, options: { ignoreFactChanges?: boolean } = {}) {
+    constructor(rules?: Rule | Rule[], options: { ignoreFactChanges?: boolean } = {}) {
         this.rules = [];
         this.activeRules = [];
 
@@ -39,7 +49,7 @@ export class RuleEngine {
         this.activeRules = [];
     }
     
-    register(rules: any) {
+    register(rules: Rule | Rule[]) {
         if (Array.isArray(rules)) {
             this.rules = this.rules.concat(rules);
         } else if (rules !== null && typeof(rules) == "object") {
@@ -49,20 +59,21 @@ export class RuleEngine {
     }
 
     sync() {
-        this.activeRules = this.rules.filter(function(a) {
-            if (typeof(a.on) === "undefined") {
-                a.on = true;
+        this.activeRules = this.rules.filter(rule => {
+            if (typeof(rule.on) === "undefined") {
+                rule.on = true;
             }
-            if (a.on === true) {
-                return a;
+
+            if (rule.on === true) {
+                return rule;
             }
         });
-        this.activeRules.sort(function(a, b) {
+        this.activeRules.sort((a, b) => {
             if (a.priority && b.priority) {
                 return b.priority - a.priority;
-            } else {
-                return 0;
             }
+
+            return 0;
         });
     }
 
@@ -70,8 +81,8 @@ export class RuleEngine {
         // These new attributes have to be in both last session
         // and current session to support the compare function
         const thisHolder = this;
-        const session: any = cloneDeep({ ...fact, result: true });
-        const matchPath: any[] = [];
+        const session = cloneDeep({ ...fact, result: true }) as { result: boolean, matchPath?: string[] };
+        const matchPath: string[] = [];
         const ignoreFactChanges = this.ignoreFactChanges;
 
         let complete = false;
@@ -80,13 +91,13 @@ export class RuleEngine {
 
         (function FnRuleLoop(x) {
             const API: API = {
-                "rule": function() { return _rules[x]; },
-                "when": function(outcome: any) {
+                rule() { return _rules[x]; },
+                when(outcome: boolean | number) {
                     if (outcome) {
                         const _consequence = _rules[x].consequence;
                         _consequence.ruleRef = _rules[x].id || _rules[x].name || `index_${x}`;
                         thisHolder.nextTick(function() {
-                            matchPath.push(_consequence.ruleRef);
+                            matchPath.push(_consequence.ruleRef!);
                             _consequence.call(session, API, session);
                         });
                     } else {
@@ -95,21 +106,21 @@ export class RuleEngine {
                         });
                     }
                 },
-                "restart": function() {
+                restart() {
                     return FnRuleLoop(0);
                 },
-                "stop": function() {
+                stop() {
                     complete = true;
                     return FnRuleLoop(0);
                 },
-                "next": function() {
+                next() {
                     if (!ignoreFactChanges && !isEqual(lastSession, session)) {
                         lastSession = cloneDeep(session);
-                        thisHolder.nextTick(function() {
+                        thisHolder.nextTick(() => {
                             API.restart();
                         });
                     } else {
-                        thisHolder.nextTick(function() {
+                        thisHolder.nextTick(() => {
                             return FnRuleLoop(x + 1);
                         });
                     }
@@ -133,22 +144,23 @@ export class RuleEngine {
         process?.nextTick ? process?.nextTick(callback) : setTimeout(callback, 0);
     }
 
-    findRules(query?: any) {
+    findRules(query?: Record<string, unknown>) {
         if (typeof(query) === "undefined") {
             return this.rules;
         }
 
         // Clean the properties set to undefined in the search query if any to prevent miss match issues.
         Object.keys(query).forEach(key => query[key] === undefined && delete query[key]);
+
         // Return rules in the registered rules array which match partially to the query.
-        return this.rules.filter(function (rule) {
-            return Object.keys(query).some(function (key) {
-                return query[key] === rule[key];
+        return this.rules.filter(rule => {
+            return Object.keys(query).some(key => {
+                return query[key] === rule[key as keyof Rule];
             });
         });
     }
 
-    turn(state: string, filter: any) {
+    turn(state: string, filter?: Record<string, unknown>) {
         const rules = this.findRules(filter);
         for (let i = 0, j = rules.length; i < j; i++) {
             rules[i].on = state.toLowerCase() === 'on';
@@ -156,7 +168,7 @@ export class RuleEngine {
         this.sync();
     }
 
-    prioritize(priority: number, filter: any) {
+    prioritize(priority: number, filter?: Record<string, unknown>) {
         const rules = this.findRules(filter);
         for (let i = 0, j = rules.length; i < j; i++) {
             rules[i].priority = priority;

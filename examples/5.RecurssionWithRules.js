@@ -1,22 +1,23 @@
-var RuleEngine = require('../../index');
+const { RuleEngine } = require('../dist/node-rules');
 /* Sample Rule to block a transaction if its below 500 */
-var rule = {
-    "condition": function(R) {
+/** @type {import('../dist/node-rules').Rule} */
+const rule = {
+    condition(R) {
         R.when(this.someval < 10);
     },
-    "consequence": function(R) {
-        console.log(++this.someval, " : incrementing again till 10");
+    consequence(R) {
+        console.log("%s: incrementing again till 10", this.someval++);
         R.restart();
     }
 };
 /* Creating Rule Engine instance and registering rule */
-var R = new RuleEngine();
+const R = new RuleEngine();
 R.register(rule);
 /* some val is 0 here, rules will recursively run till it becomes 10.
 This just a mock to demo the restart feature. */
-var fact = {
-    "someval": 0
+const fact = {
+    someval: 0
 };
-R.execute(fact, function(data) {
+R.execute(fact, data => {
     console.log("Finished with value", data.someval);
 });
