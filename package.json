@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -56,7 +56,7 @@
   },
   "main": "index.js",
   "engines": {
-    "node": "10 || 12 || 14 || 16 || 17"
+    "node": ">=0.10.3"
   },
   "scripts": {
     "test": "jest",
