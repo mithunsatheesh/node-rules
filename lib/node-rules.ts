@@ -3,7 +3,7 @@ import { cloneDeep, isEqual } from 'lodash';
 type GenericObject = Record<string | number | symbol, unknown>;
 
 type SessionType<TFact extends GenericObject> = TFact & {
-    result: true;
+    result: boolean;
     matchPath?: string[];
 };
 
