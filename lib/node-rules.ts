@@ -1,41 +1,47 @@
-import isEqual from 'lodash.isequal';
-import cloneDeep from 'lodash.clonedeep';
+import { cloneDeep, isEqual } from 'lodash';
 
 export const version = '3.0.0';
 
-export interface API {
-    rule: () => any;
+type GenericObject = Record<string | number | symbol, unknown>;
+
+type SessionType<TFact extends GenericObject> = TFact & {
+    result: boolean;
+    matchPath?: string[];
+};
+
+export interface API<TFact extends GenericObject> {
+    rule: () => Rule<TFact>;
     when: (outcome: boolean | number) => void;
     restart: () => void;
     stop: () => void;
     next: () => void;
-};
+}
 
-interface Consequence {
-    (R: API, fact: Record<string, unknown>): void;
+interface Consequence<TFact extends GenericObject> {
+    (this: SessionType<TFact>, R: API<TFact>, fact: SessionType<TFact>): void;
     ruleRef?: string;
 }
 
-export interface Rule {
+export interface Rule<TFact extends GenericObject> {
     id?: string;
     name?: string;
     on?: boolean;
     priority?: number;
     index?: number;
-    condition: (R: API, fact: Record<string, unknown>) => void;
-    consequence: Consequence;
-};
+    condition: (this: SessionType<TFact>, R: API<TFact>, fact: SessionType<TFact>) => void;
+    consequence: Consequence<TFact>;
+}
 
-export class RuleEngine {
-    public activeRules: Rule[];
-    public rules: Rule[];
+export class RuleEngine<TFact extends GenericObject> {
+    public activeRules: Rule<TFact>[];
+    public rules: Rule<TFact>[];
     public ignoreFactChanges?: boolean;
 
-    constructor(rules?: Rule | Rule[], options: { ignoreFactChanges?: boolean } = {}) {
+    constructor(rules?: Rule<TFact> | Rule<TFact>[], options: { ignoreFactChanges?: boolean } = {}) {
         this.rules = [];
         this.activeRules = [];
 
-        if (typeof(rules) !== "undefined") {
+        if (typeof rules !== 'undefined') {
             this.register(rules);
         }
 
@@ -48,19 +54,19 @@ export class RuleEngine {
         this.rules = [];
         this.activeRules = [];
     }
-    
-    register(rules: Rule | Rule[]) {
+
+    register(rules: Rule<TFact> | Rule<TFact>[]) {
         if (Array.isArray(rules)) {
             this.rules = this.rules.concat(rules);
-        } else if (rules !== null && typeof(rules) == "object") {
+        } else if (rules !== null && typeof rules == 'object') {
             this.rules.push(rules);
         }
         this.sync();
     }
 
     sync() {
-        this.activeRules = this.rules.filter(rule => {
-            if (typeof(rule.on) === "undefined") {
+        this.activeRules = this.rules.filter((rule) => {
+            if (typeof rule.on === 'undefined') {
                 rule.on = true;
             }
 
@@ -77,11 +83,15 @@ export class RuleEngine {
         });
     }
 
-    execute(fact: Record<string, unknown>, callback: (session: Record<string, unknown>) => void) {
+    execute(fact: TFact, callback: (session: SessionType<TFact>) => void) {
         // These new attributes have to be in both last session
         // and current session to support the compare function
         const thisHolder = this;
-        const session = cloneDeep({ ...fact, result: true }) as { result: boolean, matchPath?: string[] };
+        const session: SessionType<TFact> = cloneDeep({
+            ...fact,
+            result: true,
+            matchPath: undefined,
+        });
         const matchPath: string[] = [];
         const ignoreFactChanges = this.ignoreFactChanges;
 
@@ -90,18 +100,20 @@ export class RuleEngine {
         let lastSession = cloneDeep({ ...fact, result: true });
 
         (function FnRuleLoop(x) {
-            const API: API = {
-                rule() { return _rules[x]; },
+            const API: API<TFact> = {
+                rule() {
+                    return _rules[x];
+                },
                 when(outcome: boolean | number) {
                     if (outcome) {
                         const _consequence = _rules[x].consequence;
                         _consequence.ruleRef = _rules[x].id || _rules[x].name || `index_${x}`;
-                        thisHolder.nextTick(function() {
+                        thisHolder.nextTick(function () {
                             matchPath.push(_consequence.ruleRef!);
                             _consequence.call(session, API, session);
                         });
                     } else {
-                        thisHolder.nextTick(function() {
+                        thisHolder.nextTick(function () {
                             API.next();
                         });
                     }
@@ -124,7 +136,7 @@ export class RuleEngine {
                             return FnRuleLoop(x + 1);
                         });
                     }
-                }
+                },
             };
 
             _rules = thisHolder.activeRules;
@@ -132,7 +144,7 @@ export class RuleEngine {
                 const _rule = _rules[x].condition;
                 _rule.call(session, API, session);
             } else {
-                thisHolder.nextTick(function() {
+                thisHolder.nextTick(function () {
                     session.matchPath = matchPath;
                     return callback(session);
                 });
@@ -145,17 +157,17 @@ export class RuleEngine {
     }
 
     findRules(query?: Record<string, unknown>) {
-        if (typeof(query) === "undefined") {
+        if (typeof query === 'undefined') {
             return this.rules;
         }
 
         // Clean the properties set to undefined in the search query if any to prevent miss match issues.
-        Object.keys(query).forEach(key => query[key] === undefined && delete query[key]);
+        Object.keys(query).forEach((key) => query[key] === undefined && delete query[key]);
 
         // Return rules in the registered rules array which match partially to the query.
-        return this.rules.filter(rule => {
-            return Object.keys(query).some(key => {
-                return query[key] === rule[key as keyof Rule];
+        return this.rules.filter((rule) => {
+            return Object.keys(query).some((key) => {
+                return query[key] === rule[key as keyof Rule<TFact>];
             });
         });
     }
@@ -174,5 +186,5 @@ export class RuleEngine {
             rules[i].priority = priority;
         }
         this.sync();
-    }    
+    }
 }
