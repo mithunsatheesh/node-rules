@@ -1,5 +1,7 @@
 import { cloneDeep, isEqual } from 'lodash';
 
+export const version = '3.0.0';
+
 type GenericObject = Record<string | number | symbol, unknown>;
 
 type SessionType<TFact extends GenericObject> = TFact & {
