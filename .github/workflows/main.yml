@@ -24,12 +24,5 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
-      - name: npm install, make test-coverage
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
       - run: npm run cover
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+
