@@ -19,8 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 10
-          - 12
           - 14
           - 16
           - 18
@@ -44,7 +42,6 @@ jobs:
 
       - name: Run Jest
         run: npm test
-        if: matrix.node != env.NODE_COV
 
       - name: Run Jest with coverage
         run: npm run cover
