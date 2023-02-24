@@ -6,11 +6,11 @@ Lets see how a sample rule will look like and then proceed to explain the differ
 		"name": "transaction minimum",
 		"priority": 3,
 		"on" : true,
-		"condition": function(R) {
-			R.when(this.transactionTotal < 500);
+		"condition": (R, fact) => {
+			R.when(fact.transactionTotal < 500);
 		},
-		"consequence": function(R) {
-			this.result = false;
+		"consequence": (R, fact) => {
+			fact.result = false;
 			R.stop();
 		}
 	}
@@ -18,9 +18,9 @@ Lets see how a sample rule will look like and then proceed to explain the differ
 Above is a sample rule which has mandatory as well as optional parameters. You can choose to use which all attributes you need to use while defining your rule. Now lets look into the attributes one by one.
 
 ###### 1. condition
-Condition is a function where the user can do the checks on the fact provided. The fact variable will be available in `this` context of the condition function. Lets see a sample condition below.
+Condition is a function where the user can do the checks on the fact provided. The fact variable will be available in `this` context of the condition function or as second function argument incase you are using arrow functions. Lets see a sample condition below.
 
-	"condition": function(R) {
+	"condition": (R, fact) => {
 		R.when(this.transactionTotal < 500);
 	}
 
@@ -29,12 +29,13 @@ As you can see, the we have to pass an expression on to the `R.when` function wh
 Its mandatory to have this field.
 
 ###### 2. consequence
-The consequence is the part where we define what happens when the condition evaluates to true for a particular fact. Just like in condition, fact variable will be available in `this` context. You may utilize it to add extra result attributes if needed.
+The consequence is the part where we define what happens when the condition evaluates to true for a particular fact. Just like in condition, fact variable will be available in `this` context or as second function argument incase you are using arrow functions. You may utilize it to add extra result attributes if needed.
 
-    "consequence": function(R) {
-		this.result = false;
+    "consequence": (R, fact) {
+		fact.result = false;
 		R.stop();
 	}
+	
 In the above example we use an additional parameter `result` to communicate to the code outside the rule engine that the fact has succeeded. Also the Rule API provides a number of functions here to control the flow of the rule engine. They are `R.stop()`, `R.restart()` and `R.next()`. Stop refers to stop processing the rule engine. Restart tells the rule engine to start applying all the rules again to the fact. Next is to instruct the rule engine to continue applying the rest of the rules to the fact before stopping. Check [Flow Control API](https://github.com/mithunsatheesh/node-rules/wiki/Flow-Control-API) in wiki to read more about this.
 
 You can read more about flow control API here.

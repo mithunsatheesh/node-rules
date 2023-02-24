@@ -2,15 +2,15 @@ The example below shows how to use the rule engine to apply a sample rule on a s
 	
 ``` js
 //import the package
-var RuleEngine = require('node-rules');
+import RuleEngine from 'node-rules';
 
 //define the rules
-var rules = [{
-	"condition": function(R) {
-		R.when(this && (this.transactionTotal < 500));
+const rules = [{
+	"condition": (R, fact) => {
+		R.when(fact && (fact.transactionTotal < 500));
 	},
-	"consequence": function(R) {
-		this.result = false;
+	"consequence": (R, fact) => {
+		fact.result = false;
 		R.stop();
 	}
 }];
@@ -18,7 +18,7 @@ var rules = [{
 and on properties for this example as they are optional.*/ 
 
 //sample fact to run the rules on	
-var fact = {
+let fact = {
     "userIP": "27.3.4.5",
     "name":"user4",
     "application":"MOB2",
@@ -28,10 +28,10 @@ var fact = {
 };
 
 //initialize the rule engine
-var R = new RuleEngine(rules);
+const R = new RuleEngine(rules);
 
 //Now pass the fact on to the rule engine for results
-R.execute(fact,function(result){ 
+R.execute(fact, (result) => { 
 
 	if(result.result) 
 		console.log("\n-----Payment Accepted----\n"); 
