@@ -1,4 +1,4 @@
-import RuleEngine from '../../lib/node-rules.js';
+const RuleEngine = require('../../lib/node-rules.js');
 
 /* Set of Rules to be applied
 First blocks a transaction if less than 500

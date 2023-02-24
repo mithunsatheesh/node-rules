@@ -1,4 +1,4 @@
-import RuleEngine from "../../lib/node-rules.js";
+const RuleEngine = require('../../lib/node-rules.js');
 
 const COLORS = {
   red: "\x1b[31m",
