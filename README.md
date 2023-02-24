@@ -70,7 +70,7 @@ A sample Fact may look like
 The example below shows how to use the rule engine to apply a sample rule on a specific fact. Rules can be fed into the rule engine as Array of rules or as an individual rule object.
 
 ``` js
-import RuleEngine from "node-rules";
+const RuleEngine = require('node-rules');
 
 /* Creating Rule Engine instance */
 const R = new RuleEngine();

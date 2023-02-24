@@ -2,7 +2,7 @@ The example below shows how to use the rule engine to apply a sample rule on a s
 	
 ``` js
 //import the package
-import RuleEngine from 'node-rules';
+const RuleEngine = require('node-rules');
 
 //define the rules
 const rules = [{

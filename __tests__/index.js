@@ -1,4 +1,4 @@
-import RuleEngine from '../';
+const RuleEngine = require('../lib/node-rules.js');
 
 describe("Rules", function() {
     describe(".init()", function() {

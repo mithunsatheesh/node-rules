@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -61,6 +61,5 @@
     "build": "webpack",
     "cover": "jest --coverage"
   },
-  "type": "module",
   "readmeFilename": "README.md"
 }

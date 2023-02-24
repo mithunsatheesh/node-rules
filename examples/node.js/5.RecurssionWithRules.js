@@ -1,4 +1,4 @@
-import RuleEngine from '../../lib/node-rules.js';
+const RuleEngine = require('../../lib/node-rules.js');
 
 /* Sample Rule to block a transaction if its below 500 */
 var rule = {
