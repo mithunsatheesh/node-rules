@@ -1,4 +1,5 @@
-var RuleEngine = require('../../index');
+import RuleEngine from '../../lib/node-rules.js';
+
 /* Sample Rule to block a transaction if its below 500 */
 var rule = {
     "condition": function(R) {

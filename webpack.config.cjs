@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './index.js',
+  entry: './lib/node-rules.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'node-rules.min.js',

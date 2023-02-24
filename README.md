@@ -36,11 +36,11 @@ A rule will consist of a condition and its corresponding consequence. You can fi
 
 ``` js
 {
-    "condition" : function(R) {
-        R.when(this.transactionTotal < 500);
+    "condition" : (R, fact) => {
+        R.when(fact.transactionTotal < 500);
     },
-    "consequence" : function(R) {
-        this.result = false;
+    "consequence" : (R, fact) => {
+        fact.result = false;
         R.stop();
     }
 }
@@ -56,32 +56,33 @@ Facts are those input json values on which the rule engine applies its rule to o
 
 A sample Fact may look like
 
-	{
-	  "name":"user4",
-	  "application":"MOB2",
-	  "transactionTotal":400,
-	  "cardType":"Credit Card",
-    }
+``` json
+{
+    "name":"user4",
+    "application":"MOB2",
+    "transactionTotal":400,
+    "cardType":"Credit Card",
+}
+````
 
 ###### 3. Using the Rule Engine
 
 The example below shows how to use the rule engine to apply a sample rule on a specific fact. Rules can be fed into the rule engine as Array of rules or as an individual rule object.
 
 ``` js
-var RuleEngine = require("node-rules");
+import RuleEngine from "node-rules";
 
 /* Creating Rule Engine instance */
-var R = new RuleEngine();
+const R = new RuleEngine();
 
 /* Add a rule */
-var rule = {
-    "condition": function(R) {
-        console.log(this);
-        R.when(this.transactionTotal < 500);
+const rule = {
+    "condition": (R, fact) => {
+        R.when(fact.transactionTotal < 500);
     },
-    "consequence": function(R) {
-        this.result = false;
-        this.reason = "The transaction was blocked as it was less than 500";
+    "consequence": (R, fact) => {
+        fact.result = false;
+        fact.reason = "The transaction was blocked as it was less than 500";
         R.stop();
     }
 };
@@ -90,7 +91,7 @@ var rule = {
 R.register(rule);
 
 /* Add a Fact with less than 500 as transaction, and this should be blocked */
-var fact = {
+let fact = {
     "name": "user4",
     "application": "MOB2",
     "transactionTotal": 400,
@@ -98,12 +99,14 @@ var fact = {
 };
 
 /* Check if the engine blocks it! */
-R.execute(fact, function (data) {
-    if (data.result) {
+R.execute(fact, (data) => {
+
+    if (data.result !== false) {
         console.log("Valid transaction");
     } else {
         console.log("Blocked Reason:" + data.reason);
     }
+
 });
 ```
 

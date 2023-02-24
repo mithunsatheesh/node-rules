@@ -1,4 +1,5 @@
-var RuleEngine = require('../../index');
+import RuleEngine from '../../lib/node-rules.js';
+
 /* Here we can see a rule which upon matching its condition,
 does some processing and passes it to other rules for processing */
 var rules = [{

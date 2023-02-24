@@ -1,4 +1,5 @@
-var RuleEngine = require('../../index');
+import RuleEngine from '../../lib/node-rules.js';
+
 /* Set of Rules to be applied */
 var rules = [{
     "priority": 4,

@@ -1,4 +1,5 @@
-var RuleEngine = require('../index');
+import RuleEngine from '../';
+
 describe("Rules", function() {
     describe(".init()", function() {
         it("should empty the existing rule array", function() {
@@ -251,10 +252,10 @@ describe("Rules", function() {
 
         it("should support fact as optional second parameter for es6 compatibility", function() {
             var rule = {
-                "condition": function(R, fact) {
+                "condition": (R, fact) => {
                     R.when(fact && (fact.transactionTotal < 500));
                 },
-                "consequence": function(R, fact) {
+                "consequence": (R, fact) => {
                     fact.result = false;
                     R.stop();
                 }
