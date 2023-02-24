@@ -30,11 +30,11 @@ The above `prioritize` call will give priority to Rule with id "one" over all th
 ##### 3. `RuleEngine.register(<rules>)`
 We know that we can pass Rules as parameter into the Rule Engine constructor while we create the Rule Engine object like below.
 
-    var RuleEngine = new RuleEngine(rules);
+    const RuleEngine = new RuleEngine(rules);
 
 Where `rules` can be either an array of rule objects or a single array. But what if we need to add some rules later to the Rule Engine. Register can be used any time to append new rules into the Rule Engine. It can be used like.
 
-    var RuleEngine = new RuleEngine();
+    const RuleEngine = new RuleEngine();
     RuleEngine.register(newrule);
     RuleEngine.register(newrule);
 
@@ -42,12 +42,12 @@ Where `rules` can be either an array of rule objects or a single array. But what
 ##### 4. `RuleEngine.findRules(<filter>)`
 This function is used to retrieve the Rules which are registered on the Rule engine which matches the filter we pass as its parameter. A sample usage can be like below.
 
-    var rules = RuleEngine.findRules({"id": "one"});
+    const rules = RuleEngine.findRules({"id": "one"});
 
 ##### 5. `RuleEngine.init()`
 This function is used to remove all the rules registered on the Rule Engine. This is mostly used for rule clean up purposes by internal functions. A sample usage can be like below.
 
-    var RuleEngine = new RuleEngine();
+    const RuleEngine = new RuleEngine();
     RuleEngine.register(badrule);
     RuleEngine.init();//removes the bad rule and cleans up
     RuleEngine.register(newrule);
