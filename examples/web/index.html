@@ -18,17 +18,17 @@
   <script type="text/javascript">
 
     /* Creating Rule Engine instance */
-    var R = new NodeRules();
+    var R = new NodeRules.RuleEngine();
 
     /* Add a rule */
     var rule = {
-        "condition": function(R) {
-            console.log(this);
-            R.when(this.transactionTotal < 500);
+        "condition": function(R, f) {
+            console.log(f);
+            R.when(f.transactionTotal < 500);
         },
-        "consequence": function(R) {
-            this.result = false;
-            this.reason = "The transaction was blocked as it was less than 500";
+        "consequence": function(R, f) {
+            f.result = false;
+            f.reason = "The transaction was blocked as it was less than 500";
             R.stop();
         }
     };

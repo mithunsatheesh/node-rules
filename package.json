@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "8.1.0",
+  "version": "9.0.0-beta.0",
   "description": "Business Rules Engine for JavaScript",
   "keywords": [
     "bre",
@@ -18,17 +18,20 @@
   "license": "MIT",
   "author": {
     "name": "Mithun Satheesh",
-    "email": "mithunsatish@gmail.com"
+    "url": "https://github.com/mithunsatheesh"
   },
   "contributors": [
     {
       "name": "Abdul Munim Kazia",
-      "email": "munim2020@gmail.com",
       "url": "http://munimkazia.com"
     },
     {
       "name": "ramanaveli2i",
       "url": "https://github.com/ramanaveli2i"
+    },
+    {
+      "name": "Alexis Tyler",
+      "url": "https://github.com/OmgImAlexis"
     }
   ],
   "repository": {
@@ -40,26 +43,34 @@
     "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
-    "core-js": "^3.15.2",
-    "@babel/cli": "^7.14.5",
-    "@babel/core": "^7.14.6",
-    "@babel/eslint-parser": "^7.14.7",
-    "@babel/preset-env": "^7.14.7",
-    "@babel/register": "^7.14.5",
-    "eslint": "^7.29.0",
+    "@types/jest": "^27.0.0",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/lodash.isequal": "^4.5.5",
+    "@types/node": "^16.3.3",
     "jest": "^27.0.6",
     "jest-cli": "^27.0.6",
-    "webpack": "^5.41.1",
-    "webpack-cli": "^4.7.2"
+    "npm": "^9.6.0",
+    "rollup": "^3.7.0",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "ts-jest": "^27.0.3",
+    "tsup": "^4.12.5",
+    "typescript": "^4.3.5"
   },
-  "main": "./lib/node-rules.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "engines": {
-    "node": ">=0.10.3"
+    "node": ">=12"
   },
   "scripts": {
+    "prepare": "npm run build",
     "test": "jest",
-    "build": "webpack",
-    "cover": "jest --coverage"
+    "build": "tsup ./lib/index.ts --dts && rollup --config ./rollup.config.mjs",
+    "cover": "jest --coverage",
+    "clean": "rm -rf ./dist ./node_modules && rm package-lock.json"
   },
   "readmeFilename": "README.md"
 }
