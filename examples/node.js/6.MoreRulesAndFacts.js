@@ -1,9 +1,9 @@
-const RuleEngine = require('../../lib/node-rules.js');
+const { RuleEngine } = require("../../dist/index.js");
 
 const COLORS = {
   red: "\x1b[31m",
   green: "\x1b[32m",
-  yellow: "\x1b[33m"
+  yellow: "\x1b[33m",
 };
 
 const rules = [
@@ -294,8 +294,8 @@ let user8 = {
 const R = new RuleEngine(rules);
 
 console.log(COLORS.yellow, "----------");
-console.log(COLORS.yellow,"start execution of rules");
-console.log(COLORS.yellow,"----------");
+console.log(COLORS.yellow, "start execution of rules");
+console.log(COLORS.yellow, "----------");
 
 R.execute(user7, function (result) {
   if (result.result) console.log(COLORS.green, "Completed", "User7 Accepted");
