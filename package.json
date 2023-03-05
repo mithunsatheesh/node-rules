@@ -1,39 +1,7 @@
 {
   "name": "node-rules",
-  "version": "9.0.0-beta.0",
+  "version": "9.0.0",
   "description": "Business Rules Engine for JavaScript",
-  "keywords": [
-    "bre",
-    "rete",
-    "rule",
-    "rules",
-    "engine",
-    "rule engine",
-    "rules engine",
-    "javascript rule engine",
-    "js rule engine",
-    "forward chaining rule engine",
-    "inference system"
-  ],
-  "license": "MIT",
-  "author": {
-    "name": "Mithun Satheesh",
-    "url": "https://github.com/mithunsatheesh"
-  },
-  "contributors": [
-    {
-      "name": "Abdul Munim Kazia",
-      "url": "http://munimkazia.com"
-    },
-    {
-      "name": "ramanaveli2i",
-      "url": "https://github.com/ramanaveli2i"
-    },
-    {
-      "name": "Alexis Tyler",
-      "url": "https://github.com/OmgImAlexis"
-    }
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/mithunsatheesh/node-rules"
@@ -72,5 +40,61 @@
     "cover": "jest --coverage",
     "clean": "rm -rf ./dist ./node_modules && rm package-lock.json"
   },
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "license": "MIT",
+  "author": {
+    "name": "Mithun Satheesh",
+    "url": "https://github.com/mithunsatheesh"
+  },
+  "contributors": [
+    {
+      "name": "Abdul Munim Kazia",
+      "url": "http://munimkazia.com"
+    },
+    {
+      "name": "ramanaveli2i",
+      "url": "https://github.com/ramanaveli2i"
+    },
+    {
+      "name": "Alexis Tyler",
+      "url": "https://github.com/OmgImAlexis"
+    },
+    {
+      "name": "Joseph Heck",
+      "url": "https://github.com/heckj"
+    },
+    {
+      "name": "Jacob Jewell",
+      "url": "https://github.com/jakesjews"
+    },
+    {
+      "name": "pdapel",
+      "url": "https://github.com/pdapel"
+    },
+    {
+      "name": "Dirk Rejahl",
+      "url": "https://github.com/drejahl"
+    },
+    {
+      "name": "Matija Munjaković",
+      "url": "https://github.com/matija"
+    },
+    {
+      "name": "Alex Velikanov",
+      "url": "https://github.com/Alec2435"
+    }
+  ],
+  "keywords": [
+    "bre",
+    "rete",
+    "rule",
+    "rules",
+    "engine",
+    "rule engine",
+    "rules engine",
+    "javascript rule engine",
+    "js rule engine",
+    "forward chaining rule engine",
+    "inference system"
+  ]
 }
