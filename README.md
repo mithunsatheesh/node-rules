@@ -20,7 +20,7 @@ Node-rules is a light weight forward chaining Rule Engine, written in JavaScript
 
 #### Try This Out!
 
-You can see this in action in a node.js environment using [this RunKit example](https://runkit.com/mithunsatheesh/runkit-npm-node-rules). If you are interested to use it in the browser, use [this JSFiddle](https://jsfiddle.net/mithunsatheesh/6pwohf3g/) for a quick start.
+You can see this in action in a node.js environment using [this RunKit example](https://runkit.com/mithunsatheesh/node-rules-9.0.0). If you are interested to use it in the browser, use [this JSFiddle](https://jsfiddle.net/mithunsatheesh/6pwohf3g/) for a quick start.
 
 #### Overview
 
