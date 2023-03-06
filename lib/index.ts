@@ -1,4 +1,6 @@
-import { cloneDeep, isEqual } from "lodash";
+import cloneDeep from "lodash.clonedeep";
+import isEqual from "lodash.isequal";
+
 import { Rule, Options, Fact, API } from "./types";
 
 export class RuleEngine {
