@@ -1,6 +1,7 @@
-const { RuleEngine } = require("../../dist/index.js");
+const { RuleEngine } = require("node-rules");
 
 /* Sample Rule to block a transaction if its below 500 */
+/* Also validates if the legacy syntax of operating on this is supported in Rule engine */
 var rule = {
   condition: function (R) {
     R.when(this.someval < 10);

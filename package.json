@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "9.1.0",
+  "version": "9.1.1",
   "description": "Business Rules Engine for JavaScript",
   "repository": {
     "type": "git",
@@ -40,7 +40,8 @@
     "test": "jest",
     "build": "tsup ./lib/index.ts --dts && rollup --config ./rollup.config.mjs",
     "cover": "jest --coverage",
-    "clean": "rm -rf ./dist ./node_modules && rm package-lock.json"
+    "clean": "rm -rf ./dist ./node_modules && rm package-lock.json",
+    "examples": "./examples/runner.sh"
   },
   "readmeFilename": "README.md",
   "license": "MIT",
