@@ -40,7 +40,8 @@
     "test": "jest",
     "build": "tsup ./lib/index.ts --dts && rollup --config ./rollup.config.mjs",
     "cover": "jest --coverage",
-    "clean": "rm -rf ./dist ./node_modules && rm package-lock.json"
+    "clean": "rm -rf ./dist ./node_modules && rm package-lock.json",
+    "examples": "./examples/runner.sh"
   },
   "readmeFilename": "README.md",
   "license": "MIT",

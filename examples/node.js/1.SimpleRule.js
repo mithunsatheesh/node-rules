@@ -1,16 +1,17 @@
-const { RuleEngine } = require("../../dist/index.js");
+const { RuleEngine } = require("node-rules");
 
 /* Sample Rule to block a transaction if its below 500 */
 var rule = {
-  condition: function (R) {
-    R.when(this.transactionTotal < 500);
+  condition: function (R, fact) {
+    R.when(fact.transactionTotal < 500);
   },
-  consequence: function (R) {
-    this.result = false;
-    this.reason = "The transaction was blocked as it was less than 500";
+  consequence: function (R, fact) {
+    fact.result = false;
+    fact.reason = `The transaction was blocked as the transaction total of ${fact.transactionTotal} was less than threshold 500`;
     R.stop();
   },
 };
+
 /* Creating Rule Engine instance and registering rule */
 var R = new RuleEngine();
 R.register(rule);
@@ -21,8 +22,9 @@ var fact = {
   transactionTotal: 400,
   cardType: "Credit Card",
 };
+
 R.execute(fact, function (data) {
-  if (data.result) {
+  if (data.result !== false) {
     console.log("Valid transaction");
   } else {
     console.log("Blocked Reason:" + data.reason);

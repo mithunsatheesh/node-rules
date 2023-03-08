@@ -1,26 +1,26 @@
-const { RuleEngine } = require("../../dist/index.js");
+const { RuleEngine } = require("node-rules");
 
 /* Set of Rules to be applied */
 var rules = [
   {
     priority: 4,
-    condition: function (R) {
-      R.when(this.transactionTotal < 500);
+    condition: function (R, fact) {
+      R.when(fact.transactionTotal < 500);
     },
-    consequence: function (R) {
-      this.result = false;
-      this.reason = "The transaction was blocked as it was less than 500";
+    consequence: function (R, fact) {
+      fact.result = false;
+      fact.reason = "The transaction was blocked as it was less than 500";
       R.stop();
     },
   },
   {
     priority: 10, // this will apply first
-    condition: function (R) {
-      R.when(this.cardType === "Debit");
+    condition: function (R, fact) {
+      R.when(fact.cardType === "Debit");
     },
-    consequence: function (R) {
-      this.result = false;
-      this.reason =
+    consequence: function (R, fact) {
+      fact.result = false;
+      fact.reason =
         "The transaction was blocked as debit cards are not allowed";
       R.stop();
     },
@@ -38,7 +38,7 @@ var fact = {
 };
 /* This fact will be blocked by the Debit card rule as its of more priority */
 R.execute(fact, function (data) {
-  if (data.result) {
+  if (data.result !== false) {
     console.log("Valid transaction");
   } else {
     console.log("Blocked Reason:" + data.reason);

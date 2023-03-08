@@ -1,4 +1,4 @@
-const { RuleEngine } = require("../../dist/index.js");
+const { RuleEngine } = require("node-rules");
 
 const COLORS = {
   red: "\x1b[31m",
@@ -12,14 +12,14 @@ const rules = [
     name: "transaction minimum 500",
     priority: 3,
     on: true,
-    condition: function (R) {
-      R.when(this.transactionTotal < 500);
+    condition: function (R, f) {
+      R.when(f.transactionTotal < 500);
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log(
         "Rule 1 matched - blocks transactions below value 500. Rejecting payment."
       );
-      this.result = false;
+      f.result = false;
       R.stop();
     },
   },
@@ -28,14 +28,14 @@ const rules = [
     name: "high credibility customer - avoid checks and bypass",
     priority: 2,
     on: true,
-    condition: function (R) {
-      R.when(this.userCredibility && this.userCredibility > 5);
+    condition: function (R, f) {
+      R.when(f.userCredibility && f.userCredibility > 5);
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log(
         "Rule 2 matched - user credibility is more, then avoid further check. Accepting payment."
       );
-      this.result = true;
+      f.result = true;
       R.stop();
     },
   },
@@ -44,18 +44,18 @@ const rules = [
     name: "block AME > 10000",
     priority: 4,
     on: true,
-    condition: function (R) {
+    condition: function (R, f) {
       R.when(
-        this.cardType == "Credit Card" &&
-          this.cardIssuer == "American Express" &&
-          this.transactionTotal > 1000
+        f.cardType == "Credit Card" &&
+          f.cardIssuer == "American Express" &&
+          f.transactionTotal > 1000
       );
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log(
         "Rule 3 matched - filter American Express payment above 10000. Rejecting payment."
       );
-      this.result = false;
+      f.result = false;
       R.stop();
     },
   },
@@ -64,14 +64,14 @@ const rules = [
     name: "block Cashcard Payment",
     priority: 8,
     on: true,
-    condition: function (R) {
-      R.when(this.cardType == "Cash Card");
+    condition: function (R, f) {
+      R.when(f.cardType == "Cash Card");
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log(
         "Rule 4 matched - reject the payment if cash card. Rejecting payment."
       );
-      this.result = false;
+      f.result = false;
       R.stop();
     },
   },
@@ -80,18 +80,18 @@ const rules = [
     name: "block guest payment above 10000",
     priority: 6,
     on: true,
-    condition: function (R) {
+    condition: function (R, f) {
       R.when(
-        this.customerType &&
-          this.transactionTotal > 10000 &&
-          this.customerType == "guest"
+        f.customerType &&
+          f.transactionTotal > 10000 &&
+          f.customerType == "guest"
       );
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log(
         "Rule 5 matched - reject if above 10000 and customer type is guest. Rejecting payment."
       );
-      this.result = false;
+      f.result = false;
       R.stop();
     },
   },
@@ -100,15 +100,15 @@ const rules = [
     name: "is customer guest?",
     priority: 7,
     on: true,
-    condition: function (R) {
-      R.when(!this.userLoggedIn);
+    condition: function (R, f) {
+      R.when(!f.userLoggedIn);
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log(
         "Rule 6 matched - support rule written for blocking payment above 10000 from guests."
       );
       console.log("Process left to chain with rule 5.");
-      this.customerType = "guest";
+      f.customerType = "guest";
       R.next(); // the fact has been altered, so all rules will run again. No need to restart.
     },
   },
@@ -117,12 +117,12 @@ const rules = [
     name: "block payment from specific app",
     priority: 5,
     on: true,
-    condition: function (R) {
-      R.when(this.appCode && this.appCode === "MOBI4");
+    condition: function (R, f) {
+      R.when(f.appCode && f.appCode === "MOBI4");
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log("Rule 7 matched - block payment for Mobile. Reject Payment.");
-      this.result = false;
+      f.result = false;
       R.stop();
     },
   },
@@ -131,12 +131,12 @@ const rules = [
     name: "event risk score",
     priority: 2,
     on: true,
-    condition: function (R) {
-      R.when(this.eventRiskFactor && this.eventRiskFactor < 5);
+    condition: function (R, f) {
+      R.when(f.eventRiskFactor && f.eventRiskFactor < 5);
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log("Rule 8 matched - the event is not critical, so accept");
-      this.result = true;
+      f.result = true;
       R.stop();
     },
   },
@@ -145,7 +145,7 @@ const rules = [
     name: "block ip range set",
     priority: 3,
     on: true,
-    condition: function (R) {
+    condition: function (R, f) {
       var ipList = [
         "10.X.X.X",
         "12.122.X.X",
@@ -159,13 +159,13 @@ const rules = [
           ipList.join("|").replace(/\./g, "\\.").replace(/X/g, "[^.]+") +
           ")$"
       );
-      R.when(this.userIP && this.userIP.match(allowedRegexp));
+      R.when(f.userIP && f.userIP.match(allowedRegexp));
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log(
         "Rule 9 matched - ip falls in the given list, then block. Rejecting payment."
       );
-      this.result = false;
+      f.result = false;
       R.stop();
     },
   },
@@ -174,15 +174,15 @@ const rules = [
     name: "check if user's name is blacklisted",
     priority: 1,
     on: true,
-    condition: function (R) {
+    condition: function (R, f) {
       var blacklist = ["user4"];
-      R.when(this && blacklist.indexOf(this.name) > -1);
+      R.when(f && blacklist.indexOf(f.name) > -1);
     },
-    consequence: function (R) {
+    consequence: function (R, f) {
       console.log(
         "Rule 10 matched - the user is malicious, then block. Rejecting payment."
       );
-      this.result = false;
+      f.result = false;
       R.stop();
     },
   },
@@ -298,34 +298,42 @@ console.log(COLORS.yellow, "start execution of rules");
 console.log(COLORS.yellow, "----------");
 
 R.execute(user7, function (result) {
-  if (result.result) console.log(COLORS.green, "Completed", "User7 Accepted");
+  if (result.result !== false)
+    console.log(COLORS.green, "Completed", "User7 Accepted");
   else console.log(COLORS.red, "Completed", "User7 Rejected");
 });
 R.execute(user1, function (result) {
-  if (result.result) console.log(COLORS.green, "Completed", "User1 Accepted");
+  if (result.result !== false)
+    console.log(COLORS.green, "Completed", "User1 Accepted");
   else console.log(COLORS.red, "Completed", "User1 Rejected");
 });
 R.execute(user2, function (result) {
-  if (result.result) console.log(COLORS.green, "Completed", "User2 Accepted");
+  if (result.result !== false)
+    console.log(COLORS.green, "Completed", "User2 Accepted");
   else console.log(COLORS.red, "Completed", "User2 Rejected");
 });
 R.execute(user3, function (result) {
-  if (result.result) console.log(COLORS.green, "Completed", "User3 Accepted");
+  if (result.result !== false)
+    console.log(COLORS.green, "Completed", "User3 Accepted");
   else console.log(COLORS.red, "Completed", "User3 Rejected");
 });
 R.execute(user4, function (result) {
-  if (result.result) console.log(COLORS.green, "Completed", "User4 Accepted");
+  if (result.result !== false)
+    console.log(COLORS.green, "Completed", "User4 Accepted");
   else console.log(COLORS.red, "Completed", "User4 Rejected");
 });
 R.execute(user5, function (result) {
-  if (result.result) console.log(COLORS.green, "Completed", "User5 Accepted");
+  if (result.result !== false)
+    console.log(COLORS.green, "Completed", "User5 Accepted");
   else console.log(COLORS.red, "Completed", "User5 Rejected");
 });
 R.execute(user6, function (result) {
-  if (result.result) console.log(COLORS.green, "Completed", "User6 Accepted");
+  if (result.result !== false)
+    console.log(COLORS.green, "Completed", "User6 Accepted");
   else console.log(COLORS.red, "Completed", "User6 Rejected");
 });
 R.execute(user8, function (result) {
-  if (result.result) console.log(COLORS.green, "Completed", "User8 Accepted");
+  if (result.result !== false)
+    console.log(COLORS.green, "Completed", "User8 Accepted");
   else console.log(COLORS.red, "Completed", "User8 Rejected");
 });

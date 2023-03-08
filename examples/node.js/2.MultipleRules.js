@@ -1,4 +1,4 @@
-const { RuleEngine } = require("../../dist/index.js");
+const { RuleEngine } = require("node-rules");
 
 /* Set of Rules to be applied
 First blocks a transaction if less than 500
@@ -8,22 +8,22 @@ Rules will be applied as per their index in the array.
 If you need to enforce priority manually, then see examples with prioritized rules */
 var rules = [
   {
-    condition: function (R) {
-      R.when(this.transactionTotal < 500);
+    condition: function (R, fact) {
+      R.when(fact.transactionTotal < 500);
     },
-    consequence: function (R) {
-      this.result = false;
-      this.reason = "The transaction was blocked as it was less than 500";
+    consequence: function (R, fact) {
+      fact.result = false;
+      fact.reason = "The transaction was blocked as it was less than 500";
       R.stop(); //stop if matched. no need to process next rule.
     },
   },
   {
-    condition: function (R) {
-      R.when(this.cardType === "Debit");
+    condition: function (R, fact) {
+      R.when(fact.cardType === "Debit");
     },
-    consequence: function (R) {
-      this.result = false;
-      this.reason =
+    consequence: function (R, fact) {
+      fact.result = false;
+      fact.reason =
         "The transaction was blocked as debit cards are not allowed";
       R.stop();
     },
@@ -40,7 +40,7 @@ var fact = {
   cardType: "Debit",
 };
 R.execute(fact, function (data) {
-  if (data.result) {
+  if (data.result !== false) {
     console.log("Valid transaction");
   } else {
     console.log("Blocked Reason:" + data.reason);
