@@ -3,6 +3,8 @@ import isEqual from "lodash.isequal";
 
 import { Rule, Options, Fact, API } from "./types";
 
+export {Rule, Options, Fact, API}
+
 export class RuleEngine {
   public rules: Rule[] = [];
   public activeRules: Rule[] = [];
