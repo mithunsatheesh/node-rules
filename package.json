@@ -24,7 +24,7 @@
     "rollup": "^3.7.0",
     "rollup-plugin-node-globals": "^1.4.0",
     "ts-jest": "^27.0.3",
-    "tsup": "^4.12.5",
+    "tsup": "^8.5.0",
     "typescript": "^4.3.5"
   },
   "main": "dist/index.js",
