@@ -1,6 +1,6 @@
 {
   "name": "node-rules",
-  "version": "9.1.1",
+  "version": "9.2.0",
   "description": "Business Rules Engine for JavaScript",
   "repository": {
     "type": "git",
