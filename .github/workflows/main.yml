@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI & Release
 
 on:
   push:
@@ -12,9 +12,7 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -23,7 +21,6 @@ jobs:
           - 16
           - 18
           - lts/*
-
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
@@ -53,3 +50,26 @@ jobs:
         continue-on-error: true
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Release with semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
