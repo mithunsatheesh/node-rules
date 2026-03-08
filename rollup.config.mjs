@@ -6,7 +6,9 @@ import terser from "@rollup/plugin-terser";
 export default [
   {
     input: "dist/index.js",
-    plugins: [nodeResolve(), commonjs(), globals(), terser()],
+    plugins: [nodeResolve(), commonjs({
+      exclude: ['node_modules/es-toolkit/dist/compat/predicate/isNative.js', 'node_modules/es-toolkit/**'],
+    }), globals(), terser()],
     output: {
       name: "NodeRules",
       format: "umd",
@@ -16,3 +18,4 @@ export default [
     },
   },
 ];
+

@@ -6,12 +6,7 @@ var __publicField = (obj, key, value) => {
 };
 
 // lib/index.ts
-var cloneDeep = (fact) => {
-  return JSON.parse(JSON.stringify(fact));
-};
-var isEqual = (lastSession, session) => {
-  return JSON.stringify(lastSession) === JSON.stringify(session);
-};
+var _compat = require('es-toolkit/compat');
 var RuleEngine = class {
   constructor(rules, options) {
     __publicField(this, "rules", []);
@@ -56,8 +51,8 @@ var RuleEngine = class {
   execute(fact, callback) {
     const thisHolder = this;
     let complete = false;
-    const session = cloneDeep(fact);
-    let lastSession = cloneDeep(fact);
+    const session = _compat.cloneDeep.call(void 0, fact);
+    let lastSession = _compat.cloneDeep.call(void 0, fact);
     let rules = this.activeRules;
     const matchPath = [];
     const ignoreFactChanges = this.ignoreFactChanges;
@@ -84,8 +79,8 @@ var RuleEngine = class {
           return FnRuleLoop(0);
         },
         next: () => {
-          if (!ignoreFactChanges && !isEqual(lastSession, session)) {
-            lastSession = cloneDeep(session);
+          if (!ignoreFactChanges && !_compat.isEqual.call(void 0, lastSession, session)) {
+            lastSession = _compat.cloneDeep.call(void 0, session);
             thisHolder.nextTick(() => {
               API2.restart();
             });
