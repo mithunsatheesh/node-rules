@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var __defProp = Object.defineProperty;
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
@@ -6,8 +6,7 @@ var __publicField = (obj, key, value) => {
 };
 
 // lib/index.ts
-var _lodashclonedeep = require('lodash.clonedeep'); var _lodashclonedeep2 = _interopRequireDefault(_lodashclonedeep);
-var _lodashisequal = require('lodash.isequal'); var _lodashisequal2 = _interopRequireDefault(_lodashisequal);
+var _compat = require('es-toolkit/compat');
 var RuleEngine = class {
   constructor(rules, options) {
     __publicField(this, "rules", []);
@@ -52,13 +51,13 @@ var RuleEngine = class {
   execute(fact, callback) {
     const thisHolder = this;
     let complete = false;
-    const session = _lodashclonedeep2.default.call(void 0, fact);
-    let lastSession = _lodashclonedeep2.default.call(void 0, fact);
+    const session = _compat.cloneDeep.call(void 0, fact);
+    let lastSession = _compat.cloneDeep.call(void 0, fact);
     let rules = this.activeRules;
     const matchPath = [];
     const ignoreFactChanges = this.ignoreFactChanges;
     function FnRuleLoop(x) {
-      const API = {
+      const API2 = {
         rule: () => rules[x],
         when: (outcome) => {
           if (outcome) {
@@ -66,11 +65,11 @@ var RuleEngine = class {
             _consequence.ruleRef = rules[x].id || rules[x].name || `index_${x}`;
             thisHolder.nextTick(() => {
               matchPath.push(_consequence.ruleRef);
-              _consequence.call(session, API, session);
+              _consequence.call(session, API2, session);
             });
           } else {
             thisHolder.nextTick(() => {
-              API.next();
+              API2.next();
             });
           }
         },
@@ -80,10 +79,10 @@ var RuleEngine = class {
           return FnRuleLoop(0);
         },
         next: () => {
-          if (!ignoreFactChanges && !_lodashisequal2.default.call(void 0, lastSession, session)) {
-            lastSession = _lodashclonedeep2.default.call(void 0, session);
+          if (!ignoreFactChanges && !_compat.isEqual.call(void 0, lastSession, session)) {
+            lastSession = _compat.cloneDeep.call(void 0, session);
             thisHolder.nextTick(() => {
-              API.restart();
+              API2.restart();
             });
           } else {
             thisHolder.nextTick(() => {
@@ -95,7 +94,7 @@ var RuleEngine = class {
       rules = thisHolder.activeRules;
       if (x < rules.length && !complete) {
         const _rule = rules[x].condition;
-        _rule.call(session, API, session);
+        _rule.call(session, API2, session);
       } else {
         thisHolder.nextTick(() => {
           session.matchPath = matchPath;

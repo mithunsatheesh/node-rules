@@ -41,4 +41,4 @@ declare class RuleEngine {
     prioritize(priority: number, filter?: Record<string, unknown>): void;
 }
 
-export { RuleEngine };
+export { API, Fact, Options, Rule, RuleEngine };

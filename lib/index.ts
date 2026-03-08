@@ -1,6 +1,4 @@
-import cloneDeep from "lodash.clonedeep";
-import isEqual from "lodash.isequal";
-
+import { cloneDeep, isEqual } from 'es-toolkit/compat';
 import { Rule, Options, Fact, API } from "./types";
 
 export {Rule, Options, Fact, API}
