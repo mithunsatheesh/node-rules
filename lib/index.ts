@@ -1,7 +1,12 @@
-import cloneDeep from "lodash.clonedeep";
-import isEqual from "lodash.isequal";
-
 import { Rule, Options, Fact, API } from "./types";
+
+const cloneDeep = (fact: Fact): Fact => {
+  return JSON.parse(JSON.stringify(fact));
+}
+
+const isEqual = (lastSession: Fact, session: Fact): boolean => {
+  return JSON.stringify(lastSession) === JSON.stringify(session);
+}
 
 export {Rule, Options, Fact, API}
 
